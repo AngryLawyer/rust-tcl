@@ -1,0 +1,22 @@
+[package]
+
+name = "rust-tcl-sys"
+description = "Raw Tcl bindings for Rust, used internally rust-tcl"
+repository = "https://github.com/AngryLawyer/rust-tcl"
+version = "0.0.1"
+authors = ["Tony Aldridge <tony@angry-lawyer.com>"]
+license = "MIT"
+links = "Rust-Tcl"
+build = "build.rs"
+
+[lib]
+name = "sdl2-sys"
+path = "src/lib.rs"
+
+[build-dependencies]
+pkg-config = "0.1.7"
+
+[features]
+
+default = []
+use-pkgconfig = []

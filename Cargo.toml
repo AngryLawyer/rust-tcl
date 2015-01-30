@@ -1,0 +1,21 @@
+[package]
+
+name = "rust-tcl"
+description = Tcl bindings for Rust"
+version = "0.0.1"
+authors = ["Tony Aldridge <tony@angry-lawyer.com>"]
+license = "MIT"
+keywords = ["Tcl", "scripting"]
+
+[lib]
+name = "tcl"
+path = "src/lib.rs"
+
+[dependencies.rust-tcl-sys]
+path = "rust-tcl-sys"
+version = "0.0.1"
+
+[features]
+
+default = []
+use-pkgconfig = [ "rust-tcl-sys/use-pkgconfig" ]
