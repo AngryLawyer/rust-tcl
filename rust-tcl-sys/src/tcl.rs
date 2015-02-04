@@ -31,7 +31,7 @@ pub type __mbstate_t = Union_Unnamed1;
 pub type __darwin_mbstate_t = __mbstate_t;
 pub type __darwin_ptrdiff_t = ::libc::c_long;
 pub type __darwin_size_t = ::libc::c_ulong;
-pub type __darwin_va_list = __builtin_va_list;
+//pub type __darwin_va_list = __builtin_va_list;
 pub type __darwin_wchar_t = ::libc::c_int;
 pub type __darwin_rune_t = __darwin_wchar_t;
 pub type __darwin_wint_t = ::libc::c_int;
@@ -186,7 +186,7 @@ pub type __darwin_pthread_t = *mut Struct__opaque_pthread_t;
 pub type __darwin_nl_item = ::libc::c_int;
 pub type __darwin_wctrans_t = ::libc::c_int;
 pub type __darwin_wctype_t = __uint32_t;
-pub type va_list = __builtin_va_list;
+//pub type va_list = __builtin_va_list;
 pub type size_t = __darwin_size_t;
 pub type fpos_t = __darwin_off_t;
 #[repr(C)]
@@ -241,7 +241,7 @@ impl ::std::default::Default for Struct___sFILE {
 pub type FILE = Struct___sFILE;
 pub type off_t = __darwin_off_t;
 pub type ssize_t = __darwin_ssize_t;
-pub type __gnuc_va_list = __builtin_va_list;
+//pub type __gnuc_va_list = __builtin_va_list;
 pub type ClientData = *mut ::libc::c_void;
 pub type Tcl_WideInt = ::libc::c_long;
 pub type Tcl_WideUInt = ::libc::c_ulong;
@@ -2571,16 +2571,16 @@ pub struct Struct_TclStubs {
                                                               *const ::libc::c_char,
                                                           line: ::libc::c_int)
                                                          -> ()>,
-    pub tcl_AppendResultVA: ::std::option::Option<extern "C" fn
+/*    pub tcl_AppendResultVA: ::std::option::Option<extern "C" fn
                                                       (interp:
                                                            *mut Tcl_Interp,
                                                        argList: va_list)
-                                                      -> ()>,
-    pub tcl_AppendStringsToObjVA: ::std::option::Option<extern "C" fn
+                                                      -> ()>,*/
+/*    pub tcl_AppendStringsToObjVA: ::std::option::Option<extern "C" fn
                                                             (objPtr:
                                                                  *mut Tcl_Obj,
                                                              argList: va_list)
-                                                            -> ()>,
+                                                            -> ()>,*/
     pub tcl_HashStats: ::std::option::Option<extern "C" fn
                                                  (tablePtr:
                                                       *mut Tcl_HashTable)
@@ -2624,23 +2624,23 @@ pub struct Struct_TclStubs {
                                                        *const ::libc::c_char,
                                                    exact: ::libc::c_int)
                                                   -> *const ::libc::c_char>,
-    pub tcl_SetErrorCodeVA: ::std::option::Option<extern "C" fn
+/*    pub tcl_SetErrorCodeVA: ::std::option::Option<extern "C" fn
                                                       (interp:
                                                            *mut Tcl_Interp,
                                                        argList: va_list)
-                                                      -> ()>,
-    pub tcl_VarEvalVA: ::std::option::Option<extern "C" fn
+                                                      -> ()>,*/
+/*    pub tcl_VarEvalVA: ::std::option::Option<extern "C" fn
                                                  (interp: *mut Tcl_Interp,
                                                   argList: va_list)
-                                                 -> ::libc::c_int>,
+                                                 -> ::libc::c_int>,*/
     pub tcl_WaitPid: ::std::option::Option<extern "C" fn
                                                (pid: Tcl_Pid,
                                                 statPtr: *mut ::libc::c_int,
                                                 options: ::libc::c_int)
                                                -> Tcl_Pid>,
-    pub tcl_PanicVA: ::std::option::Option<extern "C" fn
+/*    pub tcl_PanicVA: ::std::option::Option<extern "C" fn
                                                (format: *const ::libc::c_char,
-                                                argList: va_list) -> ()>,
+                                                argList: va_list) -> ()>,*/
     pub tcl_GetVersion: ::std::option::Option<extern "C" fn
                                                   (major: *mut ::libc::c_int,
                                                    minor: *mut ::libc::c_int,
@@ -4718,12 +4718,12 @@ extern "C" {
     pub fn tmpfile() -> *mut FILE;
     pub fn tmpnam(arg1: *mut ::libc::c_char) -> *mut ::libc::c_char;
     pub fn ungetc(arg1: ::libc::c_int, arg2: *mut FILE) -> ::libc::c_int;
-    pub fn vfprintf(arg1: *mut FILE, arg2: *const ::libc::c_char,
-                    arg3: va_list) -> ::libc::c_int;
-    pub fn vprintf(arg1: *const ::libc::c_char, arg2: va_list)
-     -> ::libc::c_int;
-    pub fn vsprintf(arg1: *mut ::libc::c_char, arg2: *const ::libc::c_char,
-                    arg3: va_list) -> ::libc::c_int;
+/*    pub fn vfprintf(arg1: *mut FILE, arg2: *const ::libc::c_char,
+                    arg3: va_list) -> ::libc::c_int;*/
+/*    pub fn vprintf(arg1: *const ::libc::c_char, arg2: va_list)
+     -> ::libc::c_int;*/
+/*    pub fn vsprintf(arg1: *mut ::libc::c_char, arg2: *const ::libc::c_char,
+                    arg3: va_list) -> ::libc::c_int;*/
     pub fn ctermid(arg1: *mut ::libc::c_char) -> *mut ::libc::c_char;
     pub fn fdopen(arg1: ::libc::c_int, arg2: *const ::libc::c_char)
      -> *mut FILE;
@@ -4732,8 +4732,8 @@ extern "C" {
     pub fn popen(arg1: *const ::libc::c_char, arg2: *const ::libc::c_char)
      -> *mut FILE;
     pub fn __srget(arg1: *mut FILE) -> ::libc::c_int;
-    pub fn __svfscanf(arg1: *mut FILE, arg2: *const ::libc::c_char,
-                      arg3: va_list) -> ::libc::c_int;
+/*    pub fn __svfscanf(arg1: *mut FILE, arg2: *const ::libc::c_char,
+                      arg3: va_list) -> ::libc::c_int;*/
     pub fn __swbuf(arg1: ::libc::c_int, arg2: *mut FILE) -> ::libc::c_int;
     pub fn __sputc(_c: ::libc::c_int, _p: *mut FILE) -> ::libc::c_int;
     pub fn flockfile(arg1: *mut FILE) -> ();
@@ -4753,19 +4753,19 @@ extern "C" {
     pub fn ftello(arg1: *mut FILE) -> off_t;
     pub fn snprintf(arg1: *mut ::libc::c_char, arg2: size_t,
                     arg3: *const ::libc::c_char, ...) -> ::libc::c_int;
-    pub fn vfscanf(arg1: *mut FILE, arg2: *const ::libc::c_char,
-                   arg3: va_list) -> ::libc::c_int;
-    pub fn vscanf(arg1: *const ::libc::c_char, arg2: va_list)
-     -> ::libc::c_int;
-    pub fn vsnprintf(arg1: *mut ::libc::c_char, arg2: size_t,
+/*    pub fn vfscanf(arg1: *mut FILE, arg2: *const ::libc::c_char,
+                   arg3: va_list) -> ::libc::c_int;*/
+/*    pub fn vscanf(arg1: *const ::libc::c_char, arg2: va_list)
+     -> ::libc::c_int;*/
+/*    pub fn vsnprintf(arg1: *mut ::libc::c_char, arg2: size_t,
                      arg3: *const ::libc::c_char, arg4: va_list)
-     -> ::libc::c_int;
-    pub fn vsscanf(arg1: *const ::libc::c_char, arg2: *const ::libc::c_char,
-                   arg3: va_list) -> ::libc::c_int;
+     -> ::libc::c_int;*/
+/*    pub fn vsscanf(arg1: *const ::libc::c_char, arg2: *const ::libc::c_char,
+                   arg3: va_list) -> ::libc::c_int;*/
     pub fn dprintf(arg1: ::libc::c_int, arg2: *const ::libc::c_char, ...)
      -> ::libc::c_int;
-    pub fn vdprintf(arg1: ::libc::c_int, arg2: *const ::libc::c_char,
-                    arg3: va_list) -> ::libc::c_int;
+/*    pub fn vdprintf(arg1: ::libc::c_int, arg2: *const ::libc::c_char,
+                    arg3: va_list) -> ::libc::c_int;*/
     pub fn getdelim(arg1: *mut *mut ::libc::c_char, arg2: *mut size_t,
                     arg3: ::libc::c_int, arg4: *mut FILE) -> ssize_t;
     pub fn getline(arg1: *mut *mut ::libc::c_char, arg2: *mut size_t,
@@ -4780,9 +4780,9 @@ extern "C" {
     pub fn setbuffer(arg1: *mut FILE, arg2: *mut ::libc::c_char,
                      arg3: ::libc::c_int) -> ();
     pub fn setlinebuf(arg1: *mut FILE) -> ::libc::c_int;
-    pub fn vasprintf(arg1: *mut *mut ::libc::c_char,
+/*    pub fn vasprintf(arg1: *mut *mut ::libc::c_char,
                      arg2: *const ::libc::c_char, arg3: va_list)
-     -> ::libc::c_int;
+     -> ::libc::c_int;*/
     pub fn zopen(arg1: *const ::libc::c_char, arg2: *const ::libc::c_char,
                  arg3: ::libc::c_int) -> *mut FILE;
     pub fn funopen(arg1: *const ::libc::c_void,
@@ -4815,13 +4815,13 @@ extern "C" {
     pub fn __snprintf_chk(arg1: *mut ::libc::c_char, arg2: size_t,
                           arg3: ::libc::c_int, arg4: size_t,
                           arg5: *const ::libc::c_char, ...) -> ::libc::c_int;
-    pub fn __vsprintf_chk(arg1: *mut ::libc::c_char, arg2: ::libc::c_int,
+/*    pub fn __vsprintf_chk(arg1: *mut ::libc::c_char, arg2: ::libc::c_int,
                           arg3: size_t, arg4: *const ::libc::c_char,
-                          arg5: va_list) -> ::libc::c_int;
-    pub fn __vsnprintf_chk(arg1: *mut ::libc::c_char, arg2: size_t,
+                          arg5: va_list) -> ::libc::c_int;*/
+/*    pub fn __vsnprintf_chk(arg1: *mut ::libc::c_char, arg2: size_t,
                            arg3: ::libc::c_int, arg4: size_t,
                            arg5: *const ::libc::c_char, arg6: va_list)
-     -> ::libc::c_int;
+     -> ::libc::c_int;*/
     pub fn Tcl_IncrRefCount(objPtr: *mut Tcl_Obj) -> ();
     pub fn Tcl_DecrRefCount(objPtr: *mut Tcl_Obj) -> ();
     pub fn Tcl_IsShared(objPtr: *mut Tcl_Obj) -> ::libc::c_int;
@@ -5455,10 +5455,10 @@ extern "C" {
      -> ::libc::c_int;
     pub fn Tcl_ValidateAllMemory(file: *const ::libc::c_char,
                                  line: ::libc::c_int) -> ();
-    pub fn Tcl_AppendResultVA(interp: *mut Tcl_Interp, argList: va_list)
-     -> ();
-    pub fn Tcl_AppendStringsToObjVA(objPtr: *mut Tcl_Obj, argList: va_list)
-     -> ();
+/*    pub fn Tcl_AppendResultVA(interp: *mut Tcl_Interp, argList: va_list)
+     -> ();*/
+/*    pub fn Tcl_AppendStringsToObjVA(objPtr: *mut Tcl_Obj, argList: va_list)
+     -> ();*/
     pub fn Tcl_HashStats(tablePtr: *mut Tcl_HashTable) -> *mut ::libc::c_char;
     pub fn Tcl_ParseVar(interp: *mut Tcl_Interp, start: *const ::libc::c_char,
                         termPtr: *mut *const ::libc::c_char)
@@ -5480,13 +5480,13 @@ extern "C" {
                           name: *const ::libc::c_char,
                           version: *const ::libc::c_char,
                           exact: ::libc::c_int) -> *const ::libc::c_char;
-    pub fn Tcl_SetErrorCodeVA(interp: *mut Tcl_Interp, argList: va_list)
-     -> ();
-    pub fn Tcl_VarEvalVA(interp: *mut Tcl_Interp, argList: va_list)
-     -> ::libc::c_int;
+/*    pub fn Tcl_SetErrorCodeVA(interp: *mut Tcl_Interp, argList: va_list)
+     -> ();*/
+/*    pub fn Tcl_VarEvalVA(interp: *mut Tcl_Interp, argList: va_list)
+     -> ::libc::c_int;*/
     pub fn Tcl_WaitPid(pid: Tcl_Pid, statPtr: *mut ::libc::c_int,
                        options: ::libc::c_int) -> Tcl_Pid;
-    pub fn Tcl_PanicVA(format: *const ::libc::c_char, argList: va_list) -> ();
+/*    pub fn Tcl_PanicVA(format: *const ::libc::c_char, argList: va_list) -> ();*/
     pub fn Tcl_GetVersion(major: *mut ::libc::c_int,
                           minor: *mut ::libc::c_int,
                           patchLevel: *mut ::libc::c_int,
