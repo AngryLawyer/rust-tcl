@@ -10,7 +10,7 @@ links = "Rust-Tcl"
 build = "build.rs"
 
 [lib]
-name = "sdl2-sys"
+name = "rust-tcl-sys"
 path = "src/lib.rs"
 
 [build-dependencies]
