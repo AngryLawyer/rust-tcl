@@ -28,3 +28,14 @@ fn eval_simple_file_fail() {
         otherwise => panic!("Should have errored, instead got {:?}", otherwise)
     }
 }
+
+#[test]
+fn eval_simple_file() {
+    let mut interp = tcl::Interpreter::new();
+    match interp.eval_file(&Path::new("tests/simple-test.tcl")) {
+        tcl::TclResult::Ok => {
+            assert_eq!("6".to_string(), interp.string_result())
+        },
+        otherwise => panic!("Should have errored, instead got {:?}", otherwise)
+    }
+}
