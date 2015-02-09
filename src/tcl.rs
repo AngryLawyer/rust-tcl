@@ -74,4 +74,12 @@ impl Interpreter {
         };
         TclResult::from_ll(result, self)
     }
+
+    pub fn eval(&mut self, code: &str) -> TclResult {
+        let buf = CString::from_slice(code.as_bytes()).as_ptr();
+        let result = unsafe {
+            ll::Tcl_Eval(self.raw, buf)
+        };
+        TclResult::from_ll(result, self)
+    }
 }

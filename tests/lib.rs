@@ -39,3 +39,14 @@ fn eval_simple_file() {
         otherwise => panic!("Should have errored, instead got {:?}", otherwise)
     }
 }
+
+#[test]
+fn eval_simple() {
+    let mut interp = tcl::Interpreter::new();
+    match interp.eval("return Hello") {
+        tcl::TclResult::Ok => {
+            assert_eq!("Hello".to_string(), interp.string_result())
+        },
+        otherwise => panic!("Should have errored, instead got {:?}", otherwise)
+    }
+}
