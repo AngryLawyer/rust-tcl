@@ -49,6 +49,10 @@ impl Interpreter {
         }
     }
 
+    pub unsafe fn raw(&mut self) -> *mut ll::Tcl_Interp {
+        self.raw
+    }
+
     //TODO: Child interpreters - create, get, get parent, paths
 
     pub fn is_safe(&self) -> bool {

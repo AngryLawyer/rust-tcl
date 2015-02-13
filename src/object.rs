@@ -1,4 +1,4 @@
-use std::ffi::CString;
+use std::ffi::{CString, c_str_to_bytes};
 
 use sys::tcl as ll;
 
@@ -7,6 +7,7 @@ pub struct Object {
 }
 
 impl Object {
+
     pub fn new() -> Object {
         Object {
             raw: unsafe {
@@ -78,6 +79,58 @@ impl Object {
                 ll::Tcl_IncrRefCount(raw);
                 raw
             }
+        }
+    }
+
+    // Setters
+
+    pub fn set_boolean(&mut self, val: bool) {
+        unsafe {
+            ll::Tcl_SetBooleanObj(self.raw, if val { 1 } else { 0 });
+        }
+    }
+
+    pub fn set_integer(&mut self, val: i32) {
+        unsafe {
+            ll::Tcl_SetIntObj(self.raw, val);
+        }
+    }
+
+    pub fn set_long(&mut self, val: i64) {
+        unsafe {
+            ll::Tcl_SetLongObj(self.raw, val);
+        }
+    }
+
+    //TODO: WideInt
+    //TODO: BigNum
+
+    pub fn set_double(&mut self, val: f64) {
+        unsafe {
+            ll::Tcl_SetDoubleObj(self.raw, val);
+        }
+    }
+
+    pub fn set_string(&mut self, val: &str) {
+        let buf = CString::from_slice(val.as_bytes()).as_ptr();
+        unsafe {
+            ll::Tcl_SetStringObj(self.raw, buf, val.len() as i32);
+        }
+    }
+
+    pub fn set_byte_array(&mut self, val: &[u8]) {
+        unsafe {
+            ll::Tcl_SetByteArrayObj(self.raw, val.as_ptr(), val.len() as i32);
+        }
+    }
+
+    // Getters
+
+    pub fn get_string(&mut self) -> String {
+        unsafe {
+            let mut raw_string_length = 0;
+            let raw_string_ptr = ll::Tcl_GetStringFromObj(self.raw, &mut raw_string_length);
+            String::from_utf8_lossy(c_str_to_bytes(&(raw_string_ptr as *const i8))).to_string()
         }
     }
 }
