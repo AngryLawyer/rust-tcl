@@ -4822,9 +4822,9 @@ extern "C" {
                            arg3: ::libc::c_int, arg4: size_t,
                            arg5: *const ::libc::c_char, arg6: va_list)
      -> ::libc::c_int;*/
-    pub fn Tcl_IncrRefCount(objPtr: *mut Tcl_Obj) -> ();
-    pub fn Tcl_DecrRefCount(objPtr: *mut Tcl_Obj) -> ();
-    pub fn Tcl_IsShared(objPtr: *mut Tcl_Obj) -> ::libc::c_int;
+    //pub fn Tcl_IncrRefCount(objPtr: *mut Tcl_Obj) -> (); //NOTICE: These two functions are defined as a macro :(
+    //pub fn Tcl_DecrRefCount(objPtr: *mut Tcl_Obj) -> ();
+    //pub fn Tcl_IsShared(objPtr: *mut Tcl_Obj) -> ::libc::c_int;
     pub fn Tcl_InitStubs(interp: *mut Tcl_Interp,
                          version: *const ::libc::c_char, exact: ::libc::c_int)
      -> *const ::libc::c_char;
