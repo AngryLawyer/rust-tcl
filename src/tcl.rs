@@ -1,7 +1,7 @@
 use std::ffi::{c_str_to_bytes, CString};
 use std::path::Path;
 
-use sys::tcl as ll;
+use ll::*;
 
 #[derive(Debug)]
 pub enum TclResult {
@@ -33,40 +33,40 @@ impl TclResult {
 }
 
 pub struct Interpreter {
-    raw: *mut ll::Tcl_Interp
+    raw: *mut Tcl_Interp
 }
 
 impl Drop for Interpreter {
     fn drop(&mut self) {
-        unsafe { ll::Tcl_DeleteInterp(self.raw) };
+        unsafe { Tcl_DeleteInterp(self.raw) };
     }
 }
 
 impl Interpreter {
     pub fn new() -> Interpreter {
         Interpreter {
-            raw: unsafe { ll::Tcl_CreateInterp() }
+            raw: unsafe { Tcl_CreateInterp() }
         }
     }
 
-    pub unsafe fn raw(&mut self) -> *mut ll::Tcl_Interp {
+    pub unsafe fn raw(&mut self) -> *mut Tcl_Interp {
         self.raw
     }
 
     //TODO: Child interpreters - create, get, get parent, paths
 
     pub fn is_safe(&self) -> bool {
-        unsafe { ll::Tcl_IsSafe(self.raw) == 1 }
+        unsafe { Tcl_IsSafe(self.raw) == 1 }
     }
 
     pub fn make_safe(&mut self) -> TclResult {
-        let result = unsafe { ll::Tcl_MakeSafe(self.raw) };
+        let result = unsafe { Tcl_MakeSafe(self.raw) };
         TclResult::from_ll(result, self)
     }
 
     pub fn string_result(&self) -> String {
         unsafe {
-            let string = ll::Tcl_GetStringResult(self.raw);
+            let string = Tcl_GetStringResult(self.raw);
             String::from_utf8_lossy(c_str_to_bytes(&string)).to_string()
         }
     }
@@ -74,7 +74,7 @@ impl Interpreter {
     pub fn eval_file(&mut self, path: &Path) -> TclResult {
         let buf = CString::from_slice(path.to_string_lossy().as_bytes()).as_ptr();
         let result = unsafe {
-            ll::Tcl_EvalFile(self.raw, buf)
+            Tcl_EvalFile(self.raw, buf)
         };
         TclResult::from_ll(result, self)
     }
@@ -82,7 +82,7 @@ impl Interpreter {
     pub fn eval(&mut self, code: &str) -> TclResult {
         let buf = CString::from_slice(code.as_bytes()).as_ptr();
         let result = unsafe {
-            ll::Tcl_Eval(self.raw, buf)
+            Tcl_Eval(self.raw, buf)
         };
         TclResult::from_ll(result, self)
     }

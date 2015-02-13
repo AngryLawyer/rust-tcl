@@ -1,5 +1,5 @@
 #![feature(std_misc, path)]
-extern crate "rust-tcl-sys" as sys;
+extern crate "rust-tcl-sys" as ll;
 
 pub use tcl::*;
 pub use object::*;
