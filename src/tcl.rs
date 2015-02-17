@@ -1,7 +1,32 @@
 use std::ffi::{c_str_to_bytes, CString};
 use std::path::Path;
+use std::env::args;
+use std::ptr;
 
 use ll::*;
+
+pub struct TclEnvironment;
+
+pub fn init() -> TclEnvironment {
+    let ptr = match args().next() {
+        Some(path) => {
+            CString::from_slice(path.as_bytes()).as_ptr()
+        },
+        None => ptr::null()
+    };
+    unsafe { Tcl_FindExecutable(ptr) };
+    TclEnvironment
+}
+
+impl TclEnvironment {
+
+   pub fn interpreter(&self) -> Interpreter {
+        Interpreter {
+            _env: self,
+            raw: unsafe { Tcl_CreateInterp() }
+        }
+   }
+}
 
 #[derive(Debug)]
 pub enum TclResult {
@@ -32,22 +57,19 @@ impl TclResult {
     }
 }
 
-pub struct Interpreter {
+pub struct Interpreter <'env> {
+    _env: &'env TclEnvironment,
     raw: *mut Tcl_Interp
 }
 
-impl Drop for Interpreter {
+#[unsafe_destructor]
+impl <'env> Drop for Interpreter <'env> {
     fn drop(&mut self) {
         unsafe { Tcl_DeleteInterp(self.raw) };
     }
 }
 
-impl Interpreter {
-    pub fn new() -> Interpreter {
-        Interpreter {
-            raw: unsafe { Tcl_CreateInterp() }
-        }
-    }
+impl <'env> Interpreter <'env> {
 
     pub unsafe fn raw(&mut self) -> *mut Tcl_Interp {
         self.raw

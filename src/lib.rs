@@ -1,4 +1,4 @@
-#![feature(std_misc, path)]
+#![feature(std_misc, path, env, unsafe_destructor)]
 extern crate "rust-tcl-sys" as ll;
 
 pub use tcl::*;
