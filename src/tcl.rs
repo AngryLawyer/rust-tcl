@@ -1,9 +1,12 @@
-use std::ffi::{c_str_to_bytes, CString};
-use std::path::Path;
+use std::ffi::{CString};
 use std::env::args;
 use std::ptr;
+use std::sync;
 
 use ll::*;
+use interpreter::Interpreter;
+
+static INIT_TCL: sync::Once = sync::ONCE_INIT;
 
 pub struct TclEnvironment;
 
@@ -14,17 +17,18 @@ pub fn init() -> TclEnvironment {
         },
         None => ptr::null()
     };
-    unsafe { Tcl_FindExecutable(ptr) };
+
+    INIT_TCL.call_once(|| {
+        unsafe { Tcl_FindExecutable(ptr) };
+    });
+
     TclEnvironment
 }
 
 impl TclEnvironment {
 
    pub fn interpreter(&self) -> Interpreter {
-        Interpreter {
-            _env: self,
-            raw: unsafe { Tcl_CreateInterp() }
-        }
+       Interpreter::new(self)
    }
 }
 
@@ -54,58 +58,5 @@ impl TclResult {
             TclResult::Ok => true,
             _ => false
         }
-    }
-}
-
-pub struct Interpreter <'env> {
-    _env: &'env TclEnvironment,
-    raw: *mut Tcl_Interp
-}
-
-#[unsafe_destructor]
-impl <'env> Drop for Interpreter <'env> {
-    fn drop(&mut self) {
-        unsafe { Tcl_DeleteInterp(self.raw) };
-    }
-}
-
-impl <'env> Interpreter <'env> {
-
-    pub unsafe fn raw(&mut self) -> *mut Tcl_Interp {
-        self.raw
-    }
-
-    //TODO: Child interpreters - create, get, get parent, paths
-
-    pub fn is_safe(&self) -> bool {
-        unsafe { Tcl_IsSafe(self.raw) == 1 }
-    }
-
-    pub fn make_safe(&mut self) -> TclResult {
-        let result = unsafe { Tcl_MakeSafe(self.raw) };
-        TclResult::from_ll(result, self)
-    }
-
-    pub fn string_result(&self) -> String {
-        unsafe {
-            let string = Tcl_GetStringResult(self.raw);
-            String::from_utf8_lossy(c_str_to_bytes(&string)).to_string()
-        }
-    }
-
-    pub fn eval_file(&mut self, path: &Path) -> TclResult {
-        let buf = CString::from_slice(path.to_string_lossy().as_bytes()).as_ptr();
-        let result = unsafe {
-            Tcl_EvalFile(self.raw, buf)
-        };
-        TclResult::from_ll(result, self)
-    }
-
-    pub fn eval(&mut self, code: &str) -> TclResult {
-        let buf = CString::from_slice(code.as_bytes()).as_ptr();
-        let result = unsafe {
-            Tcl_Eval(self.raw, buf)
-        };
-        TclResult::from_ll(result, self)
     }
 }
