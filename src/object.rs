@@ -147,8 +147,13 @@ impl <'env> Object <'env> {
         }
     }
 
-    //pub fn get_byte_array(&self) -> Vec<u8> {
-    //}
+    pub fn get_byte_array(&self) -> Vec<u8> {
+        unsafe {
+            let mut raw_length = 0;
+            let raw_vec_ptr = Tcl_GetByteArrayFromObj(self.raw, &mut raw_length);
+            //String::from_utf8_lossy(c_str_to_bytes(&(raw_string_ptr as *const i8))).to_string()
+        }
+    }
 }
 
 #[unsafe_destructor]
