@@ -135,13 +135,20 @@ impl <'env> Object <'env> {
 
     // Getters
 
-    pub fn get_string(&mut self) -> String {
+    pub unsafe fn raw(&self) -> *mut Tcl_Obj {
+        self.raw
+    }
+
+    pub fn get_string(&self) -> String {
         unsafe {
             let mut raw_string_length = 0;
             let raw_string_ptr = Tcl_GetStringFromObj(self.raw, &mut raw_string_length);
             String::from_utf8_lossy(c_str_to_bytes(&(raw_string_ptr as *const i8))).to_string()
         }
     }
+
+    //pub fn get_byte_array(&self) -> Vec<u8> {
+    //}
 }
 
 #[unsafe_destructor]

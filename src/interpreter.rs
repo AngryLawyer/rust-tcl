@@ -3,6 +3,7 @@ use std::path::Path;
 
 use ll::*;
 use tcl::{TclResult, TclEnvironment};
+use object::Object;
 
 pub struct Interpreter <'env> {
     _env: &'env TclEnvironment,
@@ -61,5 +62,52 @@ impl <'env> Interpreter <'env> {
             Tcl_Eval(self.raw, buf)
         };
         TclResult::from_ll(result, self)
+    }
+
+    pub fn get_boolean_from_object(&mut self, obj: &Object) -> Result<bool, String> {
+        let mut output = 0i32;
+        unsafe {
+            if Tcl_GetBooleanFromObj(self.raw, obj.raw(), &mut output) == 0 {
+                Ok(output != 0)
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    pub fn get_integer_from_object(&mut self, obj: &Object) -> Result<i32, String> {
+        let mut output = 0i32;
+        unsafe {
+            if Tcl_GetIntFromObj(self.raw, obj.raw(), &mut output) == 0 {
+                Ok(output)
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    pub fn get_long_from_object(&mut self, obj: &Object) -> Result<i64, String> {
+        let mut output = 0i64;
+        unsafe {
+            if Tcl_GetLongFromObj(self.raw, obj.raw(), &mut output) == 0 {
+                Ok(output)
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    //TODO: WideInt
+    //TODO: BigNum
+
+    pub fn get_double_from_object(&mut self, obj: &Object) -> Result<f64, String> {
+        let mut output = 0f64;
+        unsafe {
+            if Tcl_GetDoubleFromObj(self.raw, obj.raw(), &mut output) == 0 {
+                Ok(output)
+            } else {
+                Err(self.string_result())
+            }
+        }
     }
 }

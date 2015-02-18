@@ -5,6 +5,7 @@ use std::sync;
 
 use ll::*;
 use interpreter::Interpreter;
+use object::Object;
 
 static INIT_TCL: sync::Once = sync::ONCE_INIT;
 
@@ -27,9 +28,40 @@ pub fn init() -> TclEnvironment {
 
 impl TclEnvironment {
 
-   pub fn interpreter(&self) -> Interpreter {
+    pub fn interpreter(&self) -> Interpreter {
        Interpreter::new(self)
-   }
+    }
+
+    pub fn object(&self) -> Object {
+       Object::new(self)
+    }
+
+    pub fn boolean(&self, val: bool) -> Object {
+       Object::new_boolean(self, val)
+    }
+
+    pub fn integer(&self, val: i32) -> Object {
+       Object::new_integer(self, val)
+    }
+
+    pub fn long(&self, val: i64) -> Object {
+       Object::new_long(self, val)
+    }
+
+    //TODO: WideInt
+    //TODO: BigNum
+
+    pub fn double(&self, val: f64) -> Object {
+       Object::new_double(self, val)
+    }
+
+    pub fn string(&self, val: &str) -> Object {
+        Object::new_string(self, val)
+    }
+
+    pub fn byte_array(&self, val: &[u8]) -> Object {
+        Object::new_byte_array(self, val)
+    }
 }
 
 #[derive(Debug)]
