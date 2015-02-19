@@ -154,6 +154,12 @@ impl <'env> Object <'env> {
             c_str_to_bytes(&(raw_vec_ptr as *const i8)).to_vec()
         }
     }
+
+    pub fn is_shared(&self) -> bool {
+        unsafe {
+            Tcl_IsShared(self.raw) != 0
+        }
+    }
 }
 
 #[unsafe_destructor]

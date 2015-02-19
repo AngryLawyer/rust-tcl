@@ -14,7 +14,17 @@ fn clone_object() {
 
 #[test]
 fn is_shared() {
-    //assert!(false);
+
+    let env = tcl::init();
+    let obj = env.object();
+    assert_eq!(false, obj.is_shared());
+    unsafe {
+        ll::Tcl_IncrRefCount(obj.raw());
+    }
+    assert_eq!(true, obj.is_shared());
+    unsafe {
+        ll::Tcl_DecrRefCount(obj.raw());
+    }
 }
 
 macro_rules! object_test {

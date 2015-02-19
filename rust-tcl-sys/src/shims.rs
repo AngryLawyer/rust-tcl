@@ -16,5 +16,5 @@ pub unsafe fn Tcl_DecrRefCount(objPtr: *mut Tcl_Obj) -> () {
 
 pub unsafe fn Tcl_IsShared(objPtr: *const Tcl_Obj) -> ::libc::c_int {
     let transmuted: &Struct_Tcl_Obj = mem::transmute(objPtr);
-    transmuted.refCount
+    if transmuted.refCount > 1 { 1 } else { 0 }
 }
