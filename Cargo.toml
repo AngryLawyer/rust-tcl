@@ -11,6 +11,9 @@ keywords = ["Tcl", "scripting"]
 name = "tcl"
 path = "src/lib.rs"
 
+[dependencies]
+bitflags = "0.1"
+
 [dependencies.rust-tcl-sys]
 path = "rust-tcl-sys"
 version = "0.0.1"

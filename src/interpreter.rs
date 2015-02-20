@@ -5,6 +5,17 @@ use ll::*;
 use tcl::{TclResult, TclEnvironment};
 use object::Object;
 
+bitflags!(
+    flags EvalStyle: u32 {
+        const NO_EVAL = TCL_NO_EVAL,
+        const GLOBAL = TCL_EVAL_GLOBAL,
+        const DIRECT = TCL_EVAL_DIRECT,
+        const INVOKE = TCL_EVAL_INVOKE,
+        const CANCEL_UNWIND = TCL_CANCEL_UNWIND,
+        const NOERR = TCL_EVAL_NOERR
+    }
+);
+
 pub struct Interpreter <'env> {
     _env: &'env TclEnvironment,
     raw: *mut Tcl_Interp
@@ -56,10 +67,10 @@ impl <'env> Interpreter <'env> {
         TclResult::from_ll(result, self)
     }
 
-    pub fn eval(&mut self, code: &str) -> TclResult {
+    pub fn eval(&mut self, code: &str, flags: EvalStyle) -> TclResult {
         let buf = CString::from_slice(code.as_bytes()).as_ptr();
         let result = unsafe {
-            Tcl_Eval(self.raw, buf)
+            Tcl_EvalEx(self.raw, buf, code.len() as i32, flags.bits() as i32)
         };
         TclResult::from_ll(result, self)
     }

@@ -49,7 +49,7 @@ fn eval_simple_file() {
 fn eval_simple() {
     let env = tcl::init();
     let mut interp = env.interpreter();
-    match interp.eval("return Hello") {
+    match interp.eval("return Hello", tcl::EvalStyle::empty()) {
         tcl::TclResult::Ok => {
             assert_eq!("Hello".to_string(), interp.string_result())
         },
