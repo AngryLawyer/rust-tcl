@@ -1,4 +1,5 @@
 use std::ffi::{CString, c_str_to_bytes};
+use std::slice;
 
 use ll::*;
 use tcl::TclEnvironment;
@@ -151,7 +152,7 @@ impl <'env> Object <'env> {
         unsafe {
             let mut raw_length = 0;
             let raw_vec_ptr = Tcl_GetByteArrayFromObj(self.raw, &mut raw_length);
-            c_str_to_bytes(&(raw_vec_ptr as *const i8)).to_vec()
+            slice::from_raw_parts(raw_vec_ptr, raw_length as usize).to_vec()
         }
     }
 
