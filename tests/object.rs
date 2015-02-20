@@ -9,7 +9,19 @@ fn new_object() {
 
 #[test]
 fn clone_object() {
-    //assert!(false);
+    let env = tcl::init();
+    let obj = env.string("TEST");
+    unsafe {
+        ll::Tcl_IncrRefCount(obj.raw());
+        ll::Tcl_IncrRefCount(obj.raw());
+    }
+    assert_eq!(true, obj.is_shared());
+    let obj2 = obj.clone();
+    assert_eq!(true, obj.is_shared());
+    assert_eq!(obj.get_string(), "TEST");
+    assert_eq!(false, obj2.is_shared());
+    assert_eq!(obj2.get_string(), "TEST");
+
 }
 
 #[test]

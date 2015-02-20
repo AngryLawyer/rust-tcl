@@ -169,3 +169,17 @@ impl <'env> Drop for Object <'env> {
         unsafe { Tcl_DecrRefCount(self.raw) };
     }
 }
+
+impl <'env> Clone for Object <'env> {
+
+    fn clone(&self) -> Object<'env> {
+        Object {
+            _env: self._env,
+            raw: unsafe {
+                let raw = Tcl_DuplicateObj(self.raw);
+                Tcl_IncrRefCount(raw);
+                raw
+            }
+        }
+    }
+}
