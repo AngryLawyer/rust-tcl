@@ -1,4 +1,4 @@
-use std::ffi::{CString, c_str_to_bytes};
+use std::ffi::{CString, CStr};
 use std::slice;
 
 use ll::*;
@@ -70,7 +70,7 @@ impl <'env> Object <'env> {
     }
 
     pub fn new_string(env: &'env TclEnvironment, val: &str) -> Object<'env> {
-        let buf = CString::from_slice(val.as_bytes()).as_ptr();
+        let buf = CString::new(val.as_bytes()).unwrap().as_ptr();
         Object {
             _env: env,
             raw: unsafe {
@@ -122,7 +122,7 @@ impl <'env> Object <'env> {
     }
 
     pub fn set_string(&mut self, val: &str) {
-        let buf = CString::from_slice(val.as_bytes()).as_ptr();
+        let buf = CString::new(val.as_bytes()).unwrap().as_ptr();
         unsafe {
             Tcl_SetStringObj(self.raw, buf, val.len() as i32);
         }
@@ -144,7 +144,7 @@ impl <'env> Object <'env> {
         unsafe {
             let mut raw_string_length = 0;
             let raw_string_ptr = Tcl_GetStringFromObj(self.raw, &mut raw_string_length);
-            String::from_utf8_lossy(c_str_to_bytes(&(raw_string_ptr as *const i8))).to_string()
+            String::from_utf8_lossy(CStr::from_ptr(raw_string_ptr as *const i8).to_bytes()).to_string()
         }
     }
 

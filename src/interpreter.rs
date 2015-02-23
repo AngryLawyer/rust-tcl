@@ -1,4 +1,4 @@
-use std::ffi::{c_str_to_bytes, CString};
+use std::ffi::{CStr, CString};
 use std::path::Path;
 
 use ll::*;
@@ -55,12 +55,12 @@ impl <'env> Interpreter <'env> {
     pub fn string_result(&self) -> String {
         unsafe {
             let string = Tcl_GetStringResult(self.raw);
-            String::from_utf8_lossy(c_str_to_bytes(&string)).to_string()
+            String::from_utf8_lossy(CStr::from_ptr(string).to_bytes()).to_string()
         }
     }
 
     pub fn eval_file(&mut self, path: &Path) -> TclResult {
-        let buf = CString::from_slice(path.to_string_lossy().as_bytes()).as_ptr();
+        let buf = CString::new(path.to_string_lossy().as_bytes()).unwrap().as_ptr();
         let result = unsafe {
             Tcl_EvalFile(self.raw, buf)
         };
@@ -68,7 +68,7 @@ impl <'env> Interpreter <'env> {
     }
 
     pub fn eval(&mut self, code: &str, flags: EvalStyle) -> TclResult {
-        let buf = CString::from_slice(code.as_bytes()).as_ptr();
+        let buf = CString::new(code.as_bytes()).unwrap().as_ptr();
         let result = unsafe {
             Tcl_EvalEx(self.raw, buf, code.len() as i32, flags.bits() as i32)
         };

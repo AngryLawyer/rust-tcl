@@ -14,10 +14,10 @@ pub type __darwin_ct_rune_t = ::libc::c_int;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed1 {
-    pub _bindgen_data_: [u64; 16us],
+    pub _bindgen_data_: [u64; 16usize],
 }
 impl Union_Unnamed1 {
-    pub unsafe fn __mbstate8(&mut self) -> *mut [::libc::c_char; 128us] {
+    pub unsafe fn __mbstate8(&mut self) -> *mut [::libc::c_char; 128usize] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn _mbstateL(&mut self) -> *mut ::libc::c_longlong {
@@ -57,8 +57,8 @@ pub type __darwin_sigset_t = __uint32_t;
 pub type __darwin_suseconds_t = __int32_t;
 pub type __darwin_uid_t = __uint32_t;
 pub type __darwin_useconds_t = __uint32_t;
-pub type __darwin_uuid_t = [::libc::c_uchar; 16us];
-pub type __darwin_uuid_string_t = [::libc::c_char; 37us];
+pub type __darwin_uuid_t = [::libc::c_uchar; 16usize];
+pub type __darwin_uuid_string_t = [::libc::c_char; 37usize];
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct___darwin_pthread_handler_rec {
@@ -77,7 +77,7 @@ impl ::std::default::Default for Struct___darwin_pthread_handler_rec {
 #[derive(Copy)]
 pub struct Struct__opaque_pthread_attr_t {
     pub __sig: ::libc::c_long,
-    pub __opaque: [::libc::c_char; 56us],
+    pub __opaque: [::libc::c_char; 56usize],
 }
 impl ::std::default::Default for Struct__opaque_pthread_attr_t {
     fn default() -> Struct__opaque_pthread_attr_t {
@@ -88,7 +88,7 @@ impl ::std::default::Default for Struct__opaque_pthread_attr_t {
 #[derive(Copy)]
 pub struct Struct__opaque_pthread_cond_t {
     pub __sig: ::libc::c_long,
-    pub __opaque: [::libc::c_char; 40us],
+    pub __opaque: [::libc::c_char; 40usize],
 }
 impl ::std::default::Default for Struct__opaque_pthread_cond_t {
     fn default() -> Struct__opaque_pthread_cond_t {
@@ -99,7 +99,7 @@ impl ::std::default::Default for Struct__opaque_pthread_cond_t {
 #[derive(Copy)]
 pub struct Struct__opaque_pthread_condattr_t {
     pub __sig: ::libc::c_long,
-    pub __opaque: [::libc::c_char; 8us],
+    pub __opaque: [::libc::c_char; 8usize],
 }
 impl ::std::default::Default for Struct__opaque_pthread_condattr_t {
     fn default() -> Struct__opaque_pthread_condattr_t {
@@ -110,7 +110,7 @@ impl ::std::default::Default for Struct__opaque_pthread_condattr_t {
 #[derive(Copy)]
 pub struct Struct__opaque_pthread_mutex_t {
     pub __sig: ::libc::c_long,
-    pub __opaque: [::libc::c_char; 56us],
+    pub __opaque: [::libc::c_char; 56usize],
 }
 impl ::std::default::Default for Struct__opaque_pthread_mutex_t {
     fn default() -> Struct__opaque_pthread_mutex_t {
@@ -121,7 +121,7 @@ impl ::std::default::Default for Struct__opaque_pthread_mutex_t {
 #[derive(Copy)]
 pub struct Struct__opaque_pthread_mutexattr_t {
     pub __sig: ::libc::c_long,
-    pub __opaque: [::libc::c_char; 8us],
+    pub __opaque: [::libc::c_char; 8usize],
 }
 impl ::std::default::Default for Struct__opaque_pthread_mutexattr_t {
     fn default() -> Struct__opaque_pthread_mutexattr_t {
@@ -132,7 +132,7 @@ impl ::std::default::Default for Struct__opaque_pthread_mutexattr_t {
 #[derive(Copy)]
 pub struct Struct__opaque_pthread_once_t {
     pub __sig: ::libc::c_long,
-    pub __opaque: [::libc::c_char; 8us],
+    pub __opaque: [::libc::c_char; 8usize],
 }
 impl ::std::default::Default for Struct__opaque_pthread_once_t {
     fn default() -> Struct__opaque_pthread_once_t {
@@ -143,7 +143,7 @@ impl ::std::default::Default for Struct__opaque_pthread_once_t {
 #[derive(Copy)]
 pub struct Struct__opaque_pthread_rwlock_t {
     pub __sig: ::libc::c_long,
-    pub __opaque: [::libc::c_char; 192us],
+    pub __opaque: [::libc::c_char; 192usize],
 }
 impl ::std::default::Default for Struct__opaque_pthread_rwlock_t {
     fn default() -> Struct__opaque_pthread_rwlock_t {
@@ -154,7 +154,7 @@ impl ::std::default::Default for Struct__opaque_pthread_rwlock_t {
 #[derive(Copy)]
 pub struct Struct__opaque_pthread_rwlockattr_t {
     pub __sig: ::libc::c_long,
-    pub __opaque: [::libc::c_char; 16us],
+    pub __opaque: [::libc::c_char; 16usize],
 }
 impl ::std::default::Default for Struct__opaque_pthread_rwlockattr_t {
     fn default() -> Struct__opaque_pthread_rwlockattr_t {
@@ -166,7 +166,7 @@ impl ::std::default::Default for Struct__opaque_pthread_rwlockattr_t {
 pub struct Struct__opaque_pthread_t {
     pub __sig: ::libc::c_long,
     pub __cleanup_stack: *mut Struct___darwin_pthread_handler_rec,
-    pub __opaque: [::libc::c_char; 8176us],
+    pub __opaque: [::libc::c_char; 8176usize],
 }
 impl ::std::default::Default for Struct__opaque_pthread_t {
     fn default() -> Struct__opaque_pthread_t {
@@ -229,8 +229,8 @@ pub struct Struct___sFILE {
     pub _ub: Struct___sbuf,
     pub _extra: *mut Struct___sFILEX,
     pub _ur: ::libc::c_int,
-    pub _ubuf: [::libc::c_uchar; 3us],
-    pub _nbuf: [::libc::c_uchar; 1us],
+    pub _ubuf: [::libc::c_uchar; 3usize],
+    pub _nbuf: [::libc::c_uchar; 1usize],
     pub _lb: Struct___sbuf,
     pub _blksize: ::libc::c_int,
     pub _offset: fpos_t,
@@ -480,7 +480,7 @@ impl ::std::default::Default for Struct_Tcl_Obj {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed3 {
-    pub _bindgen_data_: [u64; 2us],
+    pub _bindgen_data_: [u64; 2usize],
 }
 impl Union_Unnamed3 {
     pub unsafe fn longValue(&mut self) -> *mut ::libc::c_long {
@@ -533,7 +533,7 @@ pub struct Struct_Tcl_SavedResult {
     pub appendResult: *mut ::libc::c_char,
     pub appendAvl: ::libc::c_int,
     pub appendUsed: ::libc::c_int,
-    pub resultSpace: [::libc::c_char; 201us],
+    pub resultSpace: [::libc::c_char; 201usize],
 }
 impl ::std::default::Default for Struct_Tcl_SavedResult {
     fn default() -> Struct_Tcl_SavedResult { unsafe { ::std::mem::zeroed() } }
@@ -596,7 +596,7 @@ pub struct Struct_Tcl_DString {
     pub string: *mut ::libc::c_char,
     pub length: ::libc::c_int,
     pub spaceAvl: ::libc::c_int,
-    pub staticSpace: [::libc::c_char; 200us],
+    pub staticSpace: [::libc::c_char; 200usize],
 }
 impl ::std::default::Default for Struct_Tcl_DString {
     fn default() -> Struct_Tcl_DString { unsafe { ::std::mem::zeroed() } }
@@ -631,7 +631,7 @@ impl ::std::default::Default for Struct_Tcl_HashEntry {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed6 {
-    pub _bindgen_data_: [u64; 1us],
+    pub _bindgen_data_: [u64; 1usize],
 }
 impl Union_Unnamed6 {
     pub unsafe fn oneWordValue(&mut self) -> *mut *mut ::libc::c_char {
@@ -640,10 +640,10 @@ impl Union_Unnamed6 {
     pub unsafe fn objPtr(&mut self) -> *mut *mut Tcl_Obj {
         ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub unsafe fn words(&mut self) -> *mut [::libc::c_int; 1us] {
+    pub unsafe fn words(&mut self) -> *mut [::libc::c_int; 1usize] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub unsafe fn string(&mut self) -> *mut [::libc::c_char; 1us] {
+    pub unsafe fn string(&mut self) -> *mut [::libc::c_char; 1usize] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
 }
@@ -667,7 +667,7 @@ impl ::std::default::Default for Struct_Tcl_HashKeyType {
 #[derive(Copy)]
 pub struct Struct_Tcl_HashTable {
     pub buckets: *mut *mut Tcl_HashEntry,
-    pub staticBuckets: [*mut Tcl_HashEntry; 4us],
+    pub staticBuckets: [*mut Tcl_HashEntry; 4usize],
     pub numBuckets: ::libc::c_int,
     pub numEntries: ::libc::c_int,
     pub rebuildSize: ::libc::c_int,
@@ -1014,7 +1014,7 @@ pub struct Struct_Tcl_Parse {
     pub interp: *mut Tcl_Interp,
     pub term: *const ::libc::c_char,
     pub incomplete: ::libc::c_int,
-    pub staticTokens: [Tcl_Token; 20us],
+    pub staticTokens: [Tcl_Token; 20usize],
 }
 impl ::std::default::Default for Struct_Tcl_Parse {
     fn default() -> Struct_Tcl_Parse { unsafe { ::std::mem::zeroed() } }

@@ -14,7 +14,7 @@ pub struct TclEnvironment;
 pub fn init() -> TclEnvironment {
     let ptr = match args().next() {
         Some(path) => {
-            CString::from_slice(path.as_bytes()).as_ptr()
+            CString::new(path.as_bytes()).unwrap().as_ptr()
         },
         None => ptr::null()
     };

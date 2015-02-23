@@ -1,4 +1,4 @@
-#![feature(std_misc, path, env, unsafe_destructor, core, hash)]
+#![feature(std_misc, path, env, unsafe_destructor, core)]
 extern crate "rust-tcl-sys" as ll;
 #[macro_use]
 extern crate bitflags;
