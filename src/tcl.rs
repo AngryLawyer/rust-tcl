@@ -76,7 +76,7 @@ impl TclEnvironment {
     }
 }
 
-/// TclResult represents the possible states an interpreter can be in after an evaluation
+/// Represents the possible states an interpreter can be in after an evaluation
 #[derive(Debug)]
 pub enum TclResult {
     /// The command completed successfully

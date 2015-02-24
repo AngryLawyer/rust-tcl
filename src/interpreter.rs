@@ -16,6 +16,7 @@ bitflags!(
     }
 );
 
+/// An instance of a Tcl interpreter
 pub struct Interpreter <'env> {
     _env: &'env TclEnvironment,
     raw: *mut Tcl_Interp
@@ -30,6 +31,7 @@ impl <'env> Drop for Interpreter <'env> {
 
 impl <'env> Interpreter <'env> {
 
+    /// Create a new Interpreter
     pub fn new(env: &TclEnvironment) -> Interpreter {
         Interpreter {
             _env: env,
@@ -43,15 +45,18 @@ impl <'env> Interpreter <'env> {
 
     //TODO: Child interpreters - create, get, get parent, paths
 
+    /// Check whether the interpreter has been marked as safe
     pub fn is_safe(&self) -> bool {
         unsafe { Tcl_IsSafe(self.raw) == 1 }
     }
 
+    /// Disable 'unsafe' commands and variables in the interpreter
     pub fn make_safe(&mut self) -> TclResult {
         let result = unsafe { Tcl_MakeSafe(self.raw) };
         TclResult::from_ll(result, self)
     }
 
+    /// Get the string result of the last run command
     pub fn string_result(&self) -> String {
         unsafe {
             let string = Tcl_GetStringResult(self.raw);
@@ -59,6 +64,7 @@ impl <'env> Interpreter <'env> {
         }
     }
 
+    /// Evaluate an external file of Tcl code, and store the result internally
     pub fn eval_file(&mut self, path: &Path) -> TclResult {
         let buf = CString::new(path.to_string_lossy().as_bytes()).unwrap().as_ptr();
         let result = unsafe {
@@ -67,6 +73,7 @@ impl <'env> Interpreter <'env> {
         TclResult::from_ll(result, self)
     }
 
+    /// Evaluate a string of Tcl code, and store the result internally
     pub fn eval(&mut self, code: &str, flags: EvalStyle) -> TclResult {
         let buf = CString::new(code.as_bytes()).unwrap().as_ptr();
         let result = unsafe {
@@ -75,6 +82,7 @@ impl <'env> Interpreter <'env> {
         TclResult::from_ll(result, self)
     }
 
+    /// Attempt to extract a boolean from a Tcl value
     pub fn get_boolean_from_object(&mut self, obj: &Object) -> Result<bool, String> {
         let mut output = 0i32;
         unsafe {
@@ -86,6 +94,7 @@ impl <'env> Interpreter <'env> {
         }
     }
 
+    /// Attempt to extract an integer from a Tcl value
     pub fn get_integer_from_object(&mut self, obj: &Object) -> Result<i32, String> {
         let mut output = 0i32;
         unsafe {
@@ -97,6 +106,7 @@ impl <'env> Interpreter <'env> {
         }
     }
 
+    /// Attempt to extract a long from a Tcl value
     pub fn get_long_from_object(&mut self, obj: &Object) -> Result<i64, String> {
         let mut output = 0i64;
         unsafe {
@@ -111,6 +121,7 @@ impl <'env> Interpreter <'env> {
     //TODO: WideInt
     //TODO: BigNum
 
+    /// Attempt to extract a double from a Tcl value
     pub fn get_double_from_object(&mut self, obj: &Object) -> Result<f64, String> {
         let mut output = 0f64;
         unsafe {

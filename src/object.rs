@@ -4,6 +4,7 @@ use std::slice;
 use ll::*;
 use tcl::TclEnvironment;
 
+/// A Tcl value
 pub struct Object <'env> {
     _env: &'env TclEnvironment,
     raw: *mut Tcl_Obj
@@ -11,6 +12,7 @@ pub struct Object <'env> {
 
 impl <'env> Object <'env> {
 
+    /// Create a new untyped Tcl value
     pub fn new(env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -22,6 +24,7 @@ impl <'env> Object <'env> {
         }
     }
 
+    /// Create a new boolean Tcl value
     pub fn new_boolean(env: &TclEnvironment, val: bool) -> Object {
         Object {
             _env: env,
@@ -33,6 +36,7 @@ impl <'env> Object <'env> {
         }
     }
 
+    /// Create a new integer Tcl value
     pub fn new_integer(env: &TclEnvironment, val: i32) -> Object {
         Object {
             _env: env,
@@ -44,6 +48,7 @@ impl <'env> Object <'env> {
         }
     }
 
+    /// Create a new long Tcl value
     pub fn new_long(env: &TclEnvironment, val: i64) -> Object {
         Object {
             _env: env,
@@ -58,6 +63,7 @@ impl <'env> Object <'env> {
     //TODO: WideInt
     //TODO: BigNum
 
+    /// Create a new double Tcl value
     pub fn new_double(env: &TclEnvironment, val: f64) -> Object {
         Object {
             _env: env,
@@ -69,6 +75,7 @@ impl <'env> Object <'env> {
         }
     }
 
+    /// Create a new string Tcl value
     pub fn new_string(env: &'env TclEnvironment, val: &str) -> Object<'env> {
         let buf = CString::new(val.as_bytes()).unwrap().as_ptr();
         Object {
@@ -81,6 +88,7 @@ impl <'env> Object <'env> {
         }
     }
 
+    /// Create a new byte array Tcl value
     pub fn new_byte_array(env: &'env TclEnvironment, val: &[u8]) -> Object<'env> {
         Object {
             _env: env,
@@ -94,18 +102,21 @@ impl <'env> Object <'env> {
 
     // Setters
 
+    /// Set the contents of a Tcl value to a boolean
     pub fn set_boolean(&mut self, val: bool) {
         unsafe {
             Tcl_SetBooleanObj(self.raw, if val { 1 } else { 0 });
         }
     }
 
+    /// Set the contents of a Tcl value to an integer
     pub fn set_integer(&mut self, val: i32) {
         unsafe {
             Tcl_SetIntObj(self.raw, val);
         }
     }
 
+    /// Set the contents of a Tcl value to a long
     pub fn set_long(&mut self, val: i64) {
         unsafe {
             Tcl_SetLongObj(self.raw, val);
@@ -115,12 +126,14 @@ impl <'env> Object <'env> {
     //TODO: WideInt
     //TODO: BigNum
 
+    /// Set the contents of a Tcl value to a double
     pub fn set_double(&mut self, val: f64) {
         unsafe {
             Tcl_SetDoubleObj(self.raw, val);
         }
     }
 
+    /// Set the contents of a Tcl value to a string
     pub fn set_string(&mut self, val: &str) {
         let buf = CString::new(val.as_bytes()).unwrap().as_ptr();
         unsafe {
@@ -128,6 +141,7 @@ impl <'env> Object <'env> {
         }
     }
 
+    /// Set the contents of a Tcl value to a byte array
     pub fn set_byte_array(&mut self, val: &[u8]) {
         unsafe {
             Tcl_SetByteArrayObj(self.raw, val.as_ptr(), val.len() as i32);
@@ -140,6 +154,7 @@ impl <'env> Object <'env> {
         self.raw
     }
 
+    /// Get the string representation of a Tcl value
     pub fn get_string(&self) -> String {
         unsafe {
             let mut raw_string_length = 0;
@@ -148,6 +163,7 @@ impl <'env> Object <'env> {
         }
     }
 
+    /// Get the byte array representation of a Tcl value
     pub fn get_byte_array(&self) -> Vec<u8> {
         unsafe {
             let mut raw_length = 0;
@@ -156,6 +172,7 @@ impl <'env> Object <'env> {
         }
     }
 
+    /// Is the value currently used to represent multiple variables in an interpreter
     pub fn is_shared(&self) -> bool {
         unsafe {
             Tcl_IsShared(self.raw) != 0
