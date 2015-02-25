@@ -5,7 +5,7 @@ use ll::*;
 use tcl::{TclResult, TclEnvironment};
 use object::Object;
 
-bitflags!(
+/*bitflags!(
     flags EvalStyle: u32 {
         const NO_EVAL = TCL_NO_EVAL,
         const GLOBAL = TCL_EVAL_GLOBAL,
@@ -14,7 +14,15 @@ bitflags!(
         const CANCEL_UNWIND = TCL_CANCEL_UNWIND,
         const NOERR = TCL_EVAL_NOERR
     }
-);
+);*/
+
+/// Which scope to evaluate a command in 
+pub enum EvalScope {
+    /// Evaluate a command at the highest-possible scope
+    Global,
+    /// Evaluate a command at the current scope
+    Local
+}
 
 /// An instance of a Tcl interpreter
 pub struct Interpreter <'env> {
@@ -64,6 +72,14 @@ impl <'env> Interpreter <'env> {
         }
     }
 
+    /// Get a native Tcl object from the last run command
+    pub fn object_result(&self) -> Object {
+        unsafe {
+            let object = Tcl_GetObjResult(self.raw);
+            Object::from_raw(env, object)
+        }
+    }
+
     /// Evaluate an external file of Tcl code, and store the result internally
     pub fn eval_file(&mut self, path: &Path) -> TclResult {
         let buf = CString::new(path.to_string_lossy().as_bytes()).unwrap().as_ptr();
@@ -74,10 +90,15 @@ impl <'env> Interpreter <'env> {
     }
 
     /// Evaluate a string of Tcl code, and store the result internally
-    pub fn eval(&mut self, code: &str, flags: EvalStyle) -> TclResult {
+    pub fn eval(&mut self, code: &str, eval_scope: EvalScope) -> TclResult {
         let buf = CString::new(code.as_bytes()).unwrap().as_ptr();
+
+        let flags = match eval_scope {
+            EvalScope::Global => TCL_EVAL_GLOBAL as i32,
+            EvalScope::Local => 0
+        };
         let result = unsafe {
-            Tcl_EvalEx(self.raw, buf, code.len() as i32, flags.bits() as i32)
+            Tcl_EvalEx(self.raw, buf, code.len() as i32, flags)
         };
         TclResult::from_ll(result, self)
     }

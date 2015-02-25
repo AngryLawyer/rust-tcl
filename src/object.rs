@@ -12,6 +12,16 @@ pub struct Object <'env> {
 
 impl <'env> Object <'env> {
 
+    pub fn from_raw(env: &TclEnvironment, raw: *mut Tcl_Obj) -> Object {
+        Object {
+            _env: env,
+            raw: unsafe {
+                Tcl_IncrRefCount(raw);
+                raw
+            }
+        }
+    }
+
     /// Create a new untyped Tcl value
     pub fn new(env: &TclEnvironment) -> Object {
         Object {

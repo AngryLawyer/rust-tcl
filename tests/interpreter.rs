@@ -41,7 +41,7 @@ fn eval_simple_file() {
         tcl::TclResult::Ok => {
             assert_eq!("6".to_string(), interp.string_result())
         },
-        otherwise => panic!("Should have errored, instead got {:?}", otherwise)
+        otherwise => panic!("{:?}", otherwise)
     }
 }
 
@@ -49,10 +49,24 @@ fn eval_simple_file() {
 fn eval_simple() {
     let env = tcl::init();
     let mut interp = env.interpreter();
-    match interp.eval("return Hello", tcl::EvalStyle::empty()) {
+    match interp.eval("return Hello", tcl::EvalScope::Local) {
         tcl::TclResult::Ok => {
             assert_eq!("Hello".to_string(), interp.string_result())
         },
-        otherwise => panic!("Should have errored, instead got {:?}", otherwise)
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
+fn object_result() {
+    let env = tcl::init();
+    let interp = env.interpreter();
+    interp.eval("expr { 1 + 2 }", tcl::EvalScope::Local);
+    let obj = interp.object_result();
+
+    let result = interp.get_integer_from_object(&obj);
+    match result {
+        Ok(x) => assert_eq!(3, x),
+        Err(s) => panic!("{}", s)
     }
 }
