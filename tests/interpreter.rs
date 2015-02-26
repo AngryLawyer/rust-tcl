@@ -83,3 +83,20 @@ fn object_result() {
         Err(s) => panic!("{}", s)
     }
 }
+
+#[test]
+fn list_append() {
+    let env = tcl::init();
+
+    let mut interp = env.interpreter();
+    let mut command_list = env.object();
+    interp.list_append(&mut command_list, &env.string("expr"));
+    interp.list_append(&mut command_list, &env.string("1+2"));
+
+    match interp.eval_object(&command_list, tcl::EvalScope::Local, tcl::ByteCompile::Compile) {
+        tcl::TclResult::Ok => {
+            assert_eq!("3".to_string(), interp.string_result())
+        },
+        otherwise => panic!("{:?}", otherwise)
+    }
+}

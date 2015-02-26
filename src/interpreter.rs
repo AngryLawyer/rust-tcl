@@ -157,4 +157,13 @@ impl <'env> Interpreter <'env> {
             }
         }
     }
+
+    /// Append an element to a list
+    /// This will fail if target is shared
+    pub fn list_append(&mut self, target: &mut Object, source: &Object) -> TclResult {
+        let result = unsafe {
+            Tcl_ListObjAppendElement(self.raw, target.raw(), source.raw())
+        };
+        TclResult::from_ll(result, self)
+    }
 }
