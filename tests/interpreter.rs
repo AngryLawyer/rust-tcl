@@ -60,7 +60,7 @@ fn eval_simple() {
 #[test]
 fn object_result() {
     let env = tcl::init();
-    let interp = env.interpreter();
+    let mut interp = env.interpreter();
     interp.eval("expr { 1 + 2 }", tcl::EvalScope::Local);
     let obj = interp.object_result();
 

@@ -73,10 +73,10 @@ impl <'env> Interpreter <'env> {
     }
 
     /// Get a native Tcl object from the last run command
-    pub fn object_result(&self) -> Object {
+    pub fn object_result(&self) -> Object<'env> {
         unsafe {
             let object = Tcl_GetObjResult(self.raw);
-            Object::from_raw(env, object)
+            Object::from_raw(self._env, object)
         }
     }
 

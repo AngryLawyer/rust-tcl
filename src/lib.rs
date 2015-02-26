@@ -1,6 +1,7 @@
 #![feature(std_misc, path, env, unsafe_destructor, core)]
 
 #![crate_type= "lib"]
+#![crate_name= "tcl"]
 
 extern crate "rust-tcl-sys" as ll;
 #[macro_use]
