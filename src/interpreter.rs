@@ -5,23 +5,20 @@ use ll::*;
 use tcl::{TclResult, TclEnvironment};
 use object::Object;
 
-/*bitflags!(
-    flags EvalStyle: u32 {
-        const NO_EVAL = TCL_NO_EVAL,
-        const GLOBAL = TCL_EVAL_GLOBAL,
-        const DIRECT = TCL_EVAL_DIRECT,
-        const INVOKE = TCL_EVAL_INVOKE,
-        const CANCEL_UNWIND = TCL_CANCEL_UNWIND,
-        const NOERR = TCL_EVAL_NOERR
-    }
-);*/
-
 /// Which scope to evaluate a command in 
 pub enum EvalScope {
-    /// Evaluate a command at the highest-possible scope
-    Global,
     /// Evaluate a command at the current scope
-    Local
+    Local = 0,
+    /// Evaluate a command at the highest-possible scope
+    Global = TCL_EVAL_GLOBAL as isize,
+}
+
+/// Should we byte compile a command
+pub enum ByteCompile {
+    /// Compile the command into bytecode
+    Compile = 0,
+    /// Do not compile the command into bytecode
+    Direct = TCL_EVAL_DIRECT as isize
 }
 
 /// An instance of a Tcl interpreter
@@ -93,12 +90,19 @@ impl <'env> Interpreter <'env> {
     pub fn eval(&mut self, code: &str, eval_scope: EvalScope) -> TclResult {
         let buf = CString::new(code.as_bytes()).unwrap().as_ptr();
 
-        let flags = match eval_scope {
-            EvalScope::Global => TCL_EVAL_GLOBAL as i32,
-            EvalScope::Local => 0
-        };
+        let flags = eval_scope as i32;
+
         let result = unsafe {
             Tcl_EvalEx(self.raw, buf, code.len() as i32, flags)
+        };
+        TclResult::from_ll(result, self)
+    }
+
+    /// Evaluate a Tcl objecrt as code, and store the result internally
+    pub fn eval_object(&mut self, code: &Object, eval_scope: EvalScope, byte_compile: ByteCompile) -> TclResult {
+        let flags = (eval_scope as i32) & (byte_compile as i32);
+        let result = unsafe {
+            Tcl_EvalObjEx(self.raw, code.raw(), flags)
         };
         TclResult::from_ll(result, self)
     }

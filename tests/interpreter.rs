@@ -58,6 +58,19 @@ fn eval_simple() {
 }
 
 #[test]
+fn eval_object() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    let command = env.string("expr {1 + 2}");
+    match interp.eval_object(&command, tcl::EvalScope::Local, tcl::ByteCompile::Compile) {
+        tcl::TclResult::Ok => {
+            assert_eq!("3".to_string(), interp.string_result())
+        },
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
 fn object_result() {
     let env = tcl::init();
     let mut interp = env.interpreter();
