@@ -1,5 +1,6 @@
 use std::ffi::{CStr, CString};
 use std::path::Path;
+use std::ptr;
 
 use ll::*;
 use tcl::{TclResult, TclEnvironment};
@@ -163,6 +164,102 @@ impl <'env> Interpreter <'env> {
     pub fn list_append(&mut self, target: &mut Object, source: &Object) -> TclResult {
         let result = unsafe {
             Tcl_ListObjAppendElement(self.raw, target.raw(), source.raw())
+        };
+        TclResult::from_ll(result, self)
+    }
+
+    /// Get the boolean result of an expression
+    pub fn expression_boolean(&mut self, expr: &str) -> Result<bool, String> {
+        let mut output = 0;
+        let buf = CString::new(expr.as_bytes()).unwrap().as_ptr();
+        unsafe {
+            if Tcl_ExprBoolean(self.raw, buf, &mut output) == 0 {
+                Ok(output == 1)
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    // Get the boolean result of an expression object
+    pub fn expression_boolean_from_object(&mut self, expr: &Object) -> Result<bool, String> {
+        let mut output = 0;
+        unsafe {
+            if Tcl_ExprBooleanObj(self.raw, expr.raw(), &mut output) == 0 {
+                Ok(output == 1)
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    /// Get the double result of an expression
+    pub fn expression_double(&mut self, expr: &str) -> Result<f64, String> {
+        let mut output = 0.0;
+        let buf = CString::new(expr.as_bytes()).unwrap().as_ptr();
+        unsafe {
+            if Tcl_ExprDouble(self.raw, buf, &mut output) == 0 {
+                Ok(output)
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    // Get the double result of an expression object
+    pub fn expression_double_from_object(&mut self, expr: &Object) -> Result<f64, String> {
+        let mut output = 0.0;
+        unsafe {
+            if Tcl_ExprDoubleObj(self.raw, expr.raw(), &mut output) == 0 {
+                Ok(output)
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    /// Get the long result of an expression
+    pub fn expression_long(&mut self, expr: &str) -> Result<i64, String> {
+        let mut output = 0;
+        let buf = CString::new(expr.as_bytes()).unwrap().as_ptr();
+        unsafe {
+            if Tcl_ExprLong(self.raw, buf, &mut output) == 0 {
+                Ok(output)
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    // Get the long result of an expression object
+    pub fn expression_long_from_object(&mut self, expr: &Object) -> Result<i64, String> {
+        let mut output = 0;
+        unsafe {
+            if Tcl_ExprLongObj(self.raw, expr.raw(), &mut output) == 0 {
+                Ok(output)
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    /// Get the object result of an expression object
+    pub fn expression_object_from_object(&mut self, expr: &Object) -> Result<Object<'env>, String> {
+        let mut output = ptr::null_mut();
+        unsafe {
+            if Tcl_ExprObj(self.raw, expr.raw(), &mut output) == 0 {
+                Ok(Object::from_raw(self._env, output))
+            } else {
+                Err(self.string_result())
+            }
+        }
+    }
+
+    /// Process an expression string and store the result
+    pub fn expression_string(&mut self, expr: &str) -> TclResult {
+        let buf = CString::new(expr.as_bytes()).unwrap().as_ptr();
+        let result = unsafe {
+            Tcl_ExprString(self.raw, buf)
         };
         TclResult::from_ll(result, self)
     }
