@@ -5,4 +5,4 @@ Simple bindings for Tcl in Rust.
 
 Currently targets Tcl 8.5.
 
-[Documentation](http://angrylawyer.github.io/rust-tcl/)
+[Documentation](http://angrylawyer.github.io/rust-tcl/tcl/)
