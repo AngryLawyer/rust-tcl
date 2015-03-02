@@ -126,7 +126,7 @@ fn expression_boolean_from_object() {
 fn expression_double() {
     let env = tcl::init();
     let mut interp = env.interpreter();
-    match interp.expression_double("1 / 2") {
+    match interp.expression_double("1.0 / 2.0") {
         Ok(result) => assert_eq!(0.5, result),
         otherwise => panic!("{:?}", otherwise)
     }
@@ -136,7 +136,7 @@ fn expression_double() {
 fn expression_double_from_object() {
     let env = tcl::init();
     let mut interp = env.interpreter();
-    let expr = env.string("1 / 2");
+    let expr = env.string("1.0 / 2.0");
     match interp.expression_double_from_object(&expr) {
         Ok(result) => assert_eq!(0.5, result),
         otherwise => panic!("{:?}", otherwise)
@@ -174,7 +174,7 @@ fn expression_object_from_object() {
             assert_eq!("2".to_string(), result.get_string())
         },
         Err(otherwise) => panic!("{:?}", otherwise)
-    }
+    };
 }
 
 #[test]
