@@ -100,3 +100,91 @@ fn list_append() {
         otherwise => panic!("{:?}", otherwise)
     }
 }
+
+#[test]
+fn expression_boolean() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    match interp.expression_boolean("1 == 1") {
+        Ok(result) => assert_eq!(true, result),
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
+fn expression_boolean_from_object() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    let expr = env.string("1 == 1");
+    match interp.expression_boolean_from_object(&expr) {
+        Ok(result) => assert_eq!(true, result),
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
+fn expression_double() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    match interp.expression_double("1 / 2") {
+        Ok(result) => assert_eq!(0.5, result),
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
+fn expression_double_from_object() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    let expr = env.string("1 / 2");
+    match interp.expression_double_from_object(&expr) {
+        Ok(result) => assert_eq!(0.5, result),
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
+fn expression_long() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    match interp.expression_long("1 + 1") {
+        Ok(result) => assert_eq!(2, result),
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
+fn expression_long_from_object() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    let expr = env.string("1 + 1");
+    match interp.expression_long_from_object(&expr) {
+        Ok(result) => assert_eq!(2, result),
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
+fn expression_object_from_object() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    let expr = env.string("1 + 1");
+    match interp.expression_object_from_object(&expr) {
+        Ok(result) => {
+            assert_eq!("2".to_string(), result.get_string())
+        },
+        Err(otherwise) => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
+fn expression_string() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    match interp.expression_string("1 + 1") {
+        tcl::TclResult::Ok => {
+            assert_eq!("2".to_string(), interp.string_result())
+        },
+        otherwise => panic!("{:?}", otherwise)
+    }
+}

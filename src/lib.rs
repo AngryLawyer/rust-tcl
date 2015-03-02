@@ -1,4 +1,4 @@
-#![feature(std_misc, path, env, unsafe_destructor, core)]
+#![feature(std_misc, path, unsafe_destructor, core)]
 
 #![crate_type= "lib"]
 #![crate_name= "tcl"]
