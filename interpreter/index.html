@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `tcl` crate.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, tcl">
+    <meta name="description" content="API documentation for the Rust `interpreter` mod in crate `tcl`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, interpreter">
 
-    <title>tcl - Rust</title>
+    <title>tcl::interpreter - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
     
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'></p>
+        <p class='location'><a href='../index.html'>tcl</a></p><div class='block mod'><h2>Modules</h2><a class='mod current' href='../interpreter/index.html' title=''>interpreter</a><a class='mod ' href='../object/index.html' title=''>object</a><a class='mod ' href='../tcl/index.html' title=''>tcl</a></div>
     </section>
 
     <nav class="sub">
@@ -41,28 +41,31 @@
     </nav>
 
     <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>tcl</a><wbr></span><span class='out-of-band'><a href='stability.html'>[stability]</a> <span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>tcl</a>::<wbr><a class='mod' href=''>interpreter</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-0' href='../src/tcl/lib.rs.html#1-19'>[src]</a></span></h1>
-<h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
-<table><tr><td><code>pub use <a class='mod' href='../tcl/tcl/index.html' title='tcl::tcl'>tcl</a>::*;</code></td></tr><tr><td><code>pub use <a class='mod' href='../tcl/object/index.html' title='tcl::object'>object</a>::*;</code></td></tr><tr><td><code>pub use <a class='mod' href='../tcl/interpreter/index.html' title='tcl::interpreter'>interpreter</a>::*;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+        </span><a id='src-915' href='../../src/tcl/interpreter.rs.html#1-266'>[src]</a></span></h1>
+<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='interpreter/index.html'
-                               title='tcl::interpreter'>interpreter</a></td>
-                        <td class='docblock short'></td>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Interpreter.html'
+                               title='tcl::interpreter::Interpreter'>Interpreter</a></td>
+                        <td class='docblock short'><p>An instance of a Tcl interpreter</p>
+</td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.ByteCompile.html'
+                               title='tcl::interpreter::ByteCompile'>ByteCompile</a></td>
+                        <td class='docblock short'><p>Should we byte compile a command</p>
+</td>
                     </tr>
                 
                     <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='object/index.html'
-                               title='tcl::object'>object</a></td>
-                        <td class='docblock short'></td>
-                    </tr>
-                
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='tcl/index.html'
-                               title='tcl::tcl'>tcl</a></td>
-                        <td class='docblock short'></td>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.EvalScope.html'
+                               title='tcl::interpreter::EvalScope'>EvalScope</a></td>
+                        <td class='docblock short'><p>Which scope to evaluate a command in</p>
+</td>
                     </tr>
                 </table></section>
     <section id='search' class="content hidden"></section>
@@ -103,13 +106,13 @@
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../";
         window.currentCrate = "tcl";
         window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script async src="../../search-index.js"></script>
 </body>
 </html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Object` struct in crate `tcl`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Object">
+
+    <title>tcl::object::Object - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>tcl</a>::<wbr><a href='index.html'>object</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Object.html' title='A Tcl value'>Object</a></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>tcl</a>::<wbr><a href='index.html'>object</a>::<wbr><a class='struct' href=''>Object</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-404' href='../../src/tcl/object.rs.html#8-11'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Object&lt;'env&gt; {
+    // some fields omitted
+}</pre><div class='docblock'><p>A Tcl value</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'env&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a>&lt;'env&gt;</code></h3><div class='impl-items'><h4 id='method.from_raw' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.from_raw' class='fnname'>from_raw</a>(env: &amp;<a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>, raw: *mut <a class='type' href='../../rust-tcl-sys/tcl/type.Tcl_Obj.html' title='rust-tcl-sys::tcl::Tcl_Obj'>Tcl_Obj</a>) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a></code></h4>
+<h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>(env: &amp;<a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a></code></h4>
+<div class='docblock'><p>Create a new untyped Tcl value</p>
+</div><h4 id='method.new_boolean' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new_boolean' class='fnname'>new_boolean</a>(env: &amp;<a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a></code></h4>
+<div class='docblock'><p>Create a new boolean Tcl value</p>
+</div><h4 id='method.new_integer' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new_integer' class='fnname'>new_integer</a>(env: &amp;<a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a></code></h4>
+<div class='docblock'><p>Create a new integer Tcl value</p>
+</div><h4 id='method.new_long' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new_long' class='fnname'>new_long</a>(env: &amp;<a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a></code></h4>
+<div class='docblock'><p>Create a new long Tcl value</p>
+</div><h4 id='method.new_double' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new_double' class='fnname'>new_double</a>(env: &amp;<a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a></code></h4>
+<div class='docblock'><p>Create a new double Tcl value</p>
+</div><h4 id='method.new_string' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new_string' class='fnname'>new_string</a>(env: &amp;'env <a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>, val: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a>&lt;'env&gt;</code></h4>
+<div class='docblock'><p>Create a new string Tcl value</p>
+</div><h4 id='method.new_byte_array' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new_byte_array' class='fnname'>new_byte_array</a>(env: &amp;'env <a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a>&lt;'env&gt;</code></h4>
+<div class='docblock'><p>Create a new byte array Tcl value</p>
+</div><h4 id='method.set_boolean' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_boolean' class='fnname'>set_boolean</a>(&amp;mut self, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>)</code></h4>
+<div class='docblock'><p>Set the contents of a Tcl value to a boolean</p>
+</div><h4 id='method.set_integer' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_integer' class='fnname'>set_integer</a>(&amp;mut self, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>)</code></h4>
+<div class='docblock'><p>Set the contents of a Tcl value to an integer</p>
+</div><h4 id='method.set_long' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_long' class='fnname'>set_long</a>(&amp;mut self, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>)</code></h4>
+<div class='docblock'><p>Set the contents of a Tcl value to a long</p>
+</div><h4 id='method.set_double' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_double' class='fnname'>set_double</a>(&amp;mut self, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></h4>
+<div class='docblock'><p>Set the contents of a Tcl value to a double</p>
+</div><h4 id='method.set_string' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_string' class='fnname'>set_string</a>(&amp;mut self, val: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></h4>
+<div class='docblock'><p>Set the contents of a Tcl value to a string</p>
+</div><h4 id='method.set_byte_array' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.set_byte_array' class='fnname'>set_byte_array</a>(&amp;mut self, val: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>)</code></h4>
+<div class='docblock'><p>Set the contents of a Tcl value to a byte array</p>
+</div><h4 id='method.raw' class='method'><a class='stability Unmarked' title='No stability level'></a><code>unsafe fn <a href='#method.raw' class='fnname'>raw</a>(&amp;self) -&gt; *mut <a class='type' href='../../rust-tcl-sys/tcl/type.Tcl_Obj.html' title='rust-tcl-sys::tcl::Tcl_Obj'>Tcl_Obj</a></code></h4>
+<h4 id='method.get_string' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.get_string' class='fnname'>get_string</a>(&amp;self) -&gt; <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></h4>
+<div class='docblock'><p>Get the string representation of a Tcl value</p>
+</div><h4 id='method.get_byte_array' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.get_byte_array' class='fnname'>get_byte_array</a>(&amp;self) -&gt; <a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;</code></h4>
+<div class='docblock'><p>Get the byte array representation of a Tcl value</p>
+</div><h4 id='method.is_shared' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.is_shared' class='fnname'>is_shared</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Is the value currently used to represent multiple variables in an interpreter</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'env&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a>&lt;'env&gt;</code></h3><div class='impl-items'><h4 id='method.drop' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'env&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a>&lt;'env&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a>&lt;'env&gt;</code></h4>
+<h4 id='method.clone_from' class='tymethod'><a class='stability Unstable' title='Unstable: this function is rarely used'></a><code>fn <a href='#tymethod.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "tcl";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>
