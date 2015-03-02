@@ -1,4 +1,8 @@
-# rust-tcl
+# Rust Tcl
 [![Build Status](https://travis-ci.org/AngryLawyer/rust-tcl.svg?branch=master)](https://travis-ci.org/AngryLawyer/rust-tcl)
 
-Bindings for Tcl in Rust
+Simple bindings for Tcl in Rust.
+
+Currently targets Tcl 8.5.
+
+[Documentation](http://angrylawyer.github.io/rust-tcl/)

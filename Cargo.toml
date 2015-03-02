@@ -6,6 +6,8 @@ version = "0.0.1"
 authors = ["Tony Aldridge <tony@angry-lawyer.com>"]
 license = "MIT"
 keywords = ["Tcl", "scripting"]
+documentation = "http://http://angrylawyer.github.io/rust-tcl/"
+repository = "https://github.com/AngryLawyer/rust-tcl/"
 
 [lib]
 name = "tcl"
