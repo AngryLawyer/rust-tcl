@@ -305,4 +305,34 @@ impl <'env> Interpreter <'env> {
             String::from_utf8_lossy(CStr::from_ptr(result).to_bytes()).to_string()
         }
     }
+
+    /*
+    //FIXME: Tcl 8.5 seems to be using var_buf twice, instead of array_buf
+    /// Set a simple string variable for an array inside the interpreter
+    pub fn set_array_variable(&mut self, array_name: &str, var_name: &str, new_value: &str,
+        scope: SetVariableScope, leave_error: LeaveError, append_style: AppendStyle) -> String {
+
+        let flags = scope as i32 | leave_error as i32 | append_style as i32;
+        let array_buf = CString::new(array_name.as_bytes()).unwrap().as_ptr();
+        let var_buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
+        let val_buf = CString::new(new_value.as_bytes()).unwrap().as_ptr();
+
+        unsafe {
+            let result = Tcl_SetVar2(self.raw, array_buf, var_buf, val_buf, flags);
+            String::from_utf8_lossy(CStr::from_ptr(result).to_bytes()).to_string()
+        }
+    }
+    */
+
+    /// Set an object variable inside the interpreter
+    pub fn set_object_variable(&mut self, var_name: &Object, new_value: &Object,
+        scope: SetVariableScope, leave_error: LeaveError, append_style: AppendStyle) -> Object<'env> {
+
+        let flags = scope as i32 | leave_error as i32 | append_style as i32;
+
+        unsafe {
+            let result = Tcl_ObjSetVar2(self.raw, var_name.raw(), ptr::null_mut(), new_value.raw(), flags);
+            Object::from_raw(self._env, result)
+        }
+    }
 }

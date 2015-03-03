@@ -201,3 +201,34 @@ fn set_variable() {
         otherwise => panic!("{:?}", otherwise)
     }
 }
+
+/*
+#[test]
+fn set_array_variable() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    assert_eq!("7".to_string(), interp.set_array_variable("drama", "llama", "7", tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace));
+    match interp.eval("return $drama(llama)", tcl::EvalScope::Local) {
+        tcl::TclResult::Ok => {
+            assert_eq!("7".to_string(), interp.string_result())
+        },
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+*/
+
+#[test]
+fn set_object_variable() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    let var_name = env.string("llama");
+    let obj = env.integer(7);
+    let obj_out = interp.set_object_variable(&var_name, &obj, tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace);
+    assert_eq!("7".to_string(), obj_out.get_string());
+    match interp.eval("return $llama", tcl::EvalScope::Local) {
+        tcl::TclResult::Ok => {
+            assert_eq!("7".to_string(), interp.string_result())
+        },
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
