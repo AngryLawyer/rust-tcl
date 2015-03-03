@@ -22,6 +22,35 @@ pub enum ByteCompile {
     Direct = TCL_EVAL_DIRECT as isize
 }
 
+/// When setting variables, which scope to look in
+pub enum SetVariableScope {
+    /// Set the variable at the current scope
+    Standard = 0,
+    /// Set the variable at global scope
+    GlobalOnly = TCL_GLOBAL_ONLY as isize,
+    /// Set the variable at namespace scope
+    NamespaceOnly = TCL_NAMESPACE_ONLY as isize,
+}
+
+/// When setting a variable, should failure provide an error
+pub enum LeaveError {
+    No = 0,
+    Yes = TCL_LEAVE_ERR_MSG as isize
+}
+
+/// When setting a variable, how should we handle existing values
+pub enum  AppendStyle {
+    /// If the variable exists, replace it
+    Replace = 0,
+    /// If the variable exists, append it
+    Append = TCL_APPEND_VALUE as isize,
+    /// Set the variable to a single-element list
+    ReplaceAsList = TCL_LIST_ELEMENT as isize,
+    /// If the variable exists, append a list element to it
+    AppendAsList = (TCL_APPEND_VALUE | TCL_LIST_ELEMENT) as isize
+}
+
+
 /// An instance of a Tcl interpreter
 pub struct Interpreter <'env> {
     _env: &'env TclEnvironment,
@@ -101,7 +130,7 @@ impl <'env> Interpreter <'env> {
 
     /// Evaluate a Tcl objecrt as code, and store the result internally
     pub fn eval_object(&mut self, code: &Object, eval_scope: EvalScope, byte_compile: ByteCompile) -> TclResult {
-        let flags = (eval_scope as i32) & (byte_compile as i32);
+        let flags = (eval_scope as i32) | (byte_compile as i32);
         let result = unsafe {
             Tcl_EvalObjEx(self.raw, code.raw(), flags)
         };
@@ -262,5 +291,18 @@ impl <'env> Interpreter <'env> {
             Tcl_ExprString(self.raw, buf)
         };
         TclResult::from_ll(result, self)
+    }
+
+    /// Set a simple string variable inside the interpreter
+    pub fn set_variable(&mut self, var_name: &str, new_value: &str,
+        scope: SetVariableScope, leave_error: LeaveError, append_style: AppendStyle) -> String {
+        let flags = scope as i32 | leave_error as i32 | append_style as i32;
+        let var_buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
+        let val_buf = CString::new(new_value.as_bytes()).unwrap().as_ptr();
+
+        unsafe {
+            let result = Tcl_SetVar(self.raw, var_buf, val_buf, flags);
+            String::from_utf8_lossy(CStr::from_ptr(result).to_bytes()).to_string()
+        }
     }
 }

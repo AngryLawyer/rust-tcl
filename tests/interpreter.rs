@@ -188,3 +188,16 @@ fn expression_string() {
         otherwise => panic!("{:?}", otherwise)
     }
 }
+
+#[test]
+fn set_variable() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    assert_eq!("7".to_string(), interp.set_variable("llama", "7", tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace));
+    match interp.eval("return $llama", tcl::EvalScope::Local) {
+        tcl::TclResult::Ok => {
+            assert_eq!("7".to_string(), interp.string_result())
+        },
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
