@@ -32,6 +32,14 @@ pub enum SetVariableScope {
     NamespaceOnly = TCL_NAMESPACE_ONLY as isize,
 }
 
+/// When getting variables, which scope to look in
+pub enum GetVariableScope {
+    /// Get the variable at the current scope
+    Standard = 0,
+    /// Get the variable at global scope, ignoring others
+    GlobalOnly = TCL_GLOBAL_ONLY as isize,
+}
+
 /// When setting a variable, should failure provide an error
 pub enum LeaveError {
     No = 0,
@@ -326,13 +334,17 @@ impl <'env> Interpreter <'env> {
 
     /// Set an object variable inside the interpreter
     pub fn set_object_variable(&mut self, var_name: &Object, new_value: &Object,
-        scope: SetVariableScope, leave_error: LeaveError, append_style: AppendStyle) -> Object<'env> {
+        scope: SetVariableScope, leave_error: LeaveError, append_style: AppendStyle) -> Option<Object<'env>> {
 
         let flags = scope as i32 | leave_error as i32 | append_style as i32;
 
         unsafe {
             let result = Tcl_ObjSetVar2(self.raw, var_name.raw(), ptr::null_mut(), new_value.raw(), flags);
-            Object::from_raw(self._env, result)
+            if result == ptr::null_mut() {
+                None
+            } else {
+                Some(Object::from_raw(self._env, result))
+            }
         }
     }
 
@@ -349,4 +361,30 @@ impl <'env> Interpreter <'env> {
         }
     }
     */
+
+    /// Get a simple string variable inside the interpreter
+    pub fn get_variable(&mut self, var_name: &str, scope: GetVariableScope, leave_error: LeaveError) -> String {
+        let flags = scope as i32 | leave_error as i32;
+        let var_buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
+
+        unsafe {
+            let result = Tcl_GetVar(self.raw, var_buf, flags);
+            String::from_utf8_lossy(CStr::from_ptr(result).to_bytes()).to_string()
+        }
+    }
+
+    /// Get a variable as an object
+    pub fn get_object_variable(&mut self, var_name: &str, scope: GetVariableScope, leave_error: LeaveError) -> Option<Object<'env>> {
+        let flags = scope as i32 | leave_error as i32;
+        let var_buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
+
+        unsafe {
+            let result = Tcl_GetVar2Ex(self.raw, var_buf, ptr::null_mut(), flags);
+            if result == ptr::null_mut() {
+                None
+            } else {
+                Some(Object::from_raw(self._env, result))
+            }
+        }
+    }
 }

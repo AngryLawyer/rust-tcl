@@ -223,7 +223,7 @@ fn set_object_variable() {
     let mut interp = env.interpreter();
     let var_name = env.string("llama");
     let obj = env.integer(7);
-    let obj_out = interp.set_object_variable(&var_name, &obj, tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace);
+    let obj_out = interp.set_object_variable(&var_name, &obj, tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace).unwrap();
     assert_eq!("7".to_string(), obj_out.get_string());
     match interp.eval("return $llama", tcl::EvalScope::Local) {
         tcl::TclResult::Ok => {
@@ -250,3 +250,20 @@ fn set_object_array_variable() {
         otherwise => panic!("{:?}", otherwise)
     }
 }*/
+
+#[test]
+fn get_variable() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    interp.eval("set llama 7", tcl::EvalScope::Local);
+    assert_eq!("7".to_string(), interp.get_variable("llama", tcl::GetVariableScope::Standard, tcl::LeaveError::No));
+}
+
+#[test]
+fn get_object_variable() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    interp.eval("set llama 7", tcl::EvalScope::Local);
+    let out = interp.get_object_variable("llama", tcl::GetVariableScope::Standard, tcl::LeaveError::No);
+    assert_eq!("7".to_string(), out.unwrap().get_string());
+}
