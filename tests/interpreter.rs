@@ -232,3 +232,21 @@ fn set_object_variable() {
         otherwise => panic!("{:?}", otherwise)
     }
 }
+
+/*
+#[test]
+fn set_object_array_variable() {
+    let env = tcl::init();
+    let mut interp = env.interpreter();
+    let array_name = env.string("drama");
+    let index = env.string("llama");
+    let obj = env.integer(7);
+    let obj_out = interp.set_object_array_variable(&index, &array_name, &obj, tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace);
+    assert_eq!("7".to_string(), obj_out.get_string());
+    match interp.eval("return $drama(llama)", tcl::EvalScope::Local) {
+        tcl::TclResult::Ok => {
+            assert_eq!("7".to_string(), interp.string_result())
+        },
+        otherwise => panic!("{:?}", otherwise)
+    }
+}*/

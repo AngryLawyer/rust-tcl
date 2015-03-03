@@ -335,4 +335,18 @@ impl <'env> Interpreter <'env> {
             Object::from_raw(self._env, result)
         }
     }
+
+    /*
+    /// Set an object variable for an array inside the interpreter
+    pub fn set_object_array_variable(&mut self, array_name: &Object, index: &Object, new_value: &Object,
+        scope: SetVariableScope, leave_error: LeaveError, append_style: AppendStyle) -> Object<'env> {
+
+        let flags = scope as i32 | leave_error as i32 | append_style as i32;
+
+        unsafe {
+            let result = Tcl_ObjSetVar2(self.raw, array_name.raw(), index.raw(), new_value.raw(), flags);
+            Object::from_raw(self._env, result)
+        }
+    }
+    */
 }
