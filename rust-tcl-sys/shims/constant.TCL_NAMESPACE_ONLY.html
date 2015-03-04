@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `ByteCompile` enum in crate `tcl`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, ByteCompile">
+    <meta name="description" content="API documentation for the Rust `TCL_NAMESPACE_ONLY` constant in crate `rust-tcl-sys`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TCL_NAMESPACE_ONLY">
 
-    <title>tcl::interpreter::ByteCompile - Rust</title>
+    <title>rust-tcl-sys::shims::TCL_NAMESPACE_ONLY - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>tcl</a>::<wbr><a href='index.html'>interpreter</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Interpreter.html' title='An instance of a Tcl interpreter'>Interpreter</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AppendStyle.html' title='When setting a variable, how should we handle existing values'>AppendStyle</a><a class='enum current' href='enum.ByteCompile.html' title='Should we byte compile a command'>ByteCompile</a><a class='enum ' href='enum.EvalScope.html' title='Which scope to evaluate a command in'>EvalScope</a><a class='enum ' href='enum.GetVariableScope.html' title='When getting variables, which scope to look in'>GetVariableScope</a><a class='enum ' href='enum.LeaveError.html' title='When setting a variable, should failure provide an error'>LeaveError</a><a class='enum ' href='enum.SetVariableScope.html' title='When setting variables, which scope to look in'>SetVariableScope</a></div>
+        <p class='location'><a href='../index.html'>rust-tcl-sys</a>::<wbr><a href='index.html'>shims</a></p><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.Tcl_DecrRefCount.html' title=''>Tcl_DecrRefCount</a><a class='fn ' href='fn.Tcl_IncrRefCount.html' title=''>Tcl_IncrRefCount</a><a class='fn ' href='fn.Tcl_IsShared.html' title=''>Tcl_IsShared</a></div>
     </section>
 
     <nav class="sub">
@@ -40,18 +40,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content enum">
-<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>tcl</a>::<wbr><a href='index.html'>interpreter</a>::<wbr><a class='enum' href=''>ByteCompile</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content constant">
+<h1 class='fqn'><span class='in-band'><a href='../index.html'>rust-tcl-sys</a>::<wbr><a href='index.html'>shims</a>::<wbr><a class='constant' href=''>TCL_NAMESPACE_ONLY</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-935' href='../../src/tcl/interpreter.rs.html#18-23'>[src]</a></span></h1>
-<pre class='rust enum'>pub enum ByteCompile {
-    Compile,
-    Direct,
-}</pre><div class='docblock'><p>Should we byte compile a command</p>
-</div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.Compile'><a class='stability Unmarked' title='No stability level'></a><code>Compile</code></td><td><div class='docblock'><p>Compile the command into bytecode</p>
-</div></td></tr><tr><td id='variant.Direct'><a class='stability Unmarked' title='No stability level'></a><code>Direct</code></td><td><div class='docblock'><p>Do not compile the command into bytecode</p>
-</div></td></tr></table></section>
+        </span><a id='src-20110' href='../../src/rust-tcl-sys/shims.rs.html#12'>[src]</a></span></h1>
+<pre class='rust const'>pub const TCL_NAMESPACE_ONLY: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a><code> = </code><code>2</code></pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -91,7 +84,7 @@
 
     <script>
         window.rootPath = "../../";
-        window.currentCrate = "tcl";
+        window.currentCrate = "rust-tcl-sys";
         window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>

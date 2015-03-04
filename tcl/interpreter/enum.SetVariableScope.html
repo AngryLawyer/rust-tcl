@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `ByteCompile` enum in crate `tcl`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, ByteCompile">
+    <meta name="description" content="API documentation for the Rust `SetVariableScope` enum in crate `tcl`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, SetVariableScope">
 
-    <title>tcl::interpreter::ByteCompile - Rust</title>
+    <title>tcl::interpreter::SetVariableScope - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>tcl</a>::<wbr><a href='index.html'>interpreter</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Interpreter.html' title='An instance of a Tcl interpreter'>Interpreter</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AppendStyle.html' title='When setting a variable, how should we handle existing values'>AppendStyle</a><a class='enum current' href='enum.ByteCompile.html' title='Should we byte compile a command'>ByteCompile</a><a class='enum ' href='enum.EvalScope.html' title='Which scope to evaluate a command in'>EvalScope</a><a class='enum ' href='enum.GetVariableScope.html' title='When getting variables, which scope to look in'>GetVariableScope</a><a class='enum ' href='enum.LeaveError.html' title='When setting a variable, should failure provide an error'>LeaveError</a><a class='enum ' href='enum.SetVariableScope.html' title='When setting variables, which scope to look in'>SetVariableScope</a></div>
+        <p class='location'><a href='../index.html'>tcl</a>::<wbr><a href='index.html'>interpreter</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Interpreter.html' title='An instance of a Tcl interpreter'>Interpreter</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AppendStyle.html' title='When setting a variable, how should we handle existing values'>AppendStyle</a><a class='enum ' href='enum.ByteCompile.html' title='Should we byte compile a command'>ByteCompile</a><a class='enum ' href='enum.EvalScope.html' title='Which scope to evaluate a command in'>EvalScope</a><a class='enum ' href='enum.GetVariableScope.html' title='When getting variables, which scope to look in'>GetVariableScope</a><a class='enum ' href='enum.LeaveError.html' title='When setting a variable, should failure provide an error'>LeaveError</a><a class='enum current' href='enum.SetVariableScope.html' title='When setting variables, which scope to look in'>SetVariableScope</a></div>
     </section>
 
     <nav class="sub">
@@ -41,16 +41,18 @@
     </nav>
 
     <section id='main' class="content enum">
-<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>tcl</a>::<wbr><a href='index.html'>interpreter</a>::<wbr><a class='enum' href=''>ByteCompile</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>tcl</a>::<wbr><a href='index.html'>interpreter</a>::<wbr><a class='enum' href=''>SetVariableScope</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-935' href='../../src/tcl/interpreter.rs.html#18-23'>[src]</a></span></h1>
-<pre class='rust enum'>pub enum ByteCompile {
-    Compile,
-    Direct,
-}</pre><div class='docblock'><p>Should we byte compile a command</p>
+        </span><a id='src-943' href='../../src/tcl/interpreter.rs.html#26-33'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum SetVariableScope {
+    Standard,
+    GlobalOnly,
+    NamespaceOnly,
+}</pre><div class='docblock'><p>When setting variables, which scope to look in</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.Compile'><a class='stability Unmarked' title='No stability level'></a><code>Compile</code></td><td><div class='docblock'><p>Compile the command into bytecode</p>
-</div></td></tr><tr><td id='variant.Direct'><a class='stability Unmarked' title='No stability level'></a><code>Direct</code></td><td><div class='docblock'><p>Do not compile the command into bytecode</p>
+<table><tr><td id='variant.Standard'><a class='stability Unmarked' title='No stability level'></a><code>Standard</code></td><td><div class='docblock'><p>Set the variable at the current scope</p>
+</div></td></tr><tr><td id='variant.GlobalOnly'><a class='stability Unmarked' title='No stability level'></a><code>GlobalOnly</code></td><td><div class='docblock'><p>Set the variable at global scope</p>
+</div></td></tr><tr><td id='variant.NamespaceOnly'><a class='stability Unmarked' title='No stability level'></a><code>NamespaceOnly</code></td><td><div class='docblock'><p>Set the variable at namespace scope</p>
 </div></td></tr></table></section>
     <section id='search' class="content hidden"></section>
 

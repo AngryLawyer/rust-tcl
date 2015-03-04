@@ -67,6 +67,20 @@
 <span id="25">25</span>
 <span id="26">26</span>
 <span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>tcl</span>::<span class='op'>*</span>;
@@ -77,6 +91,20 @@
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_EVAL_INVOKE</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x080000</span>;
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_CANCEL_UNWIND</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x100000</span>;
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_EVAL_NOERR</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x200000</span>;
+
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_GLOBAL_ONLY</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>1</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_NAMESPACE_ONLY</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>2</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_APPEND_VALUE</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>4</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_LIST_ELEMENT</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>8</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_TRACE_READS</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x10</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_TRACE_WRITES</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x20</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_TRACE_UNSETS</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x40</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_TRACE_DESTROYED</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x80</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_INTERP_DESTROYED</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x100</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_LEAVE_ERR_MSG</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x200</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_TRACE_ARRAY</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x800</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_TRACE_RESULT_DYNAMIC</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x8000</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>TCL_TRACE_RESULT_OBJECT</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0x10000</span>;
 
 <span class='kw'>pub</span> <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>Tcl_IncrRefCount</span>(<span class='ident'>objPtr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>Tcl_Obj</span>) <span class='op'>-&gt;</span> () {
     <span class='kw'>let</span> <span class='ident'>transmuted</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Struct_Tcl_Obj</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>objPtr</span>);

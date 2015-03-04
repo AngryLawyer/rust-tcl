@@ -306,6 +306,130 @@
 <span id="264">264</span>
 <span id="265">265</span>
 <span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>CStr</span>, <span class='ident'>CString</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
@@ -330,6 +454,43 @@
     <span class='doccomment'>/// Do not compile the command into bytecode</span>
     <span class='ident'>Direct</span> <span class='op'>=</span> <span class='ident'>TCL_EVAL_DIRECT</span> <span class='kw'>as</span> <span class='ident'>isize</span>
 }
+
+<span class='doccomment'>/// When setting variables, which scope to look in</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>SetVariableScope</span> {
+    <span class='doccomment'>/// Set the variable at the current scope</span>
+    <span class='ident'>Standard</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Set the variable at global scope</span>
+    <span class='ident'>GlobalOnly</span> <span class='op'>=</span> <span class='ident'>TCL_GLOBAL_ONLY</span> <span class='kw'>as</span> <span class='ident'>isize</span>,
+    <span class='doccomment'>/// Set the variable at namespace scope</span>
+    <span class='ident'>NamespaceOnly</span> <span class='op'>=</span> <span class='ident'>TCL_NAMESPACE_ONLY</span> <span class='kw'>as</span> <span class='ident'>isize</span>,
+}
+
+<span class='doccomment'>/// When getting variables, which scope to look in</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>GetVariableScope</span> {
+    <span class='doccomment'>/// Get the variable at the current scope</span>
+    <span class='ident'>Standard</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// Get the variable at global scope, ignoring others</span>
+    <span class='ident'>GlobalOnly</span> <span class='op'>=</span> <span class='ident'>TCL_GLOBAL_ONLY</span> <span class='kw'>as</span> <span class='ident'>isize</span>,
+}
+
+<span class='doccomment'>/// When setting a variable, should failure provide an error</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LeaveError</span> {
+    <span class='ident'>No</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='ident'>Yes</span> <span class='op'>=</span> <span class='ident'>TCL_LEAVE_ERR_MSG</span> <span class='kw'>as</span> <span class='ident'>isize</span>
+}
+
+<span class='doccomment'>/// When setting a variable, how should we handle existing values</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span>  <span class='ident'>AppendStyle</span> {
+    <span class='doccomment'>/// If the variable exists, replace it</span>
+    <span class='ident'>Replace</span> <span class='op'>=</span> <span class='number'>0</span>,
+    <span class='doccomment'>/// If the variable exists, append it</span>
+    <span class='ident'>Append</span> <span class='op'>=</span> <span class='ident'>TCL_APPEND_VALUE</span> <span class='kw'>as</span> <span class='ident'>isize</span>,
+    <span class='doccomment'>/// Set the variable to a single-element list</span>
+    <span class='ident'>ReplaceAsList</span> <span class='op'>=</span> <span class='ident'>TCL_LIST_ELEMENT</span> <span class='kw'>as</span> <span class='ident'>isize</span>,
+    <span class='doccomment'>/// If the variable exists, append a list element to it</span>
+    <span class='ident'>AppendAsList</span> <span class='op'>=</span> (<span class='ident'>TCL_APPEND_VALUE</span> <span class='op'>|</span> <span class='ident'>TCL_LIST_ELEMENT</span>) <span class='kw'>as</span> <span class='ident'>isize</span>
+}
+
 
 <span class='doccomment'>/// An instance of a Tcl interpreter</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Interpreter</span> <span class='op'>&lt;</span><span class='lifetime'>&#39;env</span><span class='op'>&gt;</span> {
@@ -410,7 +571,7 @@
 
     <span class='doccomment'>/// Evaluate a Tcl objecrt as code, and store the result internally</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>eval_object</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>code</span>: <span class='kw-2'>&amp;</span><span class='ident'>Object</span>, <span class='ident'>eval_scope</span>: <span class='ident'>EvalScope</span>, <span class='ident'>byte_compile</span>: <span class='ident'>ByteCompile</span>) <span class='op'>-&gt;</span> <span class='ident'>TclResult</span> {
-        <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> (<span class='ident'>eval_scope</span> <span class='kw'>as</span> <span class='ident'>i32</span>) <span class='kw-2'>&amp;</span> (<span class='ident'>byte_compile</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
+        <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> (<span class='ident'>eval_scope</span> <span class='kw'>as</span> <span class='ident'>i32</span>) <span class='op'>|</span> (<span class='ident'>byte_compile</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>unsafe</span> {
             <span class='ident'>Tcl_EvalObjEx</span>(<span class='self'>self</span>.<span class='ident'>raw</span>, <span class='ident'>code</span>.<span class='ident'>raw</span>(), <span class='ident'>flags</span>)
         };
@@ -571,6 +732,93 @@
             <span class='ident'>Tcl_ExprString</span>(<span class='self'>self</span>.<span class='ident'>raw</span>, <span class='ident'>buf</span>)
         };
         <span class='ident'>TclResult</span>::<span class='ident'>from_ll</span>(<span class='ident'>result</span>, <span class='self'>self</span>)
+    }
+
+    <span class='doccomment'>/// Set a simple string variable inside the interpreter</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_variable</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>var_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>new_value</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+        <span class='ident'>scope</span>: <span class='ident'>SetVariableScope</span>, <span class='ident'>leave_error</span>: <span class='ident'>LeaveError</span>, <span class='ident'>append_style</span>: <span class='ident'>AppendStyle</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+        <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> <span class='ident'>scope</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>|</span> <span class='ident'>leave_error</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>|</span> <span class='ident'>append_style</span> <span class='kw'>as</span> <span class='ident'>i32</span>;
+        <span class='kw'>let</span> <span class='ident'>var_buf</span> <span class='op'>=</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>var_name</span>.<span class='ident'>as_bytes</span>()).<span class='ident'>unwrap</span>().<span class='ident'>as_ptr</span>();
+        <span class='kw'>let</span> <span class='ident'>val_buf</span> <span class='op'>=</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>new_value</span>.<span class='ident'>as_bytes</span>()).<span class='ident'>unwrap</span>().<span class='ident'>as_ptr</span>();
+
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>Tcl_SetVar</span>(<span class='self'>self</span>.<span class='ident'>raw</span>, <span class='ident'>var_buf</span>, <span class='ident'>val_buf</span>, <span class='ident'>flags</span>);
+            <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>result</span>).<span class='ident'>to_bytes</span>()).<span class='ident'>to_string</span>()
+        }
+    }
+
+    <span class='comment'>/*
+    //FIXME: Tcl 8.5 seems to be using var_buf twice, instead of array_buf
+    /// Set a simple string variable for an array inside the interpreter
+    pub fn set_array_variable(&amp;mut self, array_name: &amp;str, var_name: &amp;str, new_value: &amp;str,
+        scope: SetVariableScope, leave_error: LeaveError, append_style: AppendStyle) -&gt; String {
+
+        let flags = scope as i32 | leave_error as i32 | append_style as i32;
+        let array_buf = CString::new(array_name.as_bytes()).unwrap().as_ptr();
+        let var_buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
+        let val_buf = CString::new(new_value.as_bytes()).unwrap().as_ptr();
+
+        unsafe {
+            let result = Tcl_SetVar2(self.raw, array_buf, var_buf, val_buf, flags);
+            String::from_utf8_lossy(CStr::from_ptr(result).to_bytes()).to_string()
+        }
+    }
+    */</span>
+
+    <span class='doccomment'>/// Set an object variable inside the interpreter</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_object_variable</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>var_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>Object</span>, <span class='ident'>new_value</span>: <span class='kw-2'>&amp;</span><span class='ident'>Object</span>,
+        <span class='ident'>scope</span>: <span class='ident'>SetVariableScope</span>, <span class='ident'>leave_error</span>: <span class='ident'>LeaveError</span>, <span class='ident'>append_style</span>: <span class='ident'>AppendStyle</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Object</span><span class='op'>&lt;</span><span class='lifetime'>&#39;env</span><span class='op'>&gt;&gt;</span> {
+
+        <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> <span class='ident'>scope</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>|</span> <span class='ident'>leave_error</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>|</span> <span class='ident'>append_style</span> <span class='kw'>as</span> <span class='ident'>i32</span>;
+
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>Tcl_ObjSetVar2</span>(<span class='self'>self</span>.<span class='ident'>raw</span>, <span class='ident'>var_name</span>.<span class='ident'>raw</span>(), <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>(), <span class='ident'>new_value</span>.<span class='ident'>raw</span>(), <span class='ident'>flags</span>);
+            <span class='kw'>if</span> <span class='ident'>result</span> <span class='op'>==</span> <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>() {
+                <span class='prelude-val'>None</span>
+            } <span class='kw'>else</span> {
+                <span class='prelude-val'>Some</span>(<span class='ident'>Object</span>::<span class='ident'>from_raw</span>(<span class='self'>self</span>.<span class='ident'>_env</span>, <span class='ident'>result</span>))
+            }
+        }
+    }
+
+    <span class='comment'>/*
+    /// Set an object variable for an array inside the interpreter
+    pub fn set_object_array_variable(&amp;mut self, array_name: &amp;Object, index: &amp;Object, new_value: &amp;Object,
+        scope: SetVariableScope, leave_error: LeaveError, append_style: AppendStyle) -&gt; Object&lt;&#39;env&gt; {
+
+        let flags = scope as i32 | leave_error as i32 | append_style as i32;
+
+        unsafe {
+            let result = Tcl_ObjSetVar2(self.raw, array_name.raw(), index.raw(), new_value.raw(), flags);
+            Object::from_raw(self._env, result)
+        }
+    }
+    */</span>
+
+    <span class='doccomment'>/// Get a simple string variable inside the interpreter</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_variable</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>var_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>scope</span>: <span class='ident'>GetVariableScope</span>, <span class='ident'>leave_error</span>: <span class='ident'>LeaveError</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+        <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> <span class='ident'>scope</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>|</span> <span class='ident'>leave_error</span> <span class='kw'>as</span> <span class='ident'>i32</span>;
+        <span class='kw'>let</span> <span class='ident'>var_buf</span> <span class='op'>=</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>var_name</span>.<span class='ident'>as_bytes</span>()).<span class='ident'>unwrap</span>().<span class='ident'>as_ptr</span>();
+
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>Tcl_GetVar</span>(<span class='self'>self</span>.<span class='ident'>raw</span>, <span class='ident'>var_buf</span>, <span class='ident'>flags</span>);
+            <span class='ident'>String</span>::<span class='ident'>from_utf8_lossy</span>(<span class='ident'>CStr</span>::<span class='ident'>from_ptr</span>(<span class='ident'>result</span>).<span class='ident'>to_bytes</span>()).<span class='ident'>to_string</span>()
+        }
+    }
+
+    <span class='doccomment'>/// Get a variable as an object</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_object_variable</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>var_name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>scope</span>: <span class='ident'>GetVariableScope</span>, <span class='ident'>leave_error</span>: <span class='ident'>LeaveError</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Object</span><span class='op'>&lt;</span><span class='lifetime'>&#39;env</span><span class='op'>&gt;&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> <span class='ident'>scope</span> <span class='kw'>as</span> <span class='ident'>i32</span> <span class='op'>|</span> <span class='ident'>leave_error</span> <span class='kw'>as</span> <span class='ident'>i32</span>;
+        <span class='kw'>let</span> <span class='ident'>var_buf</span> <span class='op'>=</span> <span class='ident'>CString</span>::<span class='ident'>new</span>(<span class='ident'>var_name</span>.<span class='ident'>as_bytes</span>()).<span class='ident'>unwrap</span>().<span class='ident'>as_ptr</span>();
+
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>Tcl_GetVar2Ex</span>(<span class='self'>self</span>.<span class='ident'>raw</span>, <span class='ident'>var_buf</span>, <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>(), <span class='ident'>flags</span>);
+            <span class='kw'>if</span> <span class='ident'>result</span> <span class='op'>==</span> <span class='ident'>ptr</span>::<span class='ident'>null_mut</span>() {
+                <span class='prelude-val'>None</span>
+            } <span class='kw'>else</span> {
+                <span class='prelude-val'>Some</span>(<span class='ident'>Object</span>::<span class='ident'>from_raw</span>(<span class='self'>self</span>.<span class='ident'>_env</span>, <span class='ident'>result</span>))
+            }
+        }
     }
 }
 </pre>
