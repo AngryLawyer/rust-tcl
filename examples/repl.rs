@@ -10,8 +10,6 @@ use std::io::{BufRead, Write};
 pub fn main() {
 
     let input = io::stdin();
-    let output = io::stdout();
-    let mut buf = String::new();
 
     // Initialize Tcl
     let env = tcl::init();
@@ -19,22 +17,20 @@ pub fn main() {
     let mut interp = env.interpreter();
 
     loop {
+        let mut buf = String::new();
         {
             let mut in_lock = input.lock();
             in_lock.read_line(&mut buf).ok().expect("Couldn't read stdin!");
         }
 
-        let result = match interp.eval(buf.as_slice(), tcl::EvalScope::Local) {
+        let result = interp.eval(buf.as_slice(), tcl::EvalScope::Local);
+
+        match result {
             tcl::TclResult::Error(string) => {
-                string
+                println!("Error: {}", string);
             },
-            _ => interp.string_result()
+            _ => println!("{}", interp.string_result())
         };
-        
-        {
-            let mut out_lock = output.lock();
-            out_lock.write_all(result.as_bytes()).ok().expect("Couldn't write stdout!");
-        }
 
     }
 }
