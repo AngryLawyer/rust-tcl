@@ -3,7 +3,7 @@
 name = "rust-tcl-sys"
 description = "Raw Tcl bindings for Rust, used internally rust-tcl"
 repository = "https://github.com/AngryLawyer/rust-tcl"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Tony Aldridge <tony@angry-lawyer.com>"]
 license = "MIT"
 links = "Rust-Tcl"
@@ -17,7 +17,7 @@ path = "src/lib.rs"
 libc = "*"
 
 [build-dependencies]
-pkg-config = "0.1.7"
+pkg-config = "*"
 
 [features]
 

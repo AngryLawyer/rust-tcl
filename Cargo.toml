@@ -2,7 +2,7 @@
 
 name = "rust-tcl"
 description = "Tcl bindings for Rust"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Tony Aldridge <tony@angry-lawyer.com>"]
 license = "MIT"
 keywords = ["Tcl", "scripting"]
@@ -18,7 +18,7 @@ bitflags = "0.1"
 
 [dependencies.rust-tcl-sys]
 path = "rust-tcl-sys"
-version = "0.0.1"
+version = "0.1.0"
 
 [features]
 default = []
