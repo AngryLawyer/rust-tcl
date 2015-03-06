@@ -1,17 +1,23 @@
-#![feature(os)]
-
+#[cfg(feature="pkg-config")]
 extern crate "pkg-config" as pkg_config;
 
 fn main() {
-    if std::os::getenv("CARGO_FEATURE_USE_PKGCONFIG").is_some() {
-      if build_pkgconfig() { return; }
-      panic!("Could not find Tcl via pkgconfig");
-    } else {
+    if !build_pkgconfig() {
       println!("cargo:rustc-flags=-l tcl8.5");
     }
 }
 
+
+#[cfg(not(feature="pkg-config"))]
+fn build_pkgconfig() -> bool {
+    false
+}
+
+#[cfg(feature="pkg-config")]
 fn build_pkgconfig() -> bool {
     let opts = pkg_config::default_options("tcl8.5");
-    pkg_config::find_library_opts("tcl8.5", &opts).is_ok()
+    if pkg_config::find_library_opts("tcl8.5", &opts).is_err() {
+        panic!("Could not find Tcl via pkgconfig");
+    }
+    true
 }
