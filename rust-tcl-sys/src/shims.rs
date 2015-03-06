@@ -1,6 +1,12 @@
 use std::mem;
 use tcl::*;
 
+pub const TCL_OK: i32 = 0;
+pub const TCL_ERROR: i32 = 1;
+pub const TCL_RETURN: i32 = 2;
+pub const TCL_BREAK: i32 = 3;
+pub const TCL_CONTINUE: i32 = 4;
+
 pub const TCL_NO_EVAL: u32	= 0x010000;
 pub const TCL_EVAL_GLOBAL: u32	= 0x020000;
 pub const TCL_EVAL_DIRECT: u32 = 0x040000;

@@ -32,7 +32,7 @@ pub fn init() -> TclEnvironment {
 impl TclEnvironment {
 
     /// Create a new Tcl interpreter
-    pub fn interpreter(&self) -> Interpreter {
+    pub fn interpreter(&self) -> Result<Interpreter, &str> {
        Interpreter::new(self)
     }
 
@@ -95,11 +95,11 @@ impl TclResult {
     /// Convert a low-level representation of a Tcl result into a TclResult enum instance
     pub fn from_ll(result: i32, interpreter: &Interpreter) -> TclResult {
         match result {
-            0 => TclResult::Ok,
-            1 => TclResult::Error(interpreter.string_result()),
-            2 => TclResult::Return,
-            3 => TclResult::Break,
-            4 => TclResult::Continue,
+            TCL_OK => TclResult::Ok,
+            TCL_ERROR => TclResult::Error(interpreter.string_result()),
+            TCL_RETURN => TclResult::Return,
+            TCL_BREAK => TclResult::Break,
+            TCL_CONTINUE => TclResult::Continue,
             _ => TclResult::Error("Unknown result".to_string())
         }
     }

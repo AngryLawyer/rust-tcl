@@ -47,7 +47,7 @@ pub enum LeaveError {
 }
 
 /// When setting a variable, how should we handle existing values
-pub enum  AppendStyle {
+pub enum AppendStyle {
     /// If the variable exists, replace it
     Replace = 0,
     /// If the variable exists, append it
@@ -75,10 +75,21 @@ impl <'env> Drop for Interpreter <'env> {
 impl <'env> Interpreter <'env> {
 
     /// Create a new Interpreter
-    pub fn new(env: &TclEnvironment) -> Interpreter {
-        Interpreter {
-            _env: env,
-            raw: unsafe { Tcl_CreateInterp() }
+    pub fn new(env: &TclEnvironment) -> Result<Interpreter, &str> {
+        unsafe {
+            let raw = Tcl_CreateInterp();
+            if raw == ptr::null_mut() {
+                Err("Failed to create interpreter")
+            } else {
+                if Tcl_Init(raw) != TCL_OK {
+                    Err("Couldn't initialize interpreter")
+                } else {
+                    Ok(Interpreter {
+                        _env: env,
+                        raw: raw
+                    })
+                }
+            }
         }
     }
 
@@ -149,7 +160,7 @@ impl <'env> Interpreter <'env> {
     pub fn get_boolean_from_object(&mut self, obj: &Object) -> Result<bool, String> {
         let mut output = 0i32;
         unsafe {
-            if Tcl_GetBooleanFromObj(self.raw, obj.raw(), &mut output) == 0 {
+            if Tcl_GetBooleanFromObj(self.raw, obj.raw(), &mut output) == TCL_OK {
                 Ok(output != 0)
             } else {
                 Err(self.string_result())
@@ -161,7 +172,7 @@ impl <'env> Interpreter <'env> {
     pub fn get_integer_from_object(&mut self, obj: &Object) -> Result<i32, String> {
         let mut output = 0i32;
         unsafe {
-            if Tcl_GetIntFromObj(self.raw, obj.raw(), &mut output) == 0 {
+            if Tcl_GetIntFromObj(self.raw, obj.raw(), &mut output) == TCL_OK {
                 Ok(output)
             } else {
                 Err(self.string_result())
@@ -173,7 +184,7 @@ impl <'env> Interpreter <'env> {
     pub fn get_long_from_object(&mut self, obj: &Object) -> Result<i64, String> {
         let mut output = 0i64;
         unsafe {
-            if Tcl_GetLongFromObj(self.raw, obj.raw(), &mut output) == 0 {
+            if Tcl_GetLongFromObj(self.raw, obj.raw(), &mut output) == TCL_OK {
                 Ok(output)
             } else {
                 Err(self.string_result())
@@ -188,7 +199,7 @@ impl <'env> Interpreter <'env> {
     pub fn get_double_from_object(&mut self, obj: &Object) -> Result<f64, String> {
         let mut output = 0f64;
         unsafe {
-            if Tcl_GetDoubleFromObj(self.raw, obj.raw(), &mut output) == 0 {
+            if Tcl_GetDoubleFromObj(self.raw, obj.raw(), &mut output) == TCL_OK {
                 Ok(output)
             } else {
                 Err(self.string_result())
@@ -210,7 +221,7 @@ impl <'env> Interpreter <'env> {
         let mut output = 0;
         let buf = CString::new(expr.as_bytes()).unwrap().as_ptr();
         unsafe {
-            if Tcl_ExprBoolean(self.raw, buf, &mut output) == 0 {
+            if Tcl_ExprBoolean(self.raw, buf, &mut output) == TCL_OK {
                 Ok(output == 1)
             } else {
                 Err(self.string_result())
@@ -222,7 +233,7 @@ impl <'env> Interpreter <'env> {
     pub fn expression_boolean_from_object(&mut self, expr: &Object) -> Result<bool, String> {
         let mut output = 0;
         unsafe {
-            if Tcl_ExprBooleanObj(self.raw, expr.raw(), &mut output) == 0 {
+            if Tcl_ExprBooleanObj(self.raw, expr.raw(), &mut output) == TCL_OK {
                 Ok(output == 1)
             } else {
                 Err(self.string_result())
@@ -235,7 +246,7 @@ impl <'env> Interpreter <'env> {
         let mut output = 0.0;
         let buf = CString::new(expr.as_bytes()).unwrap().as_ptr();
         unsafe {
-            if Tcl_ExprDouble(self.raw, buf, &mut output) == 0 {
+            if Tcl_ExprDouble(self.raw, buf, &mut output) == TCL_OK {
                 Ok(output)
             } else {
                 Err(self.string_result())
@@ -247,7 +258,7 @@ impl <'env> Interpreter <'env> {
     pub fn expression_double_from_object(&mut self, expr: &Object) -> Result<f64, String> {
         let mut output = 0.0;
         unsafe {
-            if Tcl_ExprDoubleObj(self.raw, expr.raw(), &mut output) == 0 {
+            if Tcl_ExprDoubleObj(self.raw, expr.raw(), &mut output) == TCL_OK {
                 Ok(output)
             } else {
                 Err(self.string_result())
@@ -260,7 +271,7 @@ impl <'env> Interpreter <'env> {
         let mut output = 0;
         let buf = CString::new(expr.as_bytes()).unwrap().as_ptr();
         unsafe {
-            if Tcl_ExprLong(self.raw, buf, &mut output) == 0 {
+            if Tcl_ExprLong(self.raw, buf, &mut output) == TCL_OK {
                 Ok(output)
             } else {
                 Err(self.string_result())
@@ -272,7 +283,7 @@ impl <'env> Interpreter <'env> {
     pub fn expression_long_from_object(&mut self, expr: &Object) -> Result<i64, String> {
         let mut output = 0;
         unsafe {
-            if Tcl_ExprLongObj(self.raw, expr.raw(), &mut output) == 0 {
+            if Tcl_ExprLongObj(self.raw, expr.raw(), &mut output) == TCL_OK {
                 Ok(output)
             } else {
                 Err(self.string_result())
@@ -284,7 +295,7 @@ impl <'env> Interpreter <'env> {
     pub fn expression_object_from_object(&mut self, expr: &Object) -> Result<Object<'env>, String> {
         let mut output = ptr::null_mut();
         unsafe {
-            if Tcl_ExprObj(self.raw, expr.raw(), &mut output) == 0 {
+            if Tcl_ExprObj(self.raw, expr.raw(), &mut output) == TCL_OK {
                 Ok(Object::from_raw(self._env, output))
             } else {
                 Err(self.string_result())
