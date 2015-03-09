@@ -44,7 +44,7 @@ macro_rules! object_test {
         #[test]
         fn $kind() {
             let env = tcl::init();
-            let mut interp = env.interpreter();
+            let mut interp = env.interpreter().unwrap();
             let mut obj = env.$kind($first_value);
             assert_eq!(interp.$getter(&obj).unwrap(), $first_value);
             obj.$setter($second_value);

@@ -108,7 +108,7 @@ pub fn main() {
     // Initialize Tcl
     let env = tcl::init();
     // Get an interpreter
-    let mut interp = env.interpreter();
+    let mut interp = env.interpreter().unwrap();
 
     loop {
         let command = get_input(&input);
