@@ -9,7 +9,7 @@
 
     <title>tcl.rs.html -- source</title>
 
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
 
     
     
@@ -188,7 +188,7 @@
 <span class='kw'>impl</span> <span class='ident'>TclEnvironment</span> {
 
     <span class='doccomment'>/// Create a new Tcl interpreter</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>interpreter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Interpreter</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>interpreter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Interpreter</span>, <span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> {
        <span class='ident'>Interpreter</span>::<span class='ident'>new</span>(<span class='self'>self</span>)
     }
 
@@ -251,11 +251,11 @@
     <span class='doccomment'>/// Convert a low-level representation of a Tcl result into a TclResult enum instance</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_ll</span>(<span class='ident'>result</span>: <span class='ident'>i32</span>, <span class='ident'>interpreter</span>: <span class='kw-2'>&amp;</span><span class='ident'>Interpreter</span>) <span class='op'>-&gt;</span> <span class='ident'>TclResult</span> {
         <span class='kw'>match</span> <span class='ident'>result</span> {
-            <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='prelude-val'>Ok</span>,
-            <span class='number'>1</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='ident'>Error</span>(<span class='ident'>interpreter</span>.<span class='ident'>string_result</span>()),
-            <span class='number'>2</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='ident'>Return</span>,
-            <span class='number'>3</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='ident'>Break</span>,
-            <span class='number'>4</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='ident'>Continue</span>,
+            <span class='ident'>TCL_OK</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='prelude-val'>Ok</span>,
+            <span class='ident'>TCL_ERROR</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='ident'>Error</span>(<span class='ident'>interpreter</span>.<span class='ident'>string_result</span>()),
+            <span class='ident'>TCL_RETURN</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='ident'>Return</span>,
+            <span class='ident'>TCL_BREAK</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='ident'>Break</span>,
+            <span class='ident'>TCL_CONTINUE</span> <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='ident'>Continue</span>,
             _ <span class='op'>=&gt;</span> <span class='ident'>TclResult</span>::<span class='ident'>Error</span>(<span class='string'>&quot;Unknown result&quot;</span>.<span class='ident'>to_string</span>())
         }
     }
@@ -307,13 +307,13 @@
     
 
     <script>
-        window.rootPath = "../../";
+        window.rootPath = "../../../";
         window.currentCrate = "tcl";
         window.playgroundUrl = "";
     </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script async src="../../../search-index.js"></script>
 </body>
 </html>

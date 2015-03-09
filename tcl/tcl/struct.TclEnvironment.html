@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>tcl</a>::<wbr><a href='index.html'>tcl</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.TclEnvironment.html' title='Acts as proof that Tcl has been correctly initialized for other parts of the code, and wraps all code that must '>TclEnvironment</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.TclResult.html' title='Represents the possible states an interpreter can be in after an evaluation'>TclResult</a></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.init.html' title='Initialize Tcl'>init</a></div>
+        <p class='location'><a href='../index.html'>tcl</a>::<wbr><a href='index.html'>tcl</a></p><script>window.sidebarCurrent = {name: 'TclEnvironment', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
     <nav class="sub">
@@ -46,7 +46,7 @@
         </span><a id='src-22' href='../../src/tcl/tcl.rs.html#14'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct TclEnvironment;</pre><div class='docblock'><p>Acts as proof that Tcl has been correctly initialized for other parts of the code,
 and wraps all code that must </p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a></code></h3><div class='impl-items'><h4 id='method.interpreter' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.interpreter' class='fnname'>interpreter</a>(&amp;self) -&gt; <a class='struct' href='../../tcl/interpreter/struct.Interpreter.html' title='tcl::interpreter::Interpreter'>Interpreter</a></code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a></code></h3><div class='impl-items'><h4 id='method.interpreter' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.interpreter' class='fnname'>interpreter</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../tcl/interpreter/struct.Interpreter.html' title='tcl::interpreter::Interpreter'>Interpreter</a>, &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;</code></h4>
 <div class='docblock'><p>Create a new Tcl interpreter</p>
 </div><h4 id='method.object' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.object' class='fnname'>object</a>(&amp;self) -&gt; <a class='struct' href='../../tcl/object/struct.Object.html' title='tcl::object::Object'>Object</a></code></h4>
 <div class='docblock'><p>Create an untyped Tcl value</p>

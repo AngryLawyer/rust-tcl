@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>tcl</a>::<wbr><a href='index.html'>interpreter</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Interpreter.html' title='An instance of a Tcl interpreter'>Interpreter</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.AppendStyle.html' title='When setting a variable, how should we handle existing values'>AppendStyle</a><a class='enum ' href='enum.ByteCompile.html' title='Should we byte compile a command'>ByteCompile</a><a class='enum ' href='enum.EvalScope.html' title='Which scope to evaluate a command in'>EvalScope</a><a class='enum ' href='enum.GetVariableScope.html' title='When getting variables, which scope to look in'>GetVariableScope</a><a class='enum ' href='enum.LeaveError.html' title='When setting a variable, should failure provide an error'>LeaveError</a><a class='enum ' href='enum.SetVariableScope.html' title='When setting variables, which scope to look in'>SetVariableScope</a></div>
+        <p class='location'><a href='../index.html'>tcl</a>::<wbr><a href='index.html'>interpreter</a></p><script>window.sidebarCurrent = {name: 'Interpreter', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
     <nav class="sub">
@@ -43,11 +43,11 @@
     <section id='main' class="content struct">
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>tcl</a>::<wbr><a href='index.html'>interpreter</a>::<wbr><a class='struct' href=''>Interpreter</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-990' href='../../src/tcl/interpreter.rs.html#63-66'>[src]</a></span></h1>
+        </span><a id='src-988' href='../../src/tcl/interpreter.rs.html#63-66'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Interpreter&lt;'env&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>An instance of a Tcl interpreter</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'env&gt; <a class='struct' href='../../tcl/interpreter/struct.Interpreter.html' title='tcl::interpreter::Interpreter'>Interpreter</a>&lt;'env&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>(env: &amp;<a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>) -&gt; <a class='struct' href='../../tcl/interpreter/struct.Interpreter.html' title='tcl::interpreter::Interpreter'>Interpreter</a></code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'env&gt; <a class='struct' href='../../tcl/interpreter/struct.Interpreter.html' title='tcl::interpreter::Interpreter'>Interpreter</a>&lt;'env&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>(env: &amp;<a class='struct' href='../../tcl/tcl/struct.TclEnvironment.html' title='tcl::tcl::TclEnvironment'>TclEnvironment</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../tcl/interpreter/struct.Interpreter.html' title='tcl::interpreter::Interpreter'>Interpreter</a>, &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;</code></h4>
 <div class='docblock'><p>Create a new Interpreter</p>
 </div><h4 id='method.raw' class='method'><a class='stability Unmarked' title='No stability level'></a><code>unsafe fn <a href='#method.raw' class='fnname'>raw</a>(&amp;mut self) -&gt; *mut <a class='type' href='../../rust-tcl-sys/tcl/type.Tcl_Interp.html' title='rust-tcl-sys::tcl::Tcl_Interp'>Tcl_Interp</a></code></h4>
 <h4 id='method.is_safe' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.is_safe' class='fnname'>is_safe</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
