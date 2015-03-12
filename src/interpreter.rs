@@ -398,4 +398,15 @@ impl <'env> Interpreter <'env> {
             }
         }
     }
+
+    /// Unset a variable
+    pub fn unset_variable(&mut self, var_name: &str, scope: GetVariableScope, leave_error: LeaveError) -> TclResult {
+        let flags = scope as i32 | leave_error as i32;
+        let buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
+
+        let result = unsafe {
+            Tcl_UnsetVar(self.raw, buf, flags)
+        };
+        TclResult::from_ll(result, self)
+    }
 }

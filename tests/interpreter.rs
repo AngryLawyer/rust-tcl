@@ -267,3 +267,19 @@ fn get_object_variable() {
     let out = interp.get_object_variable("llama", tcl::GetVariableScope::Standard, tcl::LeaveError::No);
     assert_eq!("7".to_string(), out.unwrap().get_string());
 }
+
+#[test]
+fn get_unset_variable() {
+    let env = tcl::init();
+    let mut interp = env.interpreter().unwrap();
+    assert_eq!("".to_string(), interp.get_variable("llama", tcl::GetVariableScope::Standard, tcl::LeaveError::No));
+}
+
+#[test]
+fn unset_variable() {
+    let env = tcl::init();
+    let mut interp = env.interpreter().unwrap();
+    interp.eval("set llama 7", tcl::EvalScope::Local);
+    interp.unset_variable("llama", tcl::GetVariableScope::Standard, tcl::LeaveError::No);
+    assert_eq!("".to_string(), interp.get_variable("llama", tcl::GetVariableScope::Standard, tcl::LeaveError::No));
+}
