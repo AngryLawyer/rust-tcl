@@ -374,13 +374,17 @@ impl <'env> Interpreter <'env> {
     */
 
     /// Get a simple string variable inside the interpreter
-    pub fn get_variable(&mut self, var_name: &str, scope: GetVariableScope, leave_error: LeaveError) -> String {
+    pub fn get_variable(&mut self, var_name: &str, scope: GetVariableScope, leave_error: LeaveError) -> Option<String> {
         let flags = scope as i32 | leave_error as i32;
         let var_buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
 
         unsafe {
             let result = Tcl_GetVar(self.raw, var_buf, flags);
-            String::from_utf8_lossy(CStr::from_ptr(result).to_bytes()).to_string()
+            if result != ptr::null() {
+                Some(String::from_utf8_lossy(CStr::from_ptr(result).to_bytes()).to_string())
+            } else {
+                None
+            }
         }
     }
 
