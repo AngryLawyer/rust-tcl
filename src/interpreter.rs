@@ -1,9 +1,12 @@
 use std::ffi::{CStr, CString};
 use std::path::Path;
 use std::ptr;
+use std::collections::HashMap;
+use std::boxed::into_raw;
 
 use ll::*;
 use tcl::{TclResult, TclEnvironment};
+use link::LinkedVariable;
 use object::Object;
 
 /// Which scope to evaluate a command in 
@@ -62,6 +65,7 @@ pub enum AppendStyle {
 /// An instance of a Tcl interpreter
 pub struct Interpreter <'env> {
     _env: &'env TclEnvironment,
+    links: HashMap<String, LinkedVariable>,
     raw: *mut Tcl_Interp
 }
 
@@ -86,7 +90,8 @@ impl <'env> Interpreter <'env> {
                 } else {
                     Ok(Interpreter {
                         _env: env,
-                        raw: raw
+                        links: HashMap::new(),
+                        raw: raw,
                     })
                 }
             }
@@ -412,5 +417,31 @@ impl <'env> Interpreter <'env> {
             Tcl_UnsetVar(self.raw, buf, flags)
         };
         TclResult::from_ll(result, self)
+    }
+
+    pub fn make_linked_i32(&mut self, var_name: &str) -> TclResult {
+        let var_name_owned = var_name.to_string();
+        let buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
+
+        match self.links.get(&var_name_owned) {
+            Some(_) => {
+                unsafe { Tcl_UnlinkVar(self.raw, buf) };
+            },
+            None => ()
+        };
+
+        let result;
+        let link = unsafe {
+            let raw = into_raw(Box::new(0i32));
+            result = Tcl_LinkVar(self.raw, buf, raw as *mut i8, 1); //FIXME
+            LinkedVariable::new(Box::from_raw(raw))
+        };
+
+        self.links.insert(var_name_owned.clone(), link);
+        TclResult::from_ll(result, self)
+    }
+
+    pub fn get_linked_i32(&mut self, var_name: &str) -> Option<&mut LinkedVariable> {
+        self.links.get_mut(&var_name.to_string())
     }
 }

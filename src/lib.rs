@@ -13,7 +13,10 @@ pub use tcl::*;
 pub use object::*;
 #[doc(no_inline)]
 pub use interpreter::*;
+#[doc(no_inline)]
+pub use link::*;
 
 pub mod tcl;
 pub mod object;
 pub mod interpreter;
+pub mod link;
