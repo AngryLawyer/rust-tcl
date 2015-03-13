@@ -1,20 +1,20 @@
-pub struct LinkedVariable {
-    value: Box<i32>
+pub struct LinkedVariable<T> {
+    value: Box<T>
 }
 
-impl LinkedVariable {
+impl <T + Copy> LinkedVariable<T + Copy> {
 
-    pub fn new(boxed: Box<i32>) -> LinkedVariable {
+    pub fn new(boxed: Box<T>) -> LinkedVariable<T> {
         LinkedVariable {
             value: boxed
         }
     }
 
-    pub fn set(&mut self, val: i32) {
+    pub fn set(&mut self, val: T) {
         *self.value = val;
     }
 
-    pub fn get(&self) -> i32 {
-        *self.value
+    pub fn get(&self) -> T {
+        (*self.value).clone()
     }
 }

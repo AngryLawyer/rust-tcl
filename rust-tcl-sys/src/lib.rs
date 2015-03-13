@@ -3,6 +3,8 @@ extern crate libc;
 
 pub use tcl::*;
 pub use shims::*;
+pub use constants::*;
 
 pub mod tcl;
 pub mod shims;
+pub mod constants;

@@ -9,6 +9,12 @@ use tcl::{TclResult, TclEnvironment};
 use link::LinkedVariable;
 use object::Object;
 
+/// The access attributes of a linked variable when accessed from Tcl
+pub enum LinkAccess {
+    ReadWrite = 0,
+    ReadOnly = TCL_LINK_READ_ONLY as isize
+}
+
 /// Which scope to evaluate a command in 
 pub enum EvalScope {
     /// Evaluate a command at the current scope
@@ -65,8 +71,8 @@ pub enum AppendStyle {
 /// An instance of a Tcl interpreter
 pub struct Interpreter <'env> {
     _env: &'env TclEnvironment,
-    links: HashMap<String, LinkedVariable>,
-    raw: *mut Tcl_Interp
+    raw: *mut Tcl_Interp,
+    i32_links: HashMap<String, LinkedVariable<i32>>,
 }
 
 #[unsafe_destructor]
@@ -90,7 +96,7 @@ impl <'env> Interpreter <'env> {
                 } else {
                     Ok(Interpreter {
                         _env: env,
-                        links: HashMap::new(),
+                        i32_links: HashMap::new(),
                         raw: raw,
                     })
                 }
@@ -419,11 +425,11 @@ impl <'env> Interpreter <'env> {
         TclResult::from_ll(result, self)
     }
 
-    pub fn make_linked_i32(&mut self, var_name: &str) -> TclResult {
+    pub fn make_linked_i32(&mut self, var_name: &str, link_access: LinkAccess) -> TclResult {
         let var_name_owned = var_name.to_string();
         let buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
 
-        match self.links.get(&var_name_owned) {
+        match self.i32_links.get(&var_name_owned) {
             Some(_) => {
                 unsafe { Tcl_UnlinkVar(self.raw, buf) };
             },
@@ -433,15 +439,15 @@ impl <'env> Interpreter <'env> {
         let result;
         let link = unsafe {
             let raw = into_raw(Box::new(0i32));
-            result = Tcl_LinkVar(self.raw, buf, raw as *mut i8, 1); //FIXME
+            result = Tcl_LinkVar(self.raw, buf, raw as *mut i8, link_access as i32 | TCL_LINK_INT as i32);
             LinkedVariable::new(Box::from_raw(raw))
         };
 
-        self.links.insert(var_name_owned.clone(), link);
+        self.i32_links.insert(var_name_owned.clone(), link);
         TclResult::from_ll(result, self)
     }
 
-    pub fn get_linked_i32(&mut self, var_name: &str) -> Option<&mut LinkedVariable> {
-        self.links.get_mut(&var_name.to_string())
+    pub fn get_linked_i32(&mut self, var_name: &str) -> Option<&mut LinkedVariable<i32>> {
+        self.i32_links.get_mut(&var_name.to_string())
     }
 }
