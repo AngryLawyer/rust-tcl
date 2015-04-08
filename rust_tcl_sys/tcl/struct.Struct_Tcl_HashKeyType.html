@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Struct_Tcl_HashKeyType` struct in crate `rust_tcl_sys`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Struct_Tcl_HashKeyType">
+
+    <title>rust_tcl_sys::tcl::Struct_Tcl_HashKeyType - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>rust_tcl_sys</a>::<wbr><a href='index.html'>tcl</a></p><script>window.sidebarCurrent = {name: 'Struct_Tcl_HashKeyType', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rust_tcl_sys</a>::<wbr><a href='index.html'>tcl</a>::<wbr><a class='struct' href=''>Struct_Tcl_HashKeyType</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-1903' href='../../src/rust_tcl_sys/tcl.rs.html#625-632'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Struct_Tcl_HashKeyType {
+    pub version: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>,
+    pub flags: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>,
+    pub hashKeyProc: *mut <a class='type' href='../../rust_tcl_sys/tcl/type.Tcl_HashKeyProc.html' title='rust_tcl_sys::tcl::Tcl_HashKeyProc'>Tcl_HashKeyProc</a>,
+    pub compareKeysProc: *mut <a class='type' href='../../rust_tcl_sys/tcl/type.Tcl_CompareHashKeysProc.html' title='rust_tcl_sys::tcl::Tcl_CompareHashKeysProc'>Tcl_CompareHashKeysProc</a>,
+    pub allocEntryProc: *mut <a class='type' href='../../rust_tcl_sys/tcl/type.Tcl_AllocHashEntryProc.html' title='rust_tcl_sys::tcl::Tcl_AllocHashEntryProc'>Tcl_AllocHashEntryProc</a>,
+    pub freeEntryProc: *mut <a class='type' href='../../rust_tcl_sys/tcl/type.Tcl_FreeHashEntryProc.html' title='rust_tcl_sys::tcl::Tcl_FreeHashEntryProc'>Tcl_FreeHashEntryProc</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr><td id='structfield.version'><a class='stability Unmarked' title='No stability level'></a><code>version</code></td><td></td></tr><tr><td id='structfield.flags'><a class='stability Unmarked' title='No stability level'></a><code>flags</code></td><td></td></tr><tr><td id='structfield.hashKeyProc'><a class='stability Unmarked' title='No stability level'></a><code>hashKeyProc</code></td><td></td></tr><tr><td id='structfield.compareKeysProc'><a class='stability Unmarked' title='No stability level'></a><code>compareKeysProc</code></td><td></td></tr><tr><td id='structfield.allocEntryProc'><a class='stability Unmarked' title='No stability level'></a><code>allocEntryProc</code></td><td></td></tr><tr><td id='structfield.freeEntryProc'><a class='stability Unmarked' title='No stability level'></a><code>freeEntryProc</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../rust_tcl_sys/tcl/struct.Struct_Tcl_HashKeyType.html' title='rust_tcl_sys::tcl::Struct_Tcl_HashKeyType'>Struct_Tcl_HashKeyType</a></code></h3><div class='impl-items'><h4 id='method.default' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../rust_tcl_sys/tcl/struct.Struct_Tcl_HashKeyType.html' title='rust_tcl_sys::tcl::Struct_Tcl_HashKeyType'>Struct_Tcl_HashKeyType</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rust_tcl_sys";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

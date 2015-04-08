@@ -1,0 +1,1 @@
+{"name":"rust_tcl_sys","counts":{"deprecated":0,"unstable":0,"stable":47,"unmarked":1063},"submodules":[{"name":"shims","counts":{"deprecated":0,"unstable":0,"stable":0,"unmarked":28},"submodules":[]},{"name":"tcl","counts":{"deprecated":0,"unstable":0,"stable":47,"unmarked":1034},"submodules":[]}]}

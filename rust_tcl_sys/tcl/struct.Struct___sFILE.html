@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Struct___sFILE` struct in crate `rust_tcl_sys`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Struct___sFILE">
+
+    <title>rust_tcl_sys::tcl::Struct___sFILE - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>rust_tcl_sys</a>::<wbr><a href='index.html'>tcl</a></p><script>window.sidebarCurrent = {name: 'Struct___sFILE', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rust_tcl_sys</a>::<wbr><a href='index.html'>tcl</a>::<wbr><a class='struct' href=''>Struct___sFILE</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-466' href='../../src/rust_tcl_sys/tcl.rs.html#191-224'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Struct___sFILE {
+    pub _p: *mut <a class='type' href='../../libc/types/os/arch/c95/type.c_uchar.html' title='libc::types::os::arch::c95::c_uchar'>c_uchar</a>,
+    pub _r: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>,
+    pub _w: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>,
+    pub _flags: <a class='type' href='../../libc/types/os/arch/c95/type.c_short.html' title='libc::types::os::arch::c95::c_short'>c_short</a>,
+    pub _file: <a class='type' href='../../libc/types/os/arch/c95/type.c_short.html' title='libc::types::os::arch::c95::c_short'>c_short</a>,
+    pub _bf: <a class='struct' href='../../rust_tcl_sys/tcl/struct.Struct___sbuf.html' title='rust_tcl_sys::tcl::Struct___sbuf'>Struct___sbuf</a>,
+    pub _lbfsize: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>,
+    pub _cookie: *mut <a class='enum' href='../../libc/types/common/c95/enum.c_void.html' title='libc::types::common::c95::c_void'>c_void</a>,
+    pub _close: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt; extern "C" fn(arg1: *mut <a class='enum' href='../../libc/types/common/c95/enum.c_void.html' title='libc::types::common::c95::c_void'>c_void</a>) -&gt; <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>&gt;,
+    pub _read: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt; extern "C" fn(arg1: *mut <a class='enum' href='../../libc/types/common/c95/enum.c_void.html' title='libc::types::common::c95::c_void'>c_void</a>, arg2: *mut <a class='type' href='../../libc/types/os/arch/c95/type.c_char.html' title='libc::types::os::arch::c95::c_char'>c_char</a>, arg3: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>) -&gt; <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>&gt;,
+    pub _seek: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt; extern "C" fn(arg1: *mut <a class='enum' href='../../libc/types/common/c95/enum.c_void.html' title='libc::types::common::c95::c_void'>c_void</a>, arg2: <a class='type' href='../../rust_tcl_sys/tcl/type.fpos_t.html' title='rust_tcl_sys::tcl::fpos_t'>fpos_t</a>, arg3: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>) -&gt; <a class='type' href='../../rust_tcl_sys/tcl/type.fpos_t.html' title='rust_tcl_sys::tcl::fpos_t'>fpos_t</a>&gt;,
+    pub _write: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt; extern "C" fn(arg1: *mut <a class='enum' href='../../libc/types/common/c95/enum.c_void.html' title='libc::types::common::c95::c_void'>c_void</a>, arg2: *const <a class='type' href='../../libc/types/os/arch/c95/type.c_char.html' title='libc::types::os::arch::c95::c_char'>c_char</a>, arg3: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>) -&gt; <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>&gt;,
+    pub _ub: <a class='struct' href='../../rust_tcl_sys/tcl/struct.Struct___sbuf.html' title='rust_tcl_sys::tcl::Struct___sbuf'>Struct___sbuf</a>,
+    pub _extra: *mut <a class='enum' href='../../rust_tcl_sys/tcl/enum.Struct___sFILEX.html' title='rust_tcl_sys::tcl::Struct___sFILEX'>Struct___sFILEX</a>,
+    pub _ur: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>,
+    pub _ubuf: <a href='http://doc.rust-lang.org/nightly/std/primitive.array.html'>[<a class='type' href='../../libc/types/os/arch/c95/type.c_uchar.html' title='libc::types::os::arch::c95::c_uchar'>c_uchar</a>; 3usize]</a>,
+    pub _nbuf: <a href='http://doc.rust-lang.org/nightly/std/primitive.array.html'>[<a class='type' href='../../libc/types/os/arch/c95/type.c_uchar.html' title='libc::types::os::arch::c95::c_uchar'>c_uchar</a>; 1usize]</a>,
+    pub _lb: <a class='struct' href='../../rust_tcl_sys/tcl/struct.Struct___sbuf.html' title='rust_tcl_sys::tcl::Struct___sbuf'>Struct___sbuf</a>,
+    pub _blksize: <a class='type' href='../../libc/types/os/arch/c95/type.c_int.html' title='libc::types::os::arch::c95::c_int'>c_int</a>,
+    pub _offset: <a class='type' href='../../rust_tcl_sys/tcl/type.fpos_t.html' title='rust_tcl_sys::tcl::fpos_t'>fpos_t</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr><td id='structfield._p'><a class='stability Unmarked' title='No stability level'></a><code>_p</code></td><td></td></tr><tr><td id='structfield._r'><a class='stability Unmarked' title='No stability level'></a><code>_r</code></td><td></td></tr><tr><td id='structfield._w'><a class='stability Unmarked' title='No stability level'></a><code>_w</code></td><td></td></tr><tr><td id='structfield._flags'><a class='stability Unmarked' title='No stability level'></a><code>_flags</code></td><td></td></tr><tr><td id='structfield._file'><a class='stability Unmarked' title='No stability level'></a><code>_file</code></td><td></td></tr><tr><td id='structfield._bf'><a class='stability Unmarked' title='No stability level'></a><code>_bf</code></td><td></td></tr><tr><td id='structfield._lbfsize'><a class='stability Unmarked' title='No stability level'></a><code>_lbfsize</code></td><td></td></tr><tr><td id='structfield._cookie'><a class='stability Unmarked' title='No stability level'></a><code>_cookie</code></td><td></td></tr><tr><td id='structfield._close'><a class='stability Unmarked' title='No stability level'></a><code>_close</code></td><td></td></tr><tr><td id='structfield._read'><a class='stability Unmarked' title='No stability level'></a><code>_read</code></td><td></td></tr><tr><td id='structfield._seek'><a class='stability Unmarked' title='No stability level'></a><code>_seek</code></td><td></td></tr><tr><td id='structfield._write'><a class='stability Unmarked' title='No stability level'></a><code>_write</code></td><td></td></tr><tr><td id='structfield._ub'><a class='stability Unmarked' title='No stability level'></a><code>_ub</code></td><td></td></tr><tr><td id='structfield._extra'><a class='stability Unmarked' title='No stability level'></a><code>_extra</code></td><td></td></tr><tr><td id='structfield._ur'><a class='stability Unmarked' title='No stability level'></a><code>_ur</code></td><td></td></tr><tr><td id='structfield._ubuf'><a class='stability Unmarked' title='No stability level'></a><code>_ubuf</code></td><td></td></tr><tr><td id='structfield._nbuf'><a class='stability Unmarked' title='No stability level'></a><code>_nbuf</code></td><td></td></tr><tr><td id='structfield._lb'><a class='stability Unmarked' title='No stability level'></a><code>_lb</code></td><td></td></tr><tr><td id='structfield._blksize'><a class='stability Unmarked' title='No stability level'></a><code>_blksize</code></td><td></td></tr><tr><td id='structfield._offset'><a class='stability Unmarked' title='No stability level'></a><code>_offset</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../rust_tcl_sys/tcl/struct.Struct___sFILE.html' title='rust_tcl_sys::tcl::Struct___sFILE'>Struct___sFILE</a></code></h3><div class='impl-items'><h4 id='method.default' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../rust_tcl_sys/tcl/struct.Struct___sFILE.html' title='rust_tcl_sys::tcl::Struct___sFILE'>Struct___sFILE</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rust_tcl_sys";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>
