@@ -1,6 +1,6 @@
 [package]
 
-name = "rust_tcl"
+name = "rust-tcl"
 description = "Tcl bindings for Rust"
 version = "0.2.0"
 authors = ["Tony Aldridge <tony@angry-lawyer.com>"]
