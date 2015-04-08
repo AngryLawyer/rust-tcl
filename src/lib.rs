@@ -1,9 +1,7 @@
-#![feature(path, unsafe_destructor, core)]
-
 #![crate_type= "lib"]
 #![crate_name= "tcl"]
 
-extern crate "rust-tcl-sys" as ll;
+extern crate rust_tcl_sys as ll;
 #[macro_use]
 extern crate bitflags;
 

@@ -3,14 +3,14 @@
 name = "rust-tcl-sys"
 description = "Raw Tcl bindings for Rust, used internally rust-tcl"
 repository = "https://github.com/AngryLawyer/rust-tcl"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Tony Aldridge <tony@angry-lawyer.com>"]
 license = "MIT"
 links = "Rust-Tcl"
 build = "build.rs"
 
 [lib]
-name = "rust-tcl-sys"
+name = "rust_tcl_sys"
 path = "src/lib.rs"
 
 [dependencies]

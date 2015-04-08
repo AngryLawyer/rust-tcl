@@ -65,7 +65,6 @@ pub struct Interpreter <'env> {
     raw: *mut Tcl_Interp
 }
 
-#[unsafe_destructor]
 impl <'env> Drop for Interpreter <'env> {
     fn drop(&mut self) {
         unsafe { Tcl_DeleteInterp(self.raw) };

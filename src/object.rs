@@ -190,7 +190,6 @@ impl <'env> Object <'env> {
     }
 }
 
-#[unsafe_destructor]
 impl <'env> Drop for Object <'env> {
     fn drop(&mut self) {
         unsafe { Tcl_DecrRefCount(self.raw) };
