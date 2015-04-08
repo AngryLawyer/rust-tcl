@@ -1,5 +1,5 @@
 extern crate tcl;
-extern crate "rust-tcl-sys" as ll;
+extern crate rust_tcl_sys as ll;
 
 #[test]
 fn new_object() {

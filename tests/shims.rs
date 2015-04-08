@@ -1,4 +1,4 @@
-extern crate "rust-tcl-sys" as ll;
+extern crate rust_tcl_sys as ll;
 
 use std::ptr;
 

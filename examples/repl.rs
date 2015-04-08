@@ -1,5 +1,3 @@
-#![feature(io, core)]
-
 extern crate tcl;
 use std::io;
 use std::io::BufRead;
@@ -30,7 +28,7 @@ impl LineAccumulator {
     pub fn consume(&mut self, string: String) -> Option<String> {
         let mut escaped = false;
 
-        for c in string.as_slice().chars() {
+        for c in string.chars() {
             if escaped {
                 escaped = false;
             } else if c == '\\' {
@@ -112,7 +110,7 @@ pub fn main() {
 
     loop {
         let command = get_input(&input);
-        let result = interp.eval(command.as_slice(), tcl::EvalScope::Local);
+        let result = interp.eval(&command[..], tcl::EvalScope::Local);
 
         match result {
             tcl::TclResult::Error(string) => {

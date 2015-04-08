@@ -12,7 +12,6 @@ pub type __darwin_intptr_t = ::libc::c_long;
 pub type __darwin_natural_t = ::libc::c_uint;
 pub type __darwin_ct_rune_t = ::libc::c_int;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Union_Unnamed1 {
     pub _bindgen_data_: [u64; 16usize],
 }
@@ -60,7 +59,6 @@ pub type __darwin_useconds_t = __uint32_t;
 pub type __darwin_uuid_t = [::libc::c_uchar; 16usize];
 pub type __darwin_uuid_string_t = [::libc::c_char; 37usize];
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct___darwin_pthread_handler_rec {
     pub __routine: ::std::option::Option<extern "C" fn
                                              (arg1: *mut ::libc::c_void)
@@ -74,7 +72,6 @@ impl ::std::default::Default for Struct___darwin_pthread_handler_rec {
     }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct__opaque_pthread_attr_t {
     pub __sig: ::libc::c_long,
     pub __opaque: [::libc::c_char; 56usize],
@@ -85,7 +82,6 @@ impl ::std::default::Default for Struct__opaque_pthread_attr_t {
     }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct__opaque_pthread_cond_t {
     pub __sig: ::libc::c_long,
     pub __opaque: [::libc::c_char; 40usize],
@@ -96,7 +92,6 @@ impl ::std::default::Default for Struct__opaque_pthread_cond_t {
     }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct__opaque_pthread_condattr_t {
     pub __sig: ::libc::c_long,
     pub __opaque: [::libc::c_char; 8usize],
@@ -107,7 +102,6 @@ impl ::std::default::Default for Struct__opaque_pthread_condattr_t {
     }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct__opaque_pthread_mutex_t {
     pub __sig: ::libc::c_long,
     pub __opaque: [::libc::c_char; 56usize],
@@ -118,7 +112,6 @@ impl ::std::default::Default for Struct__opaque_pthread_mutex_t {
     }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct__opaque_pthread_mutexattr_t {
     pub __sig: ::libc::c_long,
     pub __opaque: [::libc::c_char; 8usize],
@@ -129,7 +122,6 @@ impl ::std::default::Default for Struct__opaque_pthread_mutexattr_t {
     }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct__opaque_pthread_once_t {
     pub __sig: ::libc::c_long,
     pub __opaque: [::libc::c_char; 8usize],
@@ -140,7 +132,6 @@ impl ::std::default::Default for Struct__opaque_pthread_once_t {
     }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct__opaque_pthread_rwlock_t {
     pub __sig: ::libc::c_long,
     pub __opaque: [::libc::c_char; 192usize],
@@ -151,7 +142,6 @@ impl ::std::default::Default for Struct__opaque_pthread_rwlock_t {
     }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct__opaque_pthread_rwlockattr_t {
     pub __sig: ::libc::c_long,
     pub __opaque: [::libc::c_char; 16usize],
@@ -162,7 +152,6 @@ impl ::std::default::Default for Struct__opaque_pthread_rwlockattr_t {
     }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct__opaque_pthread_t {
     pub __sig: ::libc::c_long,
     pub __cleanup_stack: *mut Struct___darwin_pthread_handler_rec,
@@ -190,7 +179,6 @@ pub type __darwin_wctype_t = __uint32_t;
 pub type size_t = __darwin_size_t;
 pub type fpos_t = __darwin_off_t;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct___sbuf {
     pub _base: *mut ::libc::c_uchar,
     pub _size: ::libc::c_int,
@@ -200,7 +188,6 @@ impl ::std::default::Default for Struct___sbuf {
 }
 pub enum Struct___sFILEX { }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct___sFILE {
     pub _p: *mut ::libc::c_uchar,
     pub _r: ::libc::c_int,
@@ -248,7 +235,6 @@ pub type Tcl_WideUInt = ::libc::c_ulong;
 pub enum Struct_stat { }
 pub type Tcl_StatBuf = Struct_stat;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Interp {
     pub resultDontUse: *mut ::libc::c_char,
     pub freeProcDontUse: ::std::option::Option<extern "C" fn
@@ -301,7 +287,6 @@ pub enum Struct_Tcl_ZLibStream_ { }
 pub type Tcl_ZlibStream = *mut Struct_Tcl_ZLibStream_;
 pub type Tcl_ThreadCreateProc = extern "C" fn(clientData: ClientData) -> ();
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_RegExpIndices {
     pub start: ::libc::c_long,
     pub end: ::libc::c_long,
@@ -313,7 +298,6 @@ impl ::std::default::Default for Struct_Tcl_RegExpIndices {
 }
 pub type Tcl_RegExpIndices = Struct_Tcl_RegExpIndices;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_RegExpInfo {
     pub nsubs: ::libc::c_int,
     pub matches: *mut Tcl_RegExpIndices,
@@ -333,7 +317,6 @@ pub const TCL_EITHER: ::libc::c_uint = 2;
 pub const TCL_WIDE_INT: ::libc::c_uint = 3;
 pub type Tcl_ValueType = Enum_Unnamed2;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Value {
     pub _type: Tcl_ValueType,
     pub intValue: ::libc::c_long,
@@ -453,7 +436,6 @@ pub type Tcl_FinalizeNotifierProc =
     extern "C" fn(clientData: ClientData) -> ();
 pub type Tcl_MainLoopProc = extern "C" fn() -> ();
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_ObjType {
     pub name: *const ::libc::c_char,
     pub freeIntRepProc: *mut Tcl_FreeInternalRepProc,
@@ -466,7 +448,6 @@ impl ::std::default::Default for Struct_Tcl_ObjType {
 }
 pub type Tcl_ObjType = Struct_Tcl_ObjType;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Obj {
     pub refCount: ::libc::c_int,
     pub bytes: *mut ::libc::c_char,
@@ -478,7 +459,6 @@ impl ::std::default::Default for Struct_Tcl_Obj {
     fn default() -> Struct_Tcl_Obj { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Union_Unnamed3 {
     pub _bindgen_data_: [u64; 2usize],
 }
@@ -506,7 +486,6 @@ impl ::std::default::Default for Union_Unnamed3 {
     fn default() -> Union_Unnamed3 { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Unnamed4 {
     pub ptr1: *mut ::libc::c_void,
     pub ptr2: *mut ::libc::c_void,
@@ -515,7 +494,6 @@ impl ::std::default::Default for Struct_Unnamed4 {
     fn default() -> Struct_Unnamed4 { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Unnamed5 {
     pub ptr: *mut ::libc::c_void,
     pub value: ::libc::c_ulong,
@@ -525,7 +503,6 @@ impl ::std::default::Default for Struct_Unnamed5 {
 }
 pub type Tcl_Obj = Struct_Tcl_Obj;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_SavedResult {
     pub result: *mut ::libc::c_char,
     pub freeProc: *mut Tcl_FreeProc,
@@ -540,7 +517,6 @@ impl ::std::default::Default for Struct_Tcl_SavedResult {
 }
 pub type Tcl_SavedResult = Struct_Tcl_SavedResult;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Namespace {
     pub name: *mut ::libc::c_char,
     pub fullName: *mut ::libc::c_char,
@@ -553,7 +529,6 @@ impl ::std::default::Default for Struct_Tcl_Namespace {
 }
 pub type Tcl_Namespace = Struct_Tcl_Namespace;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_CallFrame {
     pub nsPtr: *mut Tcl_Namespace,
     pub dummy1: ::libc::c_int,
@@ -575,7 +550,6 @@ impl ::std::default::Default for Struct_Tcl_CallFrame {
 }
 pub type Tcl_CallFrame = Struct_Tcl_CallFrame;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_CmdInfo {
     pub isNativeObjectProc: ::libc::c_int,
     pub objProc: *mut Tcl_ObjCmdProc,
@@ -591,7 +565,6 @@ impl ::std::default::Default for Struct_Tcl_CmdInfo {
 }
 pub type Tcl_CmdInfo = Struct_Tcl_CmdInfo;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_DString {
     pub string: *mut ::libc::c_char,
     pub length: ::libc::c_int,
@@ -617,7 +590,6 @@ pub type Tcl_AllocHashEntryProc =
 pub type Tcl_FreeHashEntryProc =
     extern "C" fn(hPtr: *mut Tcl_HashEntry) -> ();
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_HashEntry {
     pub nextPtr: *mut Tcl_HashEntry,
     pub tablePtr: *mut Tcl_HashTable,
@@ -629,7 +601,6 @@ impl ::std::default::Default for Struct_Tcl_HashEntry {
     fn default() -> Struct_Tcl_HashEntry { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Union_Unnamed6 {
     pub _bindgen_data_: [u64; 1usize],
 }
@@ -651,7 +622,6 @@ impl ::std::default::Default for Union_Unnamed6 {
     fn default() -> Union_Unnamed6 { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_HashKeyType {
     pub version: ::libc::c_int,
     pub flags: ::libc::c_int,
@@ -664,7 +634,6 @@ impl ::std::default::Default for Struct_Tcl_HashKeyType {
     fn default() -> Struct_Tcl_HashKeyType { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_HashTable {
     pub buckets: *mut *mut Tcl_HashEntry,
     pub staticBuckets: [*mut Tcl_HashEntry; 4usize],
@@ -689,7 +658,6 @@ impl ::std::default::Default for Struct_Tcl_HashTable {
     fn default() -> Struct_Tcl_HashTable { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_HashSearch {
     pub tablePtr: *mut Tcl_HashTable,
     pub nextIndex: ::libc::c_int,
@@ -700,7 +668,6 @@ impl ::std::default::Default for Struct_Tcl_HashSearch {
 }
 pub type Tcl_HashSearch = Struct_Tcl_HashSearch;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Unnamed7 {
     pub next: *mut ::libc::c_void,
     pub epoch: ::libc::c_int,
@@ -711,7 +678,6 @@ impl ::std::default::Default for Struct_Unnamed7 {
 }
 pub type Tcl_DictSearch = Struct_Unnamed7;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Event {
     pub _proc: *mut Tcl_EventProc,
     pub nextPtr: *mut Struct_Tcl_Event,
@@ -725,7 +691,6 @@ pub const TCL_QUEUE_HEAD: ::libc::c_uint = 1;
 pub const TCL_QUEUE_MARK: ::libc::c_uint = 2;
 pub type Tcl_QueuePosition = Enum_Unnamed8;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Time {
     pub sec: ::libc::c_long,
     pub usec: ::libc::c_long,
@@ -797,7 +762,6 @@ pub type Tcl_DriverTruncateProc =
     extern "C" fn(instanceData: ClientData, length: Tcl_WideInt)
         -> ::libc::c_int;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_ChannelType {
     pub typeName: *const ::libc::c_char,
     pub version: Tcl_ChannelTypeVersion,
@@ -827,7 +791,6 @@ pub const TCL_PATH_RELATIVE: ::libc::c_uint = 1;
 pub const TCL_PATH_VOLUME_RELATIVE: ::libc::c_uint = 2;
 pub type Tcl_PathType = Enum_Tcl_PathType;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_GlobTypeData {
     pub _type: ::libc::c_int,
     pub perm: ::libc::c_int,
@@ -929,7 +892,6 @@ pub type Tcl_FSCreateInternalRepProc =
 pub enum Struct_Tcl_FSVersion_ { }
 pub type Tcl_FSVersion = *mut Struct_Tcl_FSVersion_;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Filesystem {
     pub typeName: *const ::libc::c_char,
     pub structureLength: ::libc::c_int,
@@ -968,7 +930,6 @@ impl ::std::default::Default for Struct_Tcl_Filesystem {
 }
 pub type Tcl_Filesystem = Struct_Tcl_Filesystem;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_NotifierProcs {
     pub setTimerProc: *mut Tcl_SetTimerProc,
     pub waitForEventProc: *mut Tcl_WaitForEventProc,
@@ -986,7 +947,6 @@ impl ::std::default::Default for Struct_Tcl_NotifierProcs {
 }
 pub type Tcl_NotifierProcs = Struct_Tcl_NotifierProcs;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Token {
     pub _type: ::libc::c_int,
     pub start: *const ::libc::c_char,
@@ -998,7 +958,6 @@ impl ::std::default::Default for Struct_Tcl_Token {
 }
 pub type Tcl_Token = Struct_Tcl_Token;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Parse {
     pub commentStart: *const ::libc::c_char,
     pub commentSize: ::libc::c_int,
@@ -1021,7 +980,6 @@ impl ::std::default::Default for Struct_Tcl_Parse {
 }
 pub type Tcl_Parse = Struct_Tcl_Parse;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_EncodingType {
     pub encodingName: *const ::libc::c_char,
     pub toUtfProc: *mut Tcl_EncodingConvertProc,
@@ -1038,7 +996,6 @@ impl ::std::default::Default for Struct_Tcl_EncodingType {
 pub type Tcl_EncodingType = Struct_Tcl_EncodingType;
 pub type Tcl_UniChar = ::libc::c_ushort;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Tcl_Config {
     pub key: *const ::libc::c_char,
     pub value: *const ::libc::c_char,
@@ -1055,7 +1012,6 @@ pub enum Struct_mp_int { }
 pub type mp_int = Struct_mp_int;
 pub type mp_digit = ::libc::c_uint;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Unnamed9 {
     pub _type: ::libc::c_int,
     pub keyStr: *const ::libc::c_char,
@@ -1084,7 +1040,6 @@ pub type Tcl_NRPostProc =
 pub enum Struct_TclIntStubs { }
 pub enum Struct_TclIntPlatStubs { }
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Unnamed10 {
     pub tclPlatStubs: *const Struct_TclPlatStubs,
     pub tclIntStubs: *const Struct_TclIntStubs,
@@ -1095,7 +1050,6 @@ impl ::std::default::Default for Struct_Unnamed10 {
 }
 pub type TclStubHooks = Struct_Unnamed10;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_TclStubs {
     pub magic: ::libc::c_int,
     pub hooks: *const TclStubHooks,
@@ -4645,7 +4599,6 @@ impl ::std::default::Default for Struct_TclStubs {
 }
 pub type TclStubs = Struct_TclStubs;
 #[repr(C)]
-#[derive(Copy)]
 pub struct Struct_TclPlatStubs {
     pub magic: ::libc::c_int,
     pub hooks: *mut ::libc::c_void,

@@ -1,4 +1,3 @@
-#![feature(path)]
 extern crate tcl;
 use std::path::Path;
 
