@@ -37,41 +37,7 @@ impl TclEnvironment {
     }
 
     /// Create a new Tcl value
-    pub fn object<V: IntoObject>(&self, val: V) -> Object {
-        Object::new(self, val)
-    }
-
-    /// Create a Boolean Tcl value
-    pub fn boolean(&self, val: bool) -> Object {
-       Object::new(self, val)
-    }
-
-    /// Create an Integer Tcl value
-    pub fn integer(&self, val: i32) -> Object {
-       Object::new(self, val)
-    }
-
-    /// Create a Long Tcl value
-    pub fn long(&self, val: i64) -> Object {
-       Object::new(self, val)
-    }
-
-    //TODO: WideInt
-    //TODO: BigNum
-
-
-    /// Create a Double Tcl value
-    pub fn double(&self, val: f64) -> Object {
-       Object::new(self, val)
-    }
-
-    /// Create a String Tcl value
-    pub fn string(&self, val: &str) -> Object {
-        Object::new(self, val)
-    }
-
-    /// Create a Byte Array Tcl value
-    pub fn byte_array(&self, val: &[u8]) -> Object {
+    pub fn new_object<V: IntoObject>(&self, val: V) -> Object {
         Object::new(self, val)
     }
 }
