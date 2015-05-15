@@ -11,7 +11,11 @@ pub struct Object<'env> {
 }
 
 pub trait IntoObject {
+    /// Converts self into a Tcl object.
     fn into_object(self, &TclEnvironment) -> Object;
+    /// Updates the value of a Tcl object.
+    /// FIXME: & or &mut?
+    fn set_object(self, &Object);
 }
 
 impl IntoObject for () {
@@ -25,6 +29,8 @@ impl IntoObject for () {
             }
         }
     }
+
+    fn set_object(self, _: &Object) {}
 }
 
 impl IntoObject for i32 {
@@ -36,6 +42,12 @@ impl IntoObject for i32 {
                 Tcl_IncrRefCount(raw);
                 raw
             }
+        }
+    }
+
+    fn set_object(self, obj: &Object) {
+        unsafe {
+            Tcl_SetIntObj(obj.raw, self);
         }
     }
 }
@@ -51,6 +63,12 @@ impl IntoObject for bool {
             }
         }
     }
+
+    fn set_object(self, obj: &Object) {
+        unsafe {
+            Tcl_SetBooleanObj(obj.raw, if self { 1 } else { 0 });
+        }
+    }
 }
 
 impl IntoObject for i64 {
@@ -62,6 +80,12 @@ impl IntoObject for i64 {
                 Tcl_IncrRefCount(raw);
                 raw
             }
+        }
+    }
+
+    fn set_object(self, obj: &Object) {
+        unsafe {
+            Tcl_SetLongObj(obj.raw, self);
         }
     }
 }
@@ -80,6 +104,12 @@ impl IntoObject for f64 {
             }
         }
     }
+
+    fn set_object(self, obj: &Object) {
+        unsafe {
+            Tcl_SetDoubleObj(obj.raw, self);
+        }
+    }
 }
 
 impl<'a> IntoObject for &'a str {
@@ -94,6 +124,13 @@ impl<'a> IntoObject for &'a str {
             }
         }
     }
+
+    fn set_object(self, obj: &Object) {
+        let buf = CString::new(self.as_bytes()).unwrap().as_ptr();
+        unsafe {
+            Tcl_SetStringObj(obj.raw, buf, self.len() as i32);
+        }
+    }
 }
 
 impl<'a> IntoObject for &'a [u8] {
@@ -105,6 +142,12 @@ impl<'a> IntoObject for &'a [u8] {
                 Tcl_IncrRefCount(raw);
                 raw
             }
+        }
+    }
+
+    fn set_object(self, obj: &Object) {
+        unsafe {
+            Tcl_SetByteArrayObj(obj.raw, self.as_ptr(), self.len() as i32);
         }
     }
 }
@@ -126,52 +169,9 @@ impl<'env> Object<'env> {
         val.into_object(env)
     }
 
-    // Setters
-
-    /// Set the contents of a Tcl value to a boolean
-    pub fn set_boolean(&mut self, val: bool) {
-        unsafe {
-            Tcl_SetBooleanObj(self.raw, if val { 1 } else { 0 });
-        }
-    }
-
-    /// Set the contents of a Tcl value to an integer
-    pub fn set_integer(&mut self, val: i32) {
-        unsafe {
-            Tcl_SetIntObj(self.raw, val);
-        }
-    }
-
-    /// Set the contents of a Tcl value to a long
-    pub fn set_long(&mut self, val: i64) {
-        unsafe {
-            Tcl_SetLongObj(self.raw, val);
-        }
-    }
-
-    //TODO: WideInt
-    //TODO: BigNum
-
-    /// Set the contents of a Tcl value to a double
-    pub fn set_double(&mut self, val: f64) {
-        unsafe {
-            Tcl_SetDoubleObj(self.raw, val);
-        }
-    }
-
-    /// Set the contents of a Tcl value to a string
-    pub fn set_string(&mut self, val: &str) {
-        let buf = CString::new(val.as_bytes()).unwrap().as_ptr();
-        unsafe {
-            Tcl_SetStringObj(self.raw, buf, val.len() as i32);
-        }
-    }
-
-    /// Set the contents of a Tcl value to a byte array
-    pub fn set_byte_array(&mut self, val: &[u8]) {
-        unsafe {
-            Tcl_SetByteArrayObj(self.raw, val.as_ptr(), val.len() as i32);
-        }
+    // Set the contents of a Tcl value to val
+    pub fn set<V: IntoObject>(&mut self, val: V) {
+        val.set_object(self)
     }
 
     // Getters
