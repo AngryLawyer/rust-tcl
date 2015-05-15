@@ -5,7 +5,7 @@ use std::sync;
 
 use ll::*;
 use interpreter::Interpreter;
-use object::Object;
+use object::{Object, IntoObject};
 
 static INIT_TCL: sync::Once = sync::ONCE_INIT;
 
@@ -36,24 +36,24 @@ impl TclEnvironment {
        Interpreter::new(self)
     }
 
-    /// Create an untyped Tcl value
-    pub fn object(&self) -> Object {
-       Object::new(self)
+    /// Create a new Tcl value
+    pub fn object<V: IntoObject>(&self, val: V) -> Object {
+        Object::new(self, val)
     }
 
     /// Create a Boolean Tcl value
     pub fn boolean(&self, val: bool) -> Object {
-       Object::new_boolean(self, val)
+       Object::new(self, val)
     }
 
     /// Create an Integer Tcl value
     pub fn integer(&self, val: i32) -> Object {
-       Object::new_integer(self, val)
+       Object::new(self, val)
     }
 
     /// Create a Long Tcl value
     pub fn long(&self, val: i64) -> Object {
-       Object::new_long(self, val)
+       Object::new(self, val)
     }
 
     //TODO: WideInt
@@ -62,17 +62,17 @@ impl TclEnvironment {
 
     /// Create a Double Tcl value
     pub fn double(&self, val: f64) -> Object {
-       Object::new_double(self, val)
+       Object::new(self, val)
     }
 
     /// Create a String Tcl value
     pub fn string(&self, val: &str) -> Object {
-        Object::new_string(self, val)
+        Object::new(self, val)
     }
 
     /// Create a Byte Array Tcl value
     pub fn byte_array(&self, val: &[u8]) -> Object {
-        Object::new_byte_array(self, val)
+        Object::new(self, val)
     }
 }
 

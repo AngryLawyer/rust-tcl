@@ -4,7 +4,7 @@ extern crate rust_tcl_sys as ll;
 #[test]
 fn new_object() {
     let env = tcl::init();
-    env.object();
+    env.object(());
 }
 
 #[test]
@@ -28,7 +28,7 @@ fn clone_object() {
 fn is_shared() {
 
     let env = tcl::init();
-    let obj = env.object();
+    let obj = env.object(());
     assert_eq!(false, obj.is_shared());
     unsafe {
         ll::Tcl_IncrRefCount(obj.raw());

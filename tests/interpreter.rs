@@ -88,7 +88,7 @@ fn list_append() {
     let env = tcl::init();
 
     let mut interp = env.interpreter().unwrap();
-    let mut command_list = env.object();
+    let mut command_list = env.object(());
     interp.list_append(&mut command_list, &env.string("expr"));
     interp.list_append(&mut command_list, &env.string("1+2"));
 
