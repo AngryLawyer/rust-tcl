@@ -14,8 +14,7 @@ pub trait IntoObject {
     /// Converts self into a Tcl object.
     fn into_object(self, &TclEnvironment) -> Object;
     /// Updates the value of a Tcl object.
-    /// FIXME: & or &mut?
-    fn set_object(self, &Object);
+    fn set_object(self, &mut Object);
 }
 
 impl IntoObject for () {
@@ -30,7 +29,7 @@ impl IntoObject for () {
         }
     }
 
-    fn set_object(self, _: &Object) {}
+    fn set_object(self, _: &mut Object) {}
 }
 
 impl IntoObject for i32 {
@@ -45,7 +44,7 @@ impl IntoObject for i32 {
         }
     }
 
-    fn set_object(self, obj: &Object) {
+    fn set_object(self, obj: &mut Object) {
         unsafe {
             Tcl_SetIntObj(obj.raw, self);
         }
@@ -64,7 +63,7 @@ impl IntoObject for bool {
         }
     }
 
-    fn set_object(self, obj: &Object) {
+    fn set_object(self, obj: &mut Object) {
         unsafe {
             Tcl_SetBooleanObj(obj.raw, if self { 1 } else { 0 });
         }
@@ -83,7 +82,7 @@ impl IntoObject for i64 {
         }
     }
 
-    fn set_object(self, obj: &Object) {
+    fn set_object(self, obj: &mut Object) {
         unsafe {
             Tcl_SetLongObj(obj.raw, self);
         }
@@ -105,7 +104,7 @@ impl IntoObject for f64 {
         }
     }
 
-    fn set_object(self, obj: &Object) {
+    fn set_object(self, obj: &mut Object) {
         unsafe {
             Tcl_SetDoubleObj(obj.raw, self);
         }
@@ -125,7 +124,7 @@ impl<'a> IntoObject for &'a str {
         }
     }
 
-    fn set_object(self, obj: &Object) {
+    fn set_object(self, obj: &mut Object) {
         let buf = CString::new(self.as_bytes()).unwrap().as_ptr();
         unsafe {
             Tcl_SetStringObj(obj.raw, buf, self.len() as i32);
@@ -145,7 +144,7 @@ impl<'a> IntoObject for &'a [u8] {
         }
     }
 
-    fn set_object(self, obj: &Object) {
+    fn set_object(self, obj: &mut Object) {
         unsafe {
             Tcl_SetByteArrayObj(obj.raw, self.as_ptr(), self.len() as i32);
         }
@@ -218,7 +217,10 @@ impl<'env> Clone for Object<'env> {
         Object {
             _env: self._env,
             raw: unsafe {
+                // FIXME change clone semantics. Object is like Rc:
+                // Rc::clone does not clone the contents but only the pointer
                 let raw = Tcl_DuplicateObj(self.raw);
+                // TODO check if this incr ref count correct in this case
                 Tcl_IncrRefCount(raw);
                 raw
             }
