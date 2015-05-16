@@ -10,14 +10,14 @@ pub struct Object<'env> {
     raw: *mut Tcl_Obj
 }
 
-pub trait IntoObject {
+pub trait TclObject {
     /// Converts self into a Tcl object.
     fn into_object(self, &TclEnvironment) -> Object;
     /// Updates the value of a Tcl object.
     fn set_object(self, &mut Object);
 }
 
-impl IntoObject for () {
+impl TclObject for () {
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -32,7 +32,7 @@ impl IntoObject for () {
     fn set_object(self, _: &mut Object) {}
 }
 
-impl IntoObject for i32 {
+impl TclObject for i32 {
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -51,7 +51,7 @@ impl IntoObject for i32 {
     }
 }
 
-impl IntoObject for bool {
+impl TclObject for bool {
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -70,7 +70,7 @@ impl IntoObject for bool {
     }
 }
 
-impl IntoObject for i64 {
+impl TclObject for i64 {
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -92,7 +92,7 @@ impl IntoObject for i64 {
 //TODO: WideInt
 //TODO: BigNum
 
-impl IntoObject for f64 {
+impl TclObject for f64 {
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -111,7 +111,7 @@ impl IntoObject for f64 {
     }
 }
 
-impl<'a> IntoObject for &'a str {
+impl<'a> TclObject for &'a str {
     fn into_object(self, env: &TclEnvironment) -> Object {
         let buf = CString::new(self.as_bytes()).unwrap().as_ptr();
         Object {
@@ -132,7 +132,7 @@ impl<'a> IntoObject for &'a str {
     }
 }
 
-impl<'a> IntoObject for &'a [u8] {
+impl<'a> TclObject for &'a [u8] {
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -164,12 +164,12 @@ impl<'env> Object<'env> {
     }
 
     /// Create a new Tcl value
-    pub fn new<V: IntoObject>(env: &TclEnvironment, val: V) -> Object {
+    pub fn new<V: TclObject>(env: &TclEnvironment, val: V) -> Object {
         val.into_object(env)
     }
 
     // Set the contents of a Tcl value to val
-    pub fn set<V: IntoObject>(&mut self, val: V) {
+    pub fn set<V: TclObject>(&mut self, val: V) {
         val.set_object(self)
     }
 

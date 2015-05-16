@@ -5,7 +5,7 @@ use std::sync;
 
 use ll::*;
 use interpreter::Interpreter;
-use object::{Object, IntoObject};
+use object::{Object, TclObject};
 
 static INIT_TCL: sync::Once = sync::ONCE_INIT;
 
@@ -37,7 +37,7 @@ impl TclEnvironment {
     }
 
     /// Create a new Tcl value
-    pub fn new_object<V: IntoObject>(&self, val: V) -> Object {
+    pub fn new_object<V: TclObject>(&self, val: V) -> Object {
         Object::new(self, val)
     }
 }
