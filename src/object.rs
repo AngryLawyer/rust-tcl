@@ -11,13 +11,20 @@ pub struct Object<'env> {
 }
 
 pub trait TclObject {
+    type FromObject;
     /// Converts self into a Tcl object.
     fn into_object(self, &TclEnvironment) -> Object;
+    /// Converts from a tcl object to Self::FromObject
+    fn from_object(obj: &Object) -> Self::FromObject {
+        unimplemented!()
+    }
     /// Updates the value of a Tcl object.
     fn set_object(self, &mut Object);
 }
 
 impl TclObject for () {
+    type FromObject = ();
+    
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -33,6 +40,8 @@ impl TclObject for () {
 }
 
 impl TclObject for i32 {
+    type FromObject = i32;
+    
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -52,6 +61,8 @@ impl TclObject for i32 {
 }
 
 impl TclObject for bool {
+    type FromObject = bool;
+    
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -71,6 +82,8 @@ impl TclObject for bool {
 }
 
 impl TclObject for i64 {
+    type FromObject = i64;
+    
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -93,6 +106,8 @@ impl TclObject for i64 {
 //TODO: BigNum
 
 impl TclObject for f64 {
+    type FromObject = f64;
+    
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -112,6 +127,8 @@ impl TclObject for f64 {
 }
 
 impl<'a> TclObject for &'a str {
+    type FromObject = String;
+    
     fn into_object(self, env: &TclEnvironment) -> Object {
         let buf = CString::new(self.as_bytes()).unwrap().as_ptr();
         Object {
@@ -130,9 +147,19 @@ impl<'a> TclObject for &'a str {
             Tcl_SetStringObj(obj.raw, buf, self.len() as i32);
         }
     }
+    
+    fn from_object(obj: &Object) -> Self::FromObject {
+        unsafe {
+            let mut raw_string_length = 0;
+            let raw_string_ptr = Tcl_GetStringFromObj(obj.raw, &mut raw_string_length);
+            String::from_utf8_lossy(CStr::from_ptr(raw_string_ptr as *const i8).to_bytes()).to_string()
+        }
+    }
 }
 
 impl<'a> TclObject for &'a [u8] {
+    type FromObject = Vec<u8>;
+    
     fn into_object(self, env: &TclEnvironment) -> Object {
         Object {
             _env: env,
@@ -168,24 +195,18 @@ impl<'env> Object<'env> {
         val.into_object(env)
     }
 
-    // Set the contents of a Tcl value to val
+    // Set the contents of a Tcl object to val
     pub fn set<V: TclObject>(&mut self, val: V) {
         val.set_object(self)
     }
 
-    // Getters
+    // Get the contents of a Tcl object
+    pub fn get<V: TclObject>(&self) -> V::FromObject {
+        V::from_object(self)
+    }
 
     pub unsafe fn raw(&self) -> *mut Tcl_Obj {
         self.raw
-    }
-
-    /// Get the string representation of a Tcl value
-    pub fn get_string(&self) -> String {
-        unsafe {
-            let mut raw_string_length = 0;
-            let raw_string_ptr = Tcl_GetStringFromObj(self.raw, &mut raw_string_length);
-            String::from_utf8_lossy(CStr::from_ptr(raw_string_ptr as *const i8).to_bytes()).to_string()
-        }
     }
 
     /// Get the byte array representation of a Tcl value

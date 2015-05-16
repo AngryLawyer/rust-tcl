@@ -18,9 +18,9 @@ fn clone_object() {
     assert_eq!(true, obj.is_shared());
     let obj2 = obj.clone();
     assert_eq!(true, obj.is_shared());
-    assert_eq!(obj.get_string(), "TEST");
+    assert_eq!(obj.get::<&str>(), "TEST");
     assert_eq!(false, obj2.is_shared());
-    assert_eq!(obj2.get_string(), "TEST");
+    assert_eq!(obj2.get::<&str>(), "TEST");
 
 }
 
@@ -62,9 +62,9 @@ object_test!(double, get_double_from_object, 1.0f64, 2.0f64);
 fn string()  {
     let env = tcl::init();
     let mut obj = env.new_object("HI");
-    assert_eq!(obj.get_string(), "HI");
+    assert_eq!(obj.get::<&str>(), "HI");
     obj.set("BYE");
-    assert_eq!(obj.get_string(), "BYE");
+    assert_eq!(obj.get::<&str>(), "BYE");
 }
 
 #[test]
