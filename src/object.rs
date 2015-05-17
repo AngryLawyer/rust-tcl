@@ -15,7 +15,7 @@ pub trait TclObject {
     /// Converts self into a Tcl object.
     fn into_object<'a>(&self, &'a TclEnvironment) -> Object<'a>;
     /// Converts from a tcl object to Self::FromObject
-    fn from_object(obj: &Object) -> Self::FromObject {
+    fn from_object(obj: &Object) -> Result<Self::FromObject, ()> {
         unimplemented!()
     }
     /// Updates the value of a Tcl object.
@@ -148,12 +148,12 @@ impl<'b> TclObject for &'b str {
         }
     }
     
-    fn from_object(obj: &Object) -> Self::FromObject {
-        unsafe {
+    fn from_object(obj: &Object) -> Result<Self::FromObject, ()> {
+        Ok(unsafe {
             let mut raw_string_length = 0;
             let raw_string_ptr = Tcl_GetStringFromObj(obj.raw, &mut raw_string_length);
             String::from_utf8_lossy(CStr::from_ptr(raw_string_ptr as *const i8).to_bytes()).to_string()
-        }
+        })
     }
 }
 
@@ -175,6 +175,14 @@ impl<'b> TclObject for &'b [u8] {
         unsafe {
             Tcl_SetByteArrayObj(obj.raw, self.as_ptr(), self.len() as i32);
         }
+    }
+    
+    fn from_object(obj: &Object) -> Result<Self::FromObject, ()> {
+        Ok(unsafe {
+            let mut raw_length = 0;
+            let raw_vec_ptr = Tcl_GetByteArrayFromObj(obj.raw, &mut raw_length);
+            slice::from_raw_parts(raw_vec_ptr, raw_length as usize).to_vec()
+        })
     }
 }
 
@@ -201,21 +209,12 @@ impl<'env> Object<'env> {
     }
 
     // Get the contents of a Tcl object
-    pub fn get<V: TclObject + ?Sized>(&self) -> V::FromObject {
+    pub fn get<V: TclObject>(&self) -> Result<V::FromObject, ()> {
         V::from_object(self)
     }
 
     pub unsafe fn raw(&self) -> *mut Tcl_Obj {
         self.raw
-    }
-
-    /// Get the byte array representation of a Tcl value
-    pub fn get_byte_array(&self) -> Vec<u8> {
-        unsafe {
-            let mut raw_length = 0;
-            let raw_vec_ptr = Tcl_GetByteArrayFromObj(self.raw, &mut raw_length);
-            slice::from_raw_parts(raw_vec_ptr, raw_length as usize).to_vec()
-        }
     }
 
     /// Is the value currently used to represent multiple variables in an interpreter
