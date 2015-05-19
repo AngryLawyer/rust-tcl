@@ -5,7 +5,7 @@ use std::sync;
 
 use ll::*;
 use interpreter::Interpreter;
-use object::Object;
+use object::{Object, TclObject};
 
 static INIT_TCL: sync::Once = sync::ONCE_INIT;
 
@@ -36,43 +36,9 @@ impl TclEnvironment {
        Interpreter::new(self)
     }
 
-    /// Create an untyped Tcl value
-    pub fn object(&self) -> Object {
-       Object::new(self)
-    }
-
-    /// Create a Boolean Tcl value
-    pub fn boolean(&self, val: bool) -> Object {
-       Object::new_boolean(self, val)
-    }
-
-    /// Create an Integer Tcl value
-    pub fn integer(&self, val: i32) -> Object {
-       Object::new_integer(self, val)
-    }
-
-    /// Create a Long Tcl value
-    pub fn long(&self, val: i64) -> Object {
-       Object::new_long(self, val)
-    }
-
-    //TODO: WideInt
-    //TODO: BigNum
-
-
-    /// Create a Double Tcl value
-    pub fn double(&self, val: f64) -> Object {
-       Object::new_double(self, val)
-    }
-
-    /// Create a String Tcl value
-    pub fn string(&self, val: &str) -> Object {
-        Object::new_string(self, val)
-    }
-
-    /// Create a Byte Array Tcl value
-    pub fn byte_array(&self, val: &[u8]) -> Object {
-        Object::new_byte_array(self, val)
+    /// Create a new Tcl value
+    pub fn new_object<V: TclObject>(&self, val: V) -> Object {
+        Object::new(self, val)
     }
 }
 
@@ -96,7 +62,7 @@ impl TclResult {
     pub fn from_ll(result: i32, interpreter: &Interpreter) -> TclResult {
         match result {
             TCL_OK => TclResult::Ok,
-            TCL_ERROR => TclResult::Error(interpreter.string_result()),
+            TCL_ERROR => TclResult::Error(interpreter.string_result().to_string()),
             TCL_RETURN => TclResult::Return,
             TCL_BREAK => TclResult::Break,
             TCL_CONTINUE => TclResult::Continue,

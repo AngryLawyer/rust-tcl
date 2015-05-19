@@ -60,7 +60,7 @@ fn eval_simple() {
 fn eval_object() {
     let env = tcl::init();
     let mut interp = env.interpreter().unwrap();
-    let command = env.string("expr {1 + 2}");
+    let command = env.new_object("expr {1 + 2}");
     match interp.eval_object(&command, tcl::EvalScope::Local, tcl::ByteCompile::Compile) {
         tcl::TclResult::Ok => {
             assert_eq!("3".to_string(), interp.string_result())
@@ -76,7 +76,7 @@ fn object_result() {
     interp.eval("expr { 1 + 2 }", tcl::EvalScope::Local);
     let obj = interp.object_result();
 
-    let result = interp.get_integer_from_object(&obj);
+    let result = obj.get::<i32>(&mut interp);
     match result {
         Ok(x) => assert_eq!(3, x),
         Err(s) => panic!("{}", s)
@@ -88,9 +88,9 @@ fn list_append() {
     let env = tcl::init();
 
     let mut interp = env.interpreter().unwrap();
-    let mut command_list = env.object();
-    interp.list_append(&mut command_list, &env.string("expr"));
-    interp.list_append(&mut command_list, &env.string("1+2"));
+    let mut command_list = env.new_object(());
+    interp.list_append(&mut command_list, &env.new_object("expr"));
+    interp.list_append(&mut command_list, &env.new_object("1+2"));
 
     match interp.eval_object(&command_list, tcl::EvalScope::Local, tcl::ByteCompile::Compile) {
         tcl::TclResult::Ok => {
@@ -114,7 +114,7 @@ fn expression_boolean() {
 fn expression_boolean_from_object() {
     let env = tcl::init();
     let mut interp = env.interpreter().unwrap();
-    let expr = env.string("1 == 1");
+    let expr = env.new_object("1 == 1");
     match interp.expression_boolean_from_object(&expr) {
         Ok(result) => assert_eq!(true, result),
         otherwise => panic!("{:?}", otherwise)
@@ -135,7 +135,7 @@ fn expression_double() {
 fn expression_double_from_object() {
     let env = tcl::init();
     let mut interp = env.interpreter().unwrap();
-    let expr = env.string("1.0 / 2.0");
+    let expr = env.new_object("1.0 / 2.0");
     match interp.expression_double_from_object(&expr) {
         Ok(result) => assert_eq!(0.5, result),
         otherwise => panic!("{:?}", otherwise)
@@ -156,7 +156,7 @@ fn expression_long() {
 fn expression_long_from_object() {
     let env = tcl::init();
     let mut interp = env.interpreter().unwrap();
-    let expr = env.string("1 + 1");
+    let expr = env.new_object("1 + 1");
     match interp.expression_long_from_object(&expr) {
         Ok(result) => assert_eq!(2, result),
         otherwise => panic!("{:?}", otherwise)
@@ -167,7 +167,7 @@ fn expression_long_from_object() {
 fn expression_object_from_object() {
     let env = tcl::init();
     let mut interp = env.interpreter().unwrap();
-    let expr = env.string("1 + 1");
+    let expr = env.new_object("1 + 1");
     match interp.expression_object_from_object(&expr) {
         Ok(result) => {
             assert_eq!("2".to_string(), result.get_string())
@@ -192,7 +192,21 @@ fn expression_string() {
 fn set_variable() {
     let env = tcl::init();
     let mut interp = env.interpreter().unwrap();
-    assert_eq!("7".to_string(), interp.set_variable("llama", "7", tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace));
+    assert_eq!("7".to_string(), interp.set_string_variable("llama", "7", tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace));
+    match interp.eval("return $llama", tcl::EvalScope::Local) {
+        tcl::TclResult::Ok => {
+            assert_eq!("7".to_string(), interp.string_result())
+        },
+        otherwise => panic!("{:?}", otherwise)
+    }
+}
+
+#[test]
+fn set_simple() {
+    let env = tcl::init();
+    let mut interp = env.interpreter().unwrap();
+    let val = interp.set_variable("llama", 7i32).unwrap();
+    assert_eq!(7, val.get::<i32>(&mut interp).unwrap());
     match interp.eval("return $llama", tcl::EvalScope::Local) {
         tcl::TclResult::Ok => {
             assert_eq!("7".to_string(), interp.string_result())
@@ -220,8 +234,8 @@ fn set_array_variable() {
 fn set_object_variable() {
     let env = tcl::init();
     let mut interp = env.interpreter().unwrap();
-    let var_name = env.string("llama");
-    let obj = env.integer(7);
+    let var_name = env.new_object("llama");
+    let obj = env.new_object(7);
     let obj_out = interp.set_object_variable(&var_name, &obj, tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace).unwrap();
     assert_eq!("7".to_string(), obj_out.get_string());
     match interp.eval("return $llama", tcl::EvalScope::Local) {
@@ -237,9 +251,9 @@ fn set_object_variable() {
 fn set_object_array_variable() {
     let env = tcl::init();
     let mut interp = env.interpreter().unwrap();
-    let array_name = env.string("drama");
-    let index = env.string("llama");
-    let obj = env.integer(7);
+    let array_name = env.new_object("drama");
+    let index = env.new_object("llama");
+    let obj = env.new_object(7);
     let obj_out = interp.set_object_array_variable(&index, &array_name, &obj, tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace);
     assert_eq!("7".to_string(), obj_out.get_string());
     match interp.eval("return $drama(llama)", tcl::EvalScope::Local) {

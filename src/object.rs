@@ -1,16 +1,240 @@
+use std::borrow::Cow;
 use std::ffi::{CString, CStr};
 use std::slice;
 
 use ll::*;
 use tcl::TclEnvironment;
+use interpreter::Interpreter;
 
 /// A Tcl value
-pub struct Object <'env> {
+pub struct Object<'env> {
     _env: &'env TclEnvironment,
     raw: *mut Tcl_Obj
 }
 
-impl <'env> Object <'env> {
+pub trait TclObject {
+    type FromObject;
+    /// Converts self into a Tcl object.
+    fn into_object(self, &TclEnvironment) -> Object;
+    /// Reads the contents of this Tcl object
+    fn from_object<'a>(obj: &Object, &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>>;
+    /// Updates the value of a Tcl object.
+    fn set_object(self, &mut Object);
+}
+
+impl TclObject for () {
+    type FromObject = ();
+    
+    fn into_object(self, env: &TclEnvironment) -> Object {
+        Object {
+            _env: env,
+            raw: unsafe {
+                let raw = Tcl_NewObj();
+                Tcl_IncrRefCount(raw);
+                raw
+            }
+        }
+    }
+    
+    fn from_object<'a>(_: &Object, _: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        Ok(())
+    }
+
+    fn set_object(self, _: &mut Object) {}
+}
+
+impl TclObject for i32 {
+    type FromObject = i32;
+    
+    fn into_object(self, env: &TclEnvironment) -> Object {
+        Object {
+            _env: env,
+            raw: unsafe {
+                let raw = Tcl_NewIntObj(self);
+                Tcl_IncrRefCount(raw);
+                raw
+            }
+        }
+    }
+    
+    fn from_object<'a>(obj: &Object, interp: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        let mut output = 0i32;
+        unsafe {
+            if Tcl_GetIntFromObj(interp.raw(), obj.raw(), &mut output) == TCL_OK {
+                Ok(output)
+            } else {
+                Err(interp.string_result())
+            }
+        }
+    }
+
+    fn set_object(self, obj: &mut Object) {
+        unsafe {
+            Tcl_SetIntObj(obj.raw, self);
+        }
+    }
+}
+
+impl TclObject for bool {
+    type FromObject = bool;
+    
+    fn into_object(self, env: &TclEnvironment) -> Object {
+        Object {
+            _env: env,
+            raw: unsafe {
+                let raw = Tcl_NewBooleanObj(if self { 1 } else { 0 });
+                Tcl_IncrRefCount(raw);
+                raw
+            }
+        }
+    }
+    
+    fn from_object<'a>(obj: &Object, interp: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        let mut output = 0i32;
+        unsafe {
+            if Tcl_GetBooleanFromObj(interp.raw(), obj.raw(), &mut output) == TCL_OK {
+                Ok(output != 0)
+            } else {
+                Err(interp.string_result())
+            }
+        }
+    }
+
+    fn set_object(self, obj: &mut Object) {
+        unsafe {
+            Tcl_SetBooleanObj(obj.raw, if self { 1 } else { 0 });
+        }
+    }
+}
+
+impl TclObject for i64 {
+    type FromObject = i64;
+    
+    fn into_object(self, env: &TclEnvironment) -> Object {
+        Object {
+            _env: env,
+            raw: unsafe {
+                let raw = Tcl_NewLongObj(self);
+                Tcl_IncrRefCount(raw);
+                raw
+            }
+        }
+    }
+    
+    fn from_object<'a>(obj: &Object, interp: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        let mut output = 0i64;
+        unsafe {
+            if Tcl_GetLongFromObj(interp.raw(), obj.raw(), &mut output) == TCL_OK {
+                Ok(output)
+            } else {
+                Err(interp.string_result())
+            }
+        }
+    }
+
+    fn set_object(self, obj: &mut Object) {
+        unsafe {
+            Tcl_SetLongObj(obj.raw, self);
+        }
+    }
+}
+
+//TODO: WideInt
+//TODO: BigNum
+
+impl TclObject for f64 {
+    type FromObject = f64;
+    
+    fn into_object(self, env: &TclEnvironment) -> Object {
+        Object {
+            _env: env,
+            raw: unsafe {
+                let raw = Tcl_NewDoubleObj(self);
+                Tcl_IncrRefCount(raw);
+                raw
+            }
+        }
+    }
+    
+    fn from_object<'a>(obj: &Object, interp: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        let mut output = 0f64;
+        unsafe {
+            if Tcl_GetDoubleFromObj(interp.raw(), obj.raw(), &mut output) == TCL_OK {
+                Ok(output)
+            } else {
+                Err(interp.string_result())
+            }
+        }
+    }
+
+    fn set_object(self, obj: &mut Object) {
+        unsafe {
+            Tcl_SetDoubleObj(obj.raw, self);
+        }
+    }
+}
+
+impl<'b> TclObject for &'b str {
+    type FromObject = String;
+    
+    fn into_object(self, env: &TclEnvironment) -> Object {
+        let buf = CString::new(self.as_bytes()).unwrap().as_ptr();
+        Object {
+            _env: env,
+            raw: unsafe {
+                let raw = Tcl_NewStringObj(buf, self.len() as i32);
+                Tcl_IncrRefCount(raw);
+                raw
+            }
+        }
+    }
+    
+    fn from_object<'a>(obj: &Object, _: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        Ok(obj.get_string())
+    }
+
+    fn set_object(self, obj: &mut Object) {
+        let buf = CString::new(self.as_bytes()).unwrap().as_ptr();
+        unsafe {
+            Tcl_SetStringObj(obj.raw, buf, self.len() as i32);
+        }
+    }
+}
+
+impl<'b> TclObject for &'b [u8] {
+    type FromObject = Vec<u8>;
+    
+    fn into_object(self, env: &TclEnvironment) -> Object {
+        Object {
+            _env: env,
+            raw: unsafe {
+                let raw = Tcl_NewByteArrayObj(self.as_ptr(), self.len() as i32);
+                Tcl_IncrRefCount(raw);
+                raw
+            }
+        }
+    }
+
+    fn set_object(self, obj: &mut Object) {
+        unsafe {
+            Tcl_SetByteArrayObj(obj.raw, self.as_ptr(), self.len() as i32);
+        }
+    }
+    
+    fn from_object<'a>(obj: &Object, _: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        Ok(obj.get_byte_array())
+    }
+}
+
+impl<'env> Object<'env> {
 
     pub fn from_raw(env: &TclEnvironment, raw: *mut Tcl_Obj) -> Object {
         Object {
@@ -22,148 +246,21 @@ impl <'env> Object <'env> {
         }
     }
 
-    /// Create a new untyped Tcl value
-    pub fn new(env: &TclEnvironment) -> Object {
-        Object {
-            _env: env,
-            raw: unsafe {
-                let raw = Tcl_NewObj();
-                Tcl_IncrRefCount(raw);
-                raw
-            }
-        }
+    /// Create a new Tcl value
+    pub fn new<V: TclObject>(env: &TclEnvironment, val: V) -> Object {
+        val.into_object(env)
     }
 
-    /// Create a new boolean Tcl value
-    pub fn new_boolean(env: &TclEnvironment, val: bool) -> Object {
-        Object {
-            _env: env,
-            raw: unsafe {
-                let raw = Tcl_NewBooleanObj(if val { 1 } else { 0 });
-                Tcl_IncrRefCount(raw);
-                raw
-            }
-        }
+    /// Set the contents of this Tcl object to val
+    pub fn set<V: TclObject>(&mut self, val: V) {
+        val.set_object(self)
     }
 
-    /// Create a new integer Tcl value
-    pub fn new_integer(env: &TclEnvironment, val: i32) -> Object {
-        Object {
-            _env: env,
-            raw: unsafe {
-                let raw = Tcl_NewIntObj(val);
-                Tcl_IncrRefCount(raw);
-                raw
-            }
-        }
+    /// Get the contents of this Tcl object
+    pub fn get<'a, V: TclObject>(&self, interp: &'a mut Interpreter) -> Result<V::FromObject, Cow<'a, str>> {
+        V::from_object(self, interp)
     }
-
-    /// Create a new long Tcl value
-    pub fn new_long(env: &TclEnvironment, val: i64) -> Object {
-        Object {
-            _env: env,
-            raw: unsafe {
-                let raw = Tcl_NewLongObj(val);
-                Tcl_IncrRefCount(raw);
-                raw
-            }
-        }
-    }
-
-    //TODO: WideInt
-    //TODO: BigNum
-
-    /// Create a new double Tcl value
-    pub fn new_double(env: &TclEnvironment, val: f64) -> Object {
-        Object {
-            _env: env,
-            raw: unsafe {
-                let raw = Tcl_NewDoubleObj(val);
-                Tcl_IncrRefCount(raw);
-                raw
-            }
-        }
-    }
-
-    /// Create a new string Tcl value
-    pub fn new_string(env: &'env TclEnvironment, val: &str) -> Object<'env> {
-        let buf = CString::new(val.as_bytes()).unwrap().as_ptr();
-        Object {
-            _env: env,
-            raw: unsafe {
-                let raw = Tcl_NewStringObj(buf, val.len() as i32);
-                Tcl_IncrRefCount(raw);
-                raw
-            }
-        }
-    }
-
-    /// Create a new byte array Tcl value
-    pub fn new_byte_array(env: &'env TclEnvironment, val: &[u8]) -> Object<'env> {
-        Object {
-            _env: env,
-            raw: unsafe {
-                let raw = Tcl_NewByteArrayObj(val.as_ptr(), val.len() as i32);
-                Tcl_IncrRefCount(raw);
-                raw
-            }
-        }
-    }
-
-    // Setters
-
-    /// Set the contents of a Tcl value to a boolean
-    pub fn set_boolean(&mut self, val: bool) {
-        unsafe {
-            Tcl_SetBooleanObj(self.raw, if val { 1 } else { 0 });
-        }
-    }
-
-    /// Set the contents of a Tcl value to an integer
-    pub fn set_integer(&mut self, val: i32) {
-        unsafe {
-            Tcl_SetIntObj(self.raw, val);
-        }
-    }
-
-    /// Set the contents of a Tcl value to a long
-    pub fn set_long(&mut self, val: i64) {
-        unsafe {
-            Tcl_SetLongObj(self.raw, val);
-        }
-    }
-
-    //TODO: WideInt
-    //TODO: BigNum
-
-    /// Set the contents of a Tcl value to a double
-    pub fn set_double(&mut self, val: f64) {
-        unsafe {
-            Tcl_SetDoubleObj(self.raw, val);
-        }
-    }
-
-    /// Set the contents of a Tcl value to a string
-    pub fn set_string(&mut self, val: &str) {
-        let buf = CString::new(val.as_bytes()).unwrap().as_ptr();
-        unsafe {
-            Tcl_SetStringObj(self.raw, buf, val.len() as i32);
-        }
-    }
-
-    /// Set the contents of a Tcl value to a byte array
-    pub fn set_byte_array(&mut self, val: &[u8]) {
-        unsafe {
-            Tcl_SetByteArrayObj(self.raw, val.as_ptr(), val.len() as i32);
-        }
-    }
-
-    // Getters
-
-    pub unsafe fn raw(&self) -> *mut Tcl_Obj {
-        self.raw
-    }
-
+    
     /// Get the string representation of a Tcl value
     pub fn get_string(&self) -> String {
         unsafe {
@@ -172,7 +269,7 @@ impl <'env> Object <'env> {
             String::from_utf8_lossy(CStr::from_ptr(raw_string_ptr as *const i8).to_bytes()).to_string()
         }
     }
-
+    
     /// Get the byte array representation of a Tcl value
     pub fn get_byte_array(&self) -> Vec<u8> {
         unsafe {
@@ -180,6 +277,10 @@ impl <'env> Object <'env> {
             let raw_vec_ptr = Tcl_GetByteArrayFromObj(self.raw, &mut raw_length);
             slice::from_raw_parts(raw_vec_ptr, raw_length as usize).to_vec()
         }
+    }
+
+    pub unsafe fn raw(&self) -> *mut Tcl_Obj {
+        self.raw
     }
 
     /// Is the value currently used to represent multiple variables in an interpreter
@@ -190,19 +291,22 @@ impl <'env> Object <'env> {
     }
 }
 
-impl <'env> Drop for Object <'env> {
+impl<'env> Drop for Object<'env> {
     fn drop(&mut self) {
         unsafe { Tcl_DecrRefCount(self.raw) };
     }
 }
 
-impl <'env> Clone for Object <'env> {
+impl<'env> Clone for Object<'env> {
 
     fn clone(&self) -> Object<'env> {
         Object {
             _env: self._env,
             raw: unsafe {
+                // FIXME change clone semantics. Object is like Rc:
+                // Rc::clone does not clone the contents but only the pointer
                 let raw = Tcl_DuplicateObj(self.raw);
+                // TODO check if this incr ref count correct in this case
                 Tcl_IncrRefCount(raw);
                 raw
             }
