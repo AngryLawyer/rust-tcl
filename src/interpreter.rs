@@ -156,57 +156,6 @@ impl <'env> Interpreter <'env> {
         TclResult::from_ll(result, self)
     }
 
-    /// Attempt to extract a boolean from a Tcl value
-    pub fn get_boolean_from_object<'a>(&'a mut self, obj: &Object) -> Result<bool, Cow<'a, str>> {
-        let mut output = 0i32;
-        unsafe {
-            if Tcl_GetBooleanFromObj(self.raw, obj.raw(), &mut output) == TCL_OK {
-                Ok(output != 0)
-            } else {
-                Err(self.string_result())
-            }
-        }
-    }
-
-    /// Attempt to extract an integer from a Tcl value
-    pub fn get_integer_from_object<'a>(&'a mut self, obj: &Object) -> Result<i32, Cow<'a, str>> {
-        let mut output = 0i32;
-        unsafe {
-            if Tcl_GetIntFromObj(self.raw, obj.raw(), &mut output) == TCL_OK {
-                Ok(output)
-            } else {
-                Err(self.string_result())
-            }
-        }
-    }
-
-    /// Attempt to extract a long from a Tcl value
-    pub fn get_long_from_object<'a>(&'a mut self, obj: &Object) -> Result<i64, Cow<'a, str>> {
-        let mut output = 0i64;
-        unsafe {
-            if Tcl_GetLongFromObj(self.raw, obj.raw(), &mut output) == TCL_OK {
-                Ok(output)
-            } else {
-                Err(self.string_result())
-            }
-        }
-    }
-
-    //TODO: WideInt
-    //TODO: BigNum
-
-    /// Attempt to extract a double from a Tcl value
-    pub fn get_double_from_object<'a>(&'a mut self, obj: &Object) -> Result<f64, Cow<'a, str>> {
-        let mut output = 0f64;
-        unsafe {
-            if Tcl_GetDoubleFromObj(self.raw, obj.raw(), &mut output) == TCL_OK {
-                Ok(output)
-            } else {
-                Err(self.string_result())
-            }
-        }
-    }
-
     /// Append an element to a list
     /// This will fail if target is shared
     pub fn list_append(&mut self, target: &mut Object, source: &Object) -> TclResult {

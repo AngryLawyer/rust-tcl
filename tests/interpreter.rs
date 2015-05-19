@@ -76,7 +76,7 @@ fn object_result() {
     interp.eval("expr { 1 + 2 }", tcl::EvalScope::Local);
     let obj = interp.object_result();
 
-    let result = interp.get_integer_from_object(&obj);
+    let result = obj.get::<i32>(&mut interp);
     match result {
         Ok(x) => assert_eq!(3, x),
         Err(s) => panic!("{}", s)

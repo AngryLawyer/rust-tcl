@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use std::ffi::{CString, CStr};
 use std::slice;
 
@@ -16,9 +17,8 @@ pub trait TclObject {
     /// Converts self into a Tcl object.
     fn into_object(self, &TclEnvironment) -> Object;
     /// Converts from a tcl object to Self::FromObject
-    fn from_object(obj: &Object, &mut Interpreter) -> Result<Self::FromObject, ()> {
-        unimplemented!()
-    }
+    fn from_object<'a>(obj: &Object, &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>>;
     /// Updates the value of a Tcl object.
     fn set_object(self, &mut Object);
 }
@@ -36,6 +36,11 @@ impl TclObject for () {
             }
         }
     }
+    
+    fn from_object<'a>(_: &Object, _: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        Ok(())
+    }
 
     fn set_object(self, _: &mut Object) {}
 }
@@ -50,6 +55,18 @@ impl TclObject for i32 {
                 let raw = Tcl_NewIntObj(self);
                 Tcl_IncrRefCount(raw);
                 raw
+            }
+        }
+    }
+    
+    fn from_object<'a>(obj: &Object, interp: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        let mut output = 0i32;
+        unsafe {
+            if Tcl_GetIntFromObj(interp.raw(), obj.raw(), &mut output) == TCL_OK {
+                Ok(output)
+            } else {
+                Err(interp.string_result())
             }
         }
     }
@@ -74,6 +91,18 @@ impl TclObject for bool {
             }
         }
     }
+    
+    fn from_object<'a>(obj: &Object, interp: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        let mut output = 0i32;
+        unsafe {
+            if Tcl_GetBooleanFromObj(interp.raw(), obj.raw(), &mut output) == TCL_OK {
+                Ok(output != 0)
+            } else {
+                Err(interp.string_result())
+            }
+        }
+    }
 
     fn set_object(self, obj: &mut Object) {
         unsafe {
@@ -92,6 +121,18 @@ impl TclObject for i64 {
                 let raw = Tcl_NewLongObj(self);
                 Tcl_IncrRefCount(raw);
                 raw
+            }
+        }
+    }
+    
+    fn from_object<'a>(obj: &Object, interp: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        let mut output = 0i64;
+        unsafe {
+            if Tcl_GetLongFromObj(interp.raw(), obj.raw(), &mut output) == TCL_OK {
+                Ok(output)
+            } else {
+                Err(interp.string_result())
             }
         }
     }
@@ -119,6 +160,18 @@ impl TclObject for f64 {
             }
         }
     }
+    
+    fn from_object<'a>(obj: &Object, interp: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        let mut output = 0f64;
+        unsafe {
+            if Tcl_GetDoubleFromObj(interp.raw(), obj.raw(), &mut output) == TCL_OK {
+                Ok(output)
+            } else {
+                Err(interp.string_result())
+            }
+        }
+    }
 
     fn set_object(self, obj: &mut Object) {
         unsafe {
@@ -141,16 +194,17 @@ impl<'b> TclObject for &'b str {
             }
         }
     }
+    
+    fn from_object<'a>(obj: &Object, _: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
+        Ok(obj.get_string())
+    }
 
     fn set_object(self, obj: &mut Object) {
         let buf = CString::new(self.as_bytes()).unwrap().as_ptr();
         unsafe {
             Tcl_SetStringObj(obj.raw, buf, self.len() as i32);
         }
-    }
-    
-    fn from_object(obj: &Object, _: &mut Interpreter) -> Result<Self::FromObject, ()> {
-        Ok(obj.get_string())
     }
 }
 
@@ -174,7 +228,8 @@ impl<'b> TclObject for &'b [u8] {
         }
     }
     
-    fn from_object(obj: &Object, _: &mut Interpreter) -> Result<Self::FromObject, ()> {
+    fn from_object<'a>(obj: &Object, _: &'a mut Interpreter)
+    -> Result<Self::FromObject, Cow<'a, str>> {
         Ok(obj.get_byte_array())
     }
 }
@@ -202,7 +257,7 @@ impl<'env> Object<'env> {
     }
 
     // Get the contents of a Tcl object
-    pub fn get<V: TclObject>(&self, interp: &mut Interpreter) -> Result<V::FromObject, ()> {
+    pub fn get<'a, V: TclObject>(&self, interp: &'a mut Interpreter) -> Result<V::FromObject, Cow<'a, str>> {
         V::from_object(self, interp)
     }
     
