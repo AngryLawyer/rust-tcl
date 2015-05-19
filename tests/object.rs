@@ -18,9 +18,9 @@ fn clone_object() {
     assert_eq!(true, obj.is_shared());
     let obj2 = obj.clone();
     assert_eq!(true, obj.is_shared());
-    assert_eq!(obj.get::<&str>().unwrap(), "TEST");
+    assert_eq!(obj.get_string(), "TEST");
     assert_eq!(false, obj2.is_shared());
-    assert_eq!(obj2.get::<&str>().unwrap(), "TEST");
+    assert_eq!(obj2.get_string(), "TEST");
 
 }
 
@@ -62,16 +62,16 @@ object_test!(double, get_double_from_object, 1.0f64, 2.0f64);
 fn string()  {
     let env = tcl::init();
     let mut obj = env.new_object("HI");
-    assert_eq!(obj.get::<&str>().unwrap(), "HI");
+    assert_eq!(obj.get_string(), "HI");
     obj.set("BYE");
-    assert_eq!(obj.get::<&str>().unwrap(), "BYE");
+    assert_eq!(obj.get_string(), "BYE");
 }
 
 #[test]
 fn byte_array()  {
     let env = tcl::init();
     let mut obj = env.new_object(&[1,4][..]);
-    assert_eq!(obj.get::<&[u8]>().unwrap(), [1,4]);
+    assert_eq!(obj.get_byte_array(), [1,4]);
     obj.set(&[1,2][..]);
-    assert_eq!(obj.get::<&[u8]>().unwrap(), [1,2]);
+    assert_eq!(obj.get_byte_array(), [1,2]);
 }

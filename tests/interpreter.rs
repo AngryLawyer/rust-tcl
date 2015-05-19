@@ -170,7 +170,7 @@ fn expression_object_from_object() {
     let expr = env.new_object("1 + 1");
     match interp.expression_object_from_object(&expr) {
         Ok(result) => {
-            assert_eq!("2".to_string(), result.get::<&str>().unwrap())
+            assert_eq!("2".to_string(), result.get_string())
         },
         Err(otherwise) => panic!("{:?}", otherwise)
     };
@@ -223,7 +223,7 @@ fn set_object_variable() {
     let var_name = env.new_object("llama");
     let obj = env.new_object(7);
     let obj_out = interp.set_object_variable(&var_name, &obj, tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace).unwrap();
-    assert_eq!("7".to_string(), obj_out.get::<&str>().unwrap());
+    assert_eq!("7".to_string(), obj_out.get_string());
     match interp.eval("return $llama", tcl::EvalScope::Local) {
         tcl::TclResult::Ok => {
             assert_eq!("7".to_string(), interp.string_result())
@@ -241,7 +241,7 @@ fn set_object_array_variable() {
     let index = env.new_object("llama");
     let obj = env.new_object(7);
     let obj_out = interp.set_object_array_variable(&index, &array_name, &obj, tcl::SetVariableScope::Standard, tcl::LeaveError::No, tcl::AppendStyle::Replace);
-    assert_eq!("7".to_string(), obj_out.get::<&str>().unwrap());
+    assert_eq!("7".to_string(), obj_out.get_string());
     match interp.eval("return $drama(llama)", tcl::EvalScope::Local) {
         tcl::TclResult::Ok => {
             assert_eq!("7".to_string(), interp.string_result())
@@ -264,7 +264,7 @@ fn get_object_variable() {
     let mut interp = env.interpreter().unwrap();
     interp.eval("set llama 7", tcl::EvalScope::Local);
     let out = interp.get_object_variable("llama", tcl::GetVariableScope::Standard, tcl::LeaveError::No);
-    assert_eq!("7".to_string(), out.unwrap().get::<&str>().unwrap());
+    assert_eq!("7".to_string(), out.unwrap().get_string());
 }
 
 #[test]
