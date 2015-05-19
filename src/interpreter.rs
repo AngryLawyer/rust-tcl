@@ -5,7 +5,7 @@ use std::ptr;
 
 use ll::*;
 use tcl::{TclResult, TclEnvironment};
-use object::Object;
+use object::{Object, TclObject};
 
 /// Which scope to evaluate a command in 
 pub enum EvalScope {
@@ -61,18 +61,18 @@ pub enum AppendStyle {
 
 
 /// An instance of a Tcl interpreter
-pub struct Interpreter <'env> {
+pub struct Interpreter<'env> {
     _env: &'env TclEnvironment,
     raw: *mut Tcl_Interp
 }
 
-impl <'env> Drop for Interpreter <'env> {
+impl <'env> Drop for Interpreter<'env> {
     fn drop(&mut self) {
         unsafe { Tcl_DeleteInterp(self.raw) };
     }
 }
 
-impl <'env> Interpreter <'env> {
+impl<'env> Interpreter<'env> {
 
     /// Create a new Interpreter
     pub fn new(env: &TclEnvironment) -> Result<Interpreter, &str> {
@@ -262,7 +262,7 @@ impl <'env> Interpreter <'env> {
     }
 
     /// Set a simple string variable inside the interpreter
-    pub fn set_variable(&mut self, var_name: &str, new_value: &str,
+    pub fn set_string_variable(&mut self, var_name: &str, new_value: &str,
         scope: SetVariableScope, leave_error: LeaveError, append_style: AppendStyle) -> String {
         let flags = scope as i32 | leave_error as i32 | append_style as i32;
         let var_buf = CString::new(var_name.as_bytes()).unwrap().as_ptr();
@@ -291,6 +291,19 @@ impl <'env> Interpreter <'env> {
         }
     }
     */
+    
+    /// Sets an object variable using the default options.
+    ///
+    /// See `Self::set_object_variable` for available options.
+    pub fn set_variable<V: TclObject>(&mut self, var_name: &str, new_value: V)
+    -> Option<Object<'env>> {
+        self.set_object_variable(
+            &Object::new(self._env, var_name), &Object::new(self._env, new_value),
+            SetVariableScope::Standard,
+            LeaveError::No,
+            AppendStyle::Replace
+        )
+    }
 
     /// Set an object variable inside the interpreter
     pub fn set_object_variable(&mut self, var_name: &Object, new_value: &Object,
