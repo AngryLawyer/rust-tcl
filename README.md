@@ -19,7 +19,7 @@ Add it as a dependency into your project:
 
 ```toml
     [dependencies]
-    rust-tcl = "0.2.0"
+    rust-tcl = "0.3.0"
 ```
 
 Or you can pull it from GitHub

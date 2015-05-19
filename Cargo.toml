@@ -2,7 +2,7 @@
 
 name = "rust-tcl"
 description = "Tcl bindings for Rust"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Tony Aldridge <tony@angry-lawyer.com>"]
 license = "MIT"
 keywords = ["Tcl", "scripting"]
