@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Object","A Tcl value"]]});
+initSidebarItems({"trait":[["TclObject",""]],"struct":[["Object","A Tcl value"]]});
