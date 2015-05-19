@@ -62,7 +62,7 @@ impl TclResult {
     pub fn from_ll(result: i32, interpreter: &Interpreter) -> TclResult {
         match result {
             TCL_OK => TclResult::Ok,
-            TCL_ERROR => TclResult::Error(interpreter.string_result()),
+            TCL_ERROR => TclResult::Error(interpreter.string_result().to_string()),
             TCL_RETURN => TclResult::Return,
             TCL_BREAK => TclResult::Break,
             TCL_CONTINUE => TclResult::Continue,
