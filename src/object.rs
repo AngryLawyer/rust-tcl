@@ -16,7 +16,7 @@ pub trait TclObject {
     type FromObject;
     /// Converts self into a Tcl object.
     fn into_object(self, &TclEnvironment) -> Object;
-    /// Converts from a tcl object to Self::FromObject
+    /// Reads the contents of this Tcl object
     fn from_object<'a>(obj: &Object, &'a mut Interpreter)
     -> Result<Self::FromObject, Cow<'a, str>>;
     /// Updates the value of a Tcl object.
@@ -251,12 +251,12 @@ impl<'env> Object<'env> {
         val.into_object(env)
     }
 
-    // Set the contents of a Tcl object to val
+    /// Set the contents of this Tcl object to val
     pub fn set<V: TclObject>(&mut self, val: V) {
         val.set_object(self)
     }
 
-    // Get the contents of a Tcl object
+    /// Get the contents of this Tcl object
     pub fn get<'a, V: TclObject>(&self, interp: &'a mut Interpreter) -> Result<V::FromObject, Cow<'a, str>> {
         V::from_object(self, interp)
     }
